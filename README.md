@@ -1,58 +1,32 @@
-# Yaeger
+# 🔨 Fix-It Felix Jr. Game Project
 
-[![Java CI](https://github.com/han-yaeger/yaeger/workflows/Java%20CI/badge.svg)](https://github.com/han-yaeger/yaeger/actions?query=workflow%3A%22Java+CI+with+Maven%22)
-[![codebeat badge](https://codebeat.co/badges/e5806ed2-598a-4597-b85b-3940650927e3)](https://codebeat.co/projects/github-com-han-yaeger-yaeger-master)
-[![CodeFactor](https://www.codefactor.io/repository/github/han-yaeger/yaeger/badge)](https://www.codefactor.io/repository/github/han-yaeger/yaeger)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=han-yaeger_yaeger&metric=alert_status)](https://sonarcloud.io/dashboard?id=han-yaeger_yaeger)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.han-yaeger/yaeger/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.han-yaeger/yaeger)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+## 🧾 Overview
+This project is an implementation of the "Fix-It Felix Jr." game, as seen in the Disney Pixar film "Wreck-It Ralph". The game is being developed using the YAEGER (Yet Another Engine for Game Engineering Research) game engine, as part of the Software Engineering Basics - Object-Oriented Programming course. Our goal is to recreate the classic gameplay experience, where players control Fix-It Felix to repair the damage caused by Wreck-It Ralph, while navigating through multiple levels of increasing difficulty.
 
-Yaeger is Another Education Game Engine Runtime, and a fully functional 2D game-engine that
-requires only a traditional Object-Oriented style of programming. It is based on JavaFX and
-requires Java 21 or above to work.
+## 🎮 Gameplay
+Players take on the role of Fix-It Felix, using his magical hammer to repair windows damaged by Wreck-It Ralph. The game is structured into levels, each containing several stages that represent different parts of the apartment building. Players start with three lives and must avoid being hit by bricks thrown by Ralph. Occasionally, a Nicelander will place a pie on a windowsill, serving as a power-up that temporarily makes Felix invincible and able to fix windows with a single hit.
 
-## Documentation
+## 🪂 Features
+- **Player Character (Fix-It Felix):** Controlled by the player, with the ability to move horizontally and vertically across the screen to repair windows.
+- **Enemy (Wreck-It Ralph):** The antagonist who randomly moves at the top of the screen and throws bricks to damage the windows.
+- **Power-Ups:** Cakes that provide temporary invincibility and enhanced repair speed.
+- **NPCs (Nicelanders):** Characters that occasionally provide power-ups to the player.
+- **Scoring System:** Points are awarded for repairing windows, collecting pies, and completing stages.
 
-* API: [https://han-yaeger.github.io/yaeger/](https://han-yaeger.github.io/yaeger/)
-* Manual: [https://han-yaeger.github.io/yaeger/book/](https://han-yaeger.github.io/yaeger/book/)
-* Tutorial: [Yaeger tutorial](https://github.com/han-yaeger/yaeger-tutorial)
-* Showcase: [Yaeger showcase](https://github.com/han-yaeger/yaeger-showcase)
-* Youtube: [Howto setup a new project with IntelliJ](https://www.youtube.com/watch?v=EvIrkw7VKO0)
+## 👨‍💻 Development
+The game is developed using the YAEGER game engine, adhering to object-oriented programming standards. The codebase focuses on modularity, readability, and efficient game mechanics.
 
-## Usage
-Yaeger requires JDK21, and is available through the Maven Central Repository.
+### 📋 Prerequisites
+- Java JDK 11 or higher
+- Maven (for dependency management and building the project)
+- YAEGER Game Engine (included as a Maven dependency)
 
-```xml
-<dependency>
-  <groupId>com.github.han-yaeger</groupId>
-  <artifactId>yaeger</artifactId>
-  <version>2023.2024</version>
-</dependency>
-```
+### ⚙️ Installation
+1. Clone the repository to your local machine.
+2. Open the project in your preferred Java IDE.
+3. Ensure Maven dependencies are correctly imported.
+4. Build and run the project from the main class.
 
-## Modern Java, but an API with only traditional Object Orientation?
-
-Yaeger is to be used in a course that is part of the first year at the HAN University of applied sciences. Students
-just learned to master Object Orientation in the traditional sense and therefore the API of Yaeger is only targeted
-towards that use case. Fancy functional aspects (such as Streams and Lambda's) are used within Yaeger itself, but are not
-exposed through its API.
-
-## Versioning
-
-Because Yaeger will be used in an educational context, versioning will be based on school years.
-Thus version 2020.2021 will be used during the school year that start in September 2020 and ends in July 2021.
-
-### Breaking changes
-
-It is likely that the API will break between different versions. This is partially intended, since it is to
-be used in an educational context and there is no shame in preventing students from using previous iterations.
-
-## Contributions
-
-Contributing to Yaeger is encouraged, and we would love to review your Pull Requests. Either
-pick up one of the Issues or implement a feature you've been missing. Ensure that your feature does
-not require modern Java features to be exposed through the API.
-
-## License
-
-The code and documentation in this project are released under the [GNU General Public License v3.0](LICENSE)
+## 🫱🏻‍🫲🏼 Acknowledgments
+- Disney Pixar, for the original "Fix-It Felix Jr." concept from "Wreck-It Ralph".
+- The HAN University of Applied Sciences and the YAEGER engine development team for providing the game engine.
