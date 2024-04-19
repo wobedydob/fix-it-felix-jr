@@ -9,13 +9,8 @@ import com.github.hanyaeger.api.scenes.YaegerScene;
 
 public class Game extends YaegerGame
 {
-
-//    public static final int GAME_WIDTH = 800;
-//    public static final int GAME_HEIGHT = 600;
-    public static final int GAME_WIDTH = 1024;
-    public static final int GAME_HEIGHT = 768;
-//    public static final int GAME_WIDTH = 1280;
-//    public static final int GAME_HEIGHT = 960;
+    public static final int GAME_WIDTH = 1280;
+    public static final int GAME_HEIGHT = 960;
 
     public static void main(String[] args)
     {
@@ -33,8 +28,8 @@ public class Game extends YaegerGame
     @Override
     public void setupScenes()
     {
-//        registerScene(new TitleScene());
-        registerScene(new LevelScene());
+        registerScene(new TitleScene());
+//        registerScene(new LevelScene());
     }
 
     public void registerScene(Scene scene)
