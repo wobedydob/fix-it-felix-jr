@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.scenes;
 
+import com.github.fixitfelixjr.entities.Enemy;
 import com.github.fixitfelixjr.entities.Player;
 import com.github.hanyaeger.api.scenes.DynamicScene;
 
@@ -20,6 +21,9 @@ public class LevelScene extends DynamicScene implements Scene
     {
         Player felix = new Player();
         addEntity(felix);
+
+        Enemy ralph = new Enemy();
+        addEntity(ralph);
     }
 
     @Override
