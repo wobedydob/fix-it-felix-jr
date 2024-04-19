@@ -17,39 +17,42 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
 {
 
     public final static String SPRITE_IMAGE = "sprites/felix.png";
-    public final static Size SIZE = new Size(50, 68);
+    public final static Size SIZE = new Size(75, 102);
     public final static int[] SPRITE_ROWS_COLS = {1, 2};
     public final static Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
-    private static final double JUMP_STRENGTH = 5;
 
-    private int initialHealth = 10;
+    private static final int MAX_HEALTH = 10;
+    private static final double MOVE_SPEED = 7.5;
+    private static final double JUMP_STRENGTH = 20;
+    private static final double GRAVITY_CONSTANT = 0.5;
+
+    private int health;
     private boolean isJumping = false;
 
     public Player()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
-
-        setGravityConstant(0.034);
+        this.health = MAX_HEALTH;
+        setGravityConstant(GRAVITY_CONSTANT);
     }
 
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
-
         if (!isJumping && (pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W) || pressedKeys.contains(KeyCode.SPACE))) {
             isJumping = true;
             setMotion(JUMP_STRENGTH, Direction.UP.getValue());
-            setGravityConstant(0.1);
+            setGravityConstant(GRAVITY_CONSTANT);
         }
 
         if (pressedKeys.contains(KeyCode.LEFT) || pressedKeys.contains(KeyCode.A)) {
-            setMotion(3, Direction.LEFT.getValue());
+            setMotion(MOVE_SPEED, Direction.LEFT.getValue());
             setCurrentFrameIndex(0);
         } else if (pressedKeys.contains(KeyCode.RIGHT) || pressedKeys.contains(KeyCode.D)) {
-            setMotion(3, Direction.RIGHT.getValue());
+            setMotion(MOVE_SPEED, Direction.RIGHT.getValue());
             setCurrentFrameIndex(1);
         } else if (pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S)) {
-            setMotion(3, Direction.DOWN.getValue());
+            setMotion(MOVE_SPEED, Direction.DOWN.getValue());
         } else if (pressedKeys.isEmpty()) {
             setSpeed(0);
         }
