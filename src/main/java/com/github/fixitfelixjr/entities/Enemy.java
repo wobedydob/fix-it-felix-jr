@@ -47,7 +47,7 @@ public class Enemy extends DynamicSpriteEntity implements KeyListener, SceneBord
     @Override
     public void onCollision(List<Collider> collidingObjects)
     {
-        System.out.println("Player collided with: " + collidingObjects);
+        // System.out.println("Enemy collided with: " + collidingObjects);
     }
 
     @Override

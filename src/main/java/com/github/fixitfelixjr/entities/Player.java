@@ -58,10 +58,12 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
+
+
     @Override
     public void onCollision(List<Collider> collidingObjects)
     {
-        System.out.println("Player collided with: " + collidingObjects);
+//        System.out.println("Player collided with: " + collidingObjects);
     }
 
     @Override
