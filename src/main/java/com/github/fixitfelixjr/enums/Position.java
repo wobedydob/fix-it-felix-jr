@@ -12,7 +12,7 @@ public enum Position
     CENTER(getGameWidth() / 2, getGameHeight() / 2),
     RIGHT(getGameWidth(), getGameHeight() / 2),
     BOTTOM_LEFT(0, getGameHeight()),
-    BOTTOM_CENTER(getGameWidth() / 2, 960),
+    BOTTOM_CENTER(getGameWidth() / 2, getGameHeight()),
     BOTTOM_RIGHT(getGameWidth(), getGameHeight()),
 
     BUTTON_BOTTOM_CENTER(getGameWidth() / 2, getGameHeight() / 2 + 200),
