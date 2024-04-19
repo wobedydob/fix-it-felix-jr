@@ -28,7 +28,7 @@ public class Game extends YaegerGame
     @Override
     public void setupScenes()
     {
-        //registerScene(new TitleScene());
+//        registerScene(new TitleScene());
         registerScene(new LevelScene());
     }
 
