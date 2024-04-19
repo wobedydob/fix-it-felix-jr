@@ -3,7 +3,7 @@ package com.github.fixitfelixjr.enums;
 public enum ButtonText
 {
 
-    START("Start"),
+    START("PRESS START"),
     QUIT("Quit");
 
     private final String text;

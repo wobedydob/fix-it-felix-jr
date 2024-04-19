@@ -7,7 +7,7 @@ public class LevelScene extends DynamicScene implements Scene
 {
 
     private final int SCENE_ID = 1;
-    private final String BACKGROUND = "backgrounds/temp-level.png";
+    private final String BACKGROUND = "backgrounds/wireframes/GAME.png";
 
     @Override
     public void setupScene()

@@ -38,6 +38,7 @@ module hanyaeger {
 
     opens yaegerimages;
     opens backgrounds;
+    opens backgrounds.wireframes;
 //    opens audio;
     opens sprites;
     opens com.github.fixitfelixjr to javafx.graphics;
