@@ -9,15 +9,13 @@ import com.github.hanyaeger.api.scenes.DynamicScene;
 public class LevelScene extends DynamicScene implements Scene
 {
     private final int SCENE_ID = 1;
-    private final String BACKGROUND = "backgrounds/wireframes/GAME.png";
-    private final int FLOORS = 5;
-    private final int WINDOWS_PER_FLOOR = 5;
+    private final String BACKGROUND = "backgrounds/building.png";
 
     @Override
     public void setupScene()
     {
         setBackgroundImage(BACKGROUND);
-        Building.getInstance().generateBuilding(this);
+        Building.getInstance().createWindows(this);
     }
 
     @Override

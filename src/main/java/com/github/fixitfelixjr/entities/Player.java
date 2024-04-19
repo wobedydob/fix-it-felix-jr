@@ -35,11 +35,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         setGravityConstant(GRAVITY_CONSTANT);
     }
 
-    public void fixIt(Window window)
-    {
-        System.out.printf("fixIt(): " + window.getRepairState() + "\n");
-        if (isNearWindow(window)) {
-            window.repair();
+    public void fixIt() {
+        Window windowToRepair = findNearestWindow();
+        if (windowToRepair != null) {
+            windowToRepair.repair();
         }
     }
 
@@ -71,41 +70,41 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
 
         if (pressedKeys.contains(KeyCode.ENTER)) {
-            // Check for the nearest window
-            Window closestWindow = findNearestWindow();
-            if (closestWindow != null) {
-                fixIt(closestWindow);
-            }
+            fixIt();
         }
 
-        // TODO: remove this and add to RALPH
-        if (pressedKeys.contains(KeyCode.BACK_SPACE)) {
-            // Check for the nearest window
-            Window closestWindow = findNearestWindow();
-            if (closestWindow != null) {
-                closestWindow.damage();
-            }
-        }
+//        // TODO: remove this and add to RALPH
+//        if (pressedKeys.contains(KeyCode.BACK_SPACE)) {
+//            // Check for the nearest window
+//            Window closestWindow = findNearestWindow();
+//            if (closestWindow != null) {
+//                closestWindow.damage();
+//            }
+//        }
 
     }
 
     private Window findNearestWindow() {
-        Window closest = null;
-        double closestDistance = Double.MAX_VALUE;
         List<Window> windows = Building.getInstance().getWindows();
+        Window nearestWindow = null;
+        double nearestDistance = Double.MAX_VALUE;
 
         for (Window window : windows) {
-            double distance = Math.sqrt(
-                    Math.pow(getAnchorLocation().getX() - window.getAnchorLocation().getX(), 2) +
-                            Math.pow(getAnchorLocation().getY() - window.getAnchorLocation().getY(), 2)
-            );
+            double distance = getAnchorLocation().distance(window.getAnchorLocation());
 
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closest = window;
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestWindow = window;
             }
         }
-        return closest;
+
+        // Overweeg een drempelwaarde voor afstand waarbinnen een raam als 'dichtbij' wordt beschouwd.
+        final double NEARBY_WINDOW_THRESHOLD = 50; // Deze waarde kun je aanpassen.
+        if (nearestDistance <= NEARBY_WINDOW_THRESHOLD) {
+            return nearestWindow;
+        } else {
+            return null;
+        }
     }
 
 

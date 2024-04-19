@@ -15,6 +15,7 @@ module hanyaeger {
     requires javafx.media;
 
     requires com.google.guice;
+    requires java.desktop;
 
     exports com.github.hanyaeger.api;
     exports com.github.hanyaeger.api.scenes;
