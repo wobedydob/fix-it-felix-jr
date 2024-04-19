@@ -138,7 +138,7 @@ public abstract class StaticScene extends YaegerGameObject implements YaegerScen
      *
      * @param yaegerEntity the {@link YaegerEntity} to be added
      */
-    protected void addEntity(final YaegerEntity yaegerEntity) {
+    public void addEntity(final YaegerEntity yaegerEntity) {
         entitySupplier.add(yaegerEntity);
     }
 

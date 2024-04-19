@@ -10,7 +10,6 @@ import com.github.hanyaeger.api.userinput.KeyListener;
 import javafx.scene.input.KeyCode;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public class Player extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher, Newtonian, Collided, Collider
@@ -36,6 +35,20 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         setGravityConstant(GRAVITY_CONSTANT);
     }
 
+    public void fixIt(Window window)
+    {
+        System.out.printf("fixIt(): " + window.getRepairState() + "\n");
+        if (isNearWindow(window)) {
+            window.repair();
+        }
+    }
+
+    private boolean isNearWindow(Window window)
+    {
+        return Math.abs(this.getAnchorLocation().getX() - window.getAnchorLocation().getX()) < 50 &&
+                Math.abs(this.getAnchorLocation().getY() - window.getAnchorLocation().getY()) < 50;
+    }
+
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
@@ -56,8 +69,44 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         } else if (pressedKeys.isEmpty()) {
             setSpeed(0);
         }
+
+        if (pressedKeys.contains(KeyCode.ENTER)) {
+            // Check for the nearest window
+            Window closestWindow = findNearestWindow();
+            if (closestWindow != null) {
+                fixIt(closestWindow);
+            }
+        }
+
+        // TODO: remove this and add to RALPH
+        if (pressedKeys.contains(KeyCode.BACK_SPACE)) {
+            // Check for the nearest window
+            Window closestWindow = findNearestWindow();
+            if (closestWindow != null) {
+                closestWindow.damage();
+            }
+        }
+
     }
 
+    private Window findNearestWindow() {
+        Window closest = null;
+        double closestDistance = Double.MAX_VALUE;
+        List<Window> windows = Building.getInstance().getWindows();
+
+        for (Window window : windows) {
+            double distance = Math.sqrt(
+                    Math.pow(getAnchorLocation().getX() - window.getAnchorLocation().getX(), 2) +
+                            Math.pow(getAnchorLocation().getY() - window.getAnchorLocation().getY(), 2)
+            );
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = window;
+            }
+        }
+        return closest;
+    }
 
 
     @Override
