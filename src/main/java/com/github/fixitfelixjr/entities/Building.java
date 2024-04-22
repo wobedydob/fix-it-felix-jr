@@ -15,8 +15,9 @@ public class Building
 
     private static final Building instance = new Building();
     private List<Window> windows;
+    private List<Platform> platforms;
 
-    private Building() { windows = new ArrayList<>(); }
+    private Building() { windows = new ArrayList<>(); platforms = new ArrayList<>(); }
 
     public static Building getInstance() {
         return instance;
@@ -35,14 +36,37 @@ public class Building
                 scene.addEntity(window);
             }
         }
+        createPlatforms(scene);
+    }
+
+    private void createPlatforms(LevelScene scene) {
+        for (Window window : windows) {
+            Coordinate2D platformPosition = new Coordinate2D(window.getPosition().getX() - 15, window.getPosition().getY() + 80);
+            Platform platform = new Platform(platformPosition);
+            platforms.add(platform);
+            scene.addEntity(platform);
+        }
     }
 
     private double calculateXPosition(int windowNum) {
-        return 300 + windowNum * 100;
+        double windowWidth = 160;
+        double startX = 620;
+        double additionalDistance = 0;
+
+        if(windowNum == 0 || windowNum == 4){
+            additionalDistance = 20;
+        }
+
+        if (windowNum < MIDDLE_WINDOW_INDEX) {
+            return startX - (MIDDLE_WINDOW_INDEX - windowNum) * (windowWidth - additionalDistance);
+        } else {
+            return startX + (windowNum - MIDDLE_WINDOW_INDEX) * (windowWidth - additionalDistance);
+        }
     }
 
+
     private double calculateYPosition(int floor) {
-        return 750 - floor * 180;
+        return 765 - floor * 220;
     }
 
     public List<Window> getWindows() {
