@@ -14,10 +14,12 @@ public class Window extends DynamicSpriteEntity
     public static final int MIN_REPAIR = 0; //
 
     private int repairState;
+    private Coordinate2D position;
 
     public Window(Coordinate2D position)
     {
         super(SPRITE_IMAGE, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
+        this.position = position;
         this.repairState = MIN_REPAIR; // Beginnen met het raam volledig kapot
     }
 
@@ -45,6 +47,11 @@ public class Window extends DynamicSpriteEntity
     public int getRepairState()
     {
         return repairState;
+    }
+
+    public Coordinate2D getPosition()
+    {
+        return position;
     }
 
 }
