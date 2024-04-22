@@ -135,3 +135,6 @@ local.properties
 
 # MdBook
 book/
+
+# Ignore to do
+TODO.md
