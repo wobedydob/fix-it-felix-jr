@@ -49,40 +49,54 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     }
 
     @Override
-    public void onPressedKeysChange(Set<KeyCode> pressedKeys)
-    {
-        if (!isJumping && (pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W) || pressedKeys.contains(KeyCode.SPACE))) {
-            isJumping = true;
-            setMotion(JUMP_STRENGTH, Direction.UP.getValue());
-            setGravityConstant(GRAVITY_CONSTANT);
+    public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
+        boolean moveLeft = pressedKeys.contains(KeyCode.LEFT) || pressedKeys.contains(KeyCode.A);
+        boolean moveRight = pressedKeys.contains(KeyCode.RIGHT) || pressedKeys.contains(KeyCode.D);
+        boolean moveDown = pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S);
+        boolean jump = pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W) || pressedKeys.contains(KeyCode.SPACE);
+
+        if (!moveLeft && !moveRight && !moveDown && !jump) {
+            setMotion(0, 0);
         }
 
-        if (pressedKeys.contains(KeyCode.LEFT) || pressedKeys.contains(KeyCode.A)) {
+        if (jump && !isJumping) {
+            double direction = 0.0;
+            if (moveLeft) {
+                direction = Direction.UP_LEFT.getValue();
+            } else if (moveRight) {
+                direction = Direction.UP_RIGHT.getValue();
+            } else {
+                direction = Direction.UP.getValue();
+            }
+            setMotion(JUMP_STRENGTH, direction);
+            setGravityConstant(GRAVITY_CONSTANT);
+            isJumping = true;
+        }
+
+        if (moveLeft && moveRight) {
+            setSpeed(0);
+        } else if (!isJumping && moveLeft) {
             setMotion(MOVE_SPEED, Direction.LEFT.getValue());
             setCurrentFrameIndex(0);
-        } else if (pressedKeys.contains(KeyCode.RIGHT) || pressedKeys.contains(KeyCode.D)) {
+        } else if (!isJumping &&moveRight) {
             setMotion(MOVE_SPEED, Direction.RIGHT.getValue());
             setCurrentFrameIndex(1);
-        } else if (pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S)) {
+        }
+
+        if (moveDown) {
             setMotion(MOVE_SPEED, Direction.DOWN.getValue());
-        } else if (pressedKeys.isEmpty()) {
-            setSpeed(0);
+        }
+
+        if (!moveLeft && !moveRight && !jump && !moveDown) {
+            setSpeed(getSpeed() * 0.5);
         }
 
         if (pressedKeys.contains(KeyCode.ENTER)) {
             fixIt();
         }
-
-//        // TODO: remove this and add to RALPH
-//        if (pressedKeys.contains(KeyCode.BACK_SPACE)) {
-//            // Check for the nearest window
-//            Window closestWindow = findNearestWindow();
-//            if (closestWindow != null) {
-//                closestWindow.damage();
-//            }
-//        }
-
     }
+
+
 
     private Window findNearestWindow() {
         List<Window> windows = Building.getInstance().getWindows();
@@ -131,6 +145,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
                 break;
             case BOTTOM:
                 setAnchorLocationY(getSceneHeight() - getHeight() - 1);
+                isJumping = false;
                 break;
             case LEFT:
                 setAnchorLocationX(1);
