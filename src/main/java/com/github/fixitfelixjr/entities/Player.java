@@ -15,15 +15,15 @@ import java.util.Set;
 public class Player extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher, Newtonian, Collided, Collider
 {
 
-    public final static String SPRITE_IMAGE = "sprites/felix.png";
-    public final static Size SIZE = new Size(75, 102);
-    public final static int[] SPRITE_ROWS_COLS = {1, 2};
-    public final static Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
+    public static final String SPRITE_IMAGE = "sprites/felix.png";
+    public static final Size SIZE = new Size(75, 102);
+    public static final int[] SPRITE_ROWS_COLS = {1, 2};
+    public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
 
     private static final int MAX_HEALTH = 10;
     private static final double MOVE_SPEED = 7.5;
     private static final double JUMP_STRENGTH = 20;
-    private static final double GRAVITY_CONSTANT = 0.5;
+    public static final double GRAVITY_CONSTANT = 0.5;
 
     private int health;
     private boolean isJumping = false;
@@ -35,7 +35,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         setGravityConstant(GRAVITY_CONSTANT);
     }
 
-    public void fixIt() {
+    public void fixIt()
+    {
+        System.out.println("fix it felix!");
+
         Window windowToRepair = findNearestWindow();
         if (windowToRepair != null) {
             windowToRepair.repair();
@@ -49,7 +52,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     }
 
     @Override
-    public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
+    public void onPressedKeysChange(Set<KeyCode> pressedKeys)
+    {
         boolean moveLeft = pressedKeys.contains(KeyCode.LEFT) || pressedKeys.contains(KeyCode.A);
         boolean moveRight = pressedKeys.contains(KeyCode.RIGHT) || pressedKeys.contains(KeyCode.D);
         boolean moveDown = pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S);
@@ -78,7 +82,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         } else if (!isJumping && moveLeft) {
             setMotion(MOVE_SPEED, Direction.LEFT.getValue());
             setCurrentFrameIndex(0);
-        } else if (!isJumping &&moveRight) {
+        } else if (!isJumping && moveRight) {
             setMotion(MOVE_SPEED, Direction.RIGHT.getValue());
             setCurrentFrameIndex(1);
         }
@@ -96,9 +100,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
-
-
-    private Window findNearestWindow() {
+    private Window findNearestWindow()
+    {
         List<Window> windows = Building.getInstance().getWindows();
         Window nearestWindow = null;
         double nearestDistance = Double.MAX_VALUE;
@@ -120,7 +123,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
             return null;
         }
     }
-
 
     @Override
     public void onCollision(List<Collider> collidingObjects)
@@ -157,4 +159,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
+    public void setIsJumping(boolean isJumping)
+    {
+        this.isJumping = isJumping;
+    }
 }
