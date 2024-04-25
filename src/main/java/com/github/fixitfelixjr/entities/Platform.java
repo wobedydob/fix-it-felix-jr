@@ -31,18 +31,26 @@ public class Platform extends RectangleEntity implements Collided
         for (Collider collider : collidingObjects) {
             if (collider instanceof Player player) {
 
+//                System.out.println("player: " + player.getAnchorLocation().getY());
+//                System.out.println("platform: " + this.position.getY());
+
                 if (player.getAnchorLocation().getY() < position.getY() && player.getGravityConstant() != 0) {
+
                     player.setMotion(0, 0);
                     player.setGravityConstant(0);
                     player.setAnchorLocation(new Coordinate2D(position.getX(), position.getY() - player.getHeight()));
                     player.setIsJumping(false);
 
                 } else if (player.getAnchorLocation().getX() > (position.getX() + this.getWidth() - 15)) {
+
                     player.setAnchorLocation(new Coordinate2D(player.getAnchorLocation().getX() + 15, player.getAnchorLocation().getY()));
                     player.setGravityConstant(Player.GRAVITY_CONSTANT);
+
                 } else if (player.getAnchorLocation().getX() < (position.getX() - this.getWidth())) {
+
                     player.setAnchorLocation(new Coordinate2D(player.getAnchorLocation().getX() - 15, player.getAnchorLocation().getY()));
                     player.setGravityConstant(Player.GRAVITY_CONSTANT);
+
                 }
 
             }
