@@ -1,6 +1,5 @@
 package com.github.fixitfelixjr.entities;
 
-import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 
@@ -10,8 +9,7 @@ import java.util.List;
 public class Building
 {
 
-    //    public static final String SPRITE_IMAGE = "sprites/building.png";
-    public static final String SPRITE_IMAGE = "sprites/building2.png";
+    public static final String SPRITE_IMAGE = "backgrounds/building.png";
     public static final int FLOORS = 4;
     public static final int WINDOWS_PER_FLOOR = 5;
     public static final int MIDDLE_WINDOW_INDEX = 2;
