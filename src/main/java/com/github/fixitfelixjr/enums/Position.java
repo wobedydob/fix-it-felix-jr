@@ -17,7 +17,7 @@ public enum Position
 
     BUTTON_BOTTOM_CENTER(getGameWidth() / 2, getGameHeight() / 2 + 200),
 
-    PLAYER_INITIAL_POSITION(1000, 960),
+    PLAYER_INITIAL_POSITION(900, 850),
     ENEMY_INITIAL_POSITION(0, 960);
 
     private final double x;
