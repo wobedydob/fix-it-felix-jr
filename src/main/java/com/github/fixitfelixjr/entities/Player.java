@@ -67,65 +67,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         if (lastPressedKey != pressedKeys.stream().findFirst().orElse(null)) {
             lastPressedKey = null;
         }
-        if(!isOnWindow) {
 
-            if (!moveLeft && !moveRight && !moveDown && !jump) {
-                setMotion(0, 0);
-            }
-
-            if (jump && !isJumping && lastPressedKey != KeyCode.SPACE) {
-
-                double direction = 0.0;
-                if (moveLeft) {
-                    direction = Direction.UP_LEFT.getValue();
-                } else if (moveRight) {
-                    direction = Direction.UP_RIGHT.getValue();
-                } else {
-                    direction = Direction.UP.getValue();
-                }
-
-                setMotion(JUMP_STRENGTH, direction);
-                setGravityConstant(GRAVITY_CONSTANT);
-                lastPressedKey = KeyCode.SPACE;
-                isJumping = true;
-            }
-
-            if (pressedKeys.contains(KeyCode.ENTER) && lastPressedKey != KeyCode.ENTER) {
-                lastPressedKey = KeyCode.ENTER;
-                fixIt();
-            }
-
-            if (moveLeft && moveRight) {
-                setSpeed(0);
-            } else if (!isJumping && moveLeft) {
-                setMotion(MOVE_SPEED, Direction.LEFT.getValue());
-                setCurrentFrameIndex(0);
-            } else if (!isJumping && moveRight) {
-                setMotion(MOVE_SPEED, Direction.RIGHT.getValue());
-                setCurrentFrameIndex(1);
-            }
-
-            if (moveDown) {
-                setMotion(MOVE_SPEED, Direction.DOWN.getValue());
-            }
-
-            if (!moveLeft && !moveRight && !jump && !moveDown) {
-                setSpeed(getSpeed() * 0.5);
-            }
-
-            if (pressedKeys.contains(KeyCode.ENTER) && lastPressedKey != KeyCode.ENTER) {
-                lastPressedKey = KeyCode.ENTER;
-                fixIt();
-            } else if (!pressedKeys.contains(KeyCode.ENTER)) {
-                lastPressedKey = null;
-            }
-
-            if (pressedKeys.contains(KeyCode.BACK_SPACE)) {
-                destroy();
-            }
-
-        }
-        else if(jump && lastPressedKey != KeyCode.UP) {
+        if(jump && lastPressedKey != KeyCode.UP) {
             lastPressedKey = KeyCode.UP;
             WindowFrame window = findNearestWindow(Direction.UP);
 
