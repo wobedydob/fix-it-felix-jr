@@ -23,8 +23,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
 
     private static final int MAX_HEALTH = 10;
-    private static final double MOVE_SPEED = 7.5;
-    private static final double JUMP_STRENGTH = 20;
+    private static final double MOVE_SPEED = 7.5; // todo remove if unused
+    private static final double JUMP_STRENGTH = 20; // todo remove if unused
     public static final double GRAVITY_CONSTANT = 0.5;
 
     private int health;
@@ -54,34 +54,66 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
+    public void moveUp()
+    {
+        WindowFrame window = this.findNearestWindow(Direction.UP);
+        if (window != null) {
+            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), window.getAnchorLocation().getY() + 50));
+        }
+        System.out.println("moved up");
+    }
+
+    public void moveDown()
+    {
+        WindowFrame window = this.findNearestWindow(Direction.DOWN);
+        if (window != null) {
+            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), window.getAnchorLocation().getY() + 50));
+        }
+        System.out.println("moved down");
+    }
+
+    public void moveLeft()
+    {
+        WindowFrame window = this.findNearestWindow(Direction.LEFT);
+        if (window != null) {
+            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), getAnchorLocation().getY()));
+        }
+        System.out.println("moved left");
+    }
+
+    public void moveRight()
+    {
+        WindowFrame window = this.findNearestWindow(Direction.RIGHT);
+        if (window != null) {
+            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), getAnchorLocation().getY()));
+        }
+    }
+
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
-        boolean moveLeft = pressedKeys.contains(KeyCode.LEFT) || pressedKeys.contains(KeyCode.A);
-        boolean moveRight = pressedKeys.contains(KeyCode.RIGHT) || pressedKeys.contains(KeyCode.D);
-        boolean moveDown = pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S);
-        boolean jump = pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W) || pressedKeys.contains(KeyCode.SPACE);
-        boolean isOnWindow = findNearestWindow() != null;
+        boolean left = pressedKeys.contains(KeyCode.LEFT);
+        boolean right = pressedKeys.contains(KeyCode.RIGHT);
+        boolean up = pressedKeys.contains(KeyCode.UP);
+        boolean down = pressedKeys.contains(KeyCode.DOWN);
 
-        System.out.println("Player pressed keys: " + pressedKeys.stream().findFirst().orElse(null));
-        if (lastPressedKey != pressedKeys.stream().findFirst().orElse(null)) {
-            lastPressedKey = null;
+        // System.out.println("Player pressed keys: " + pressedKeys.stream().findFirst().orElse(null));
+        if (this.lastPressedKey != pressedKeys.stream().findFirst().orElse(null)) {
+            this.lastPressedKey = null;
         }
 
-        if(jump && lastPressedKey != KeyCode.UP) {
-            lastPressedKey = KeyCode.UP;
-            WindowFrame window = findNearestWindow(Direction.UP);
-
-            if(window != null) {
-                setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), window.getAnchorLocation().getY() + 50));
-            }
-        }
-        else if(moveDown && lastPressedKey != KeyCode.DOWN){
+        if (up && this.lastPressedKey != KeyCode.UP) {
+            this.lastPressedKey = KeyCode.UP;
+            this.moveUp();
+        } else if (down && lastPressedKey != KeyCode.DOWN) {
             lastPressedKey = KeyCode.DOWN;
-            WindowFrame window = findNearestWindow(Direction.DOWN);
-            if(window != null) {
-                setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), window.getAnchorLocation().getY() + 50));
-            }
+            this.moveDown();
+        } else if (left && lastPressedKey != KeyCode.LEFT) {
+            lastPressedKey = KeyCode.LEFT;
+            this.moveLeft();
+        } else if (right && lastPressedKey != KeyCode.RIGHT) {
+            lastPressedKey = KeyCode.RIGHT;
+            this.moveRight();
         }
     }
 
@@ -112,21 +144,70 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         List<WindowFrame> windowFrames = Building.getInstance().getWindowFrames();
         WindowFrame nearestWindow = findNearestWindow();
 
-        System.out.println("size" + windowFrames.size());
-
-
         if (direction == Direction.UP && windowFrames.indexOf(nearestWindow) + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
             int index = windowFrames.indexOf(nearestWindow) + Building.WINDOWS_PER_FLOOR;
+            System.out.println("UP INDEX: " + index);
+
+            nearestWindow = windowFrames.get(index);
+            return nearestWindow;
+
+        } else if (direction == Direction.DOWN && windowFrames.indexOf(nearestWindow) - Building.WINDOWS_PER_FLOOR > 0) {
+            int index = windowFrames.indexOf(nearestWindow) - Building.WINDOWS_PER_FLOOR;
+            System.out.println("DOWN INDEX: " + index);
+
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
 
         }
-        else if(direction == Direction.DOWN && windowFrames.indexOf(nearestWindow) - Building.WINDOWS_PER_FLOOR > 0) {
-            int index = windowFrames.indexOf(nearestWindow) - Building.WINDOWS_PER_FLOOR;
-            nearestWindow = windowFrames.get(index);
+
+        else if (direction == Direction.LEFT) {
+            int index = windowFrames.indexOf(nearestWindow);
+            System.out.println("LEFT INDEX: " + index);
+
+            // Check of we niet op de begane grond zijn OF het niet het eerste raam in de rij is
+            if ((index >= Building.WINDOWS_PER_FLOOR || index % Building.WINDOWS_PER_FLOOR > 0) && nearestWindow != null) {
+                nearestWindow = windowFrames.get(index - 1);
+            } else {
+                nearestWindow = null; // Geen raam links als het het eerste raam in de rij is of op de begane grond
+            }
+
             return nearestWindow;
-        }else {
-            System.out.println("NULL?!");
+        } else if (direction == Direction.RIGHT) {
+            int index = windowFrames.indexOf(nearestWindow);
+            System.out.println("RIGHT INDEX: " + index);
+
+            // Check of we niet op de begane grond zijn OF het niet het laatste raam in de rij is
+            if ((index >= Building.WINDOWS_PER_FLOOR || index % Building.WINDOWS_PER_FLOOR < Building.WINDOWS_PER_FLOOR - 1) && nearestWindow != null) {
+                nearestWindow = windowFrames.get(index + 1);
+            } else {
+                nearestWindow = null; // Geen raam rechts als het het laatste raam in de rij is of op de begane grond
+            }
+
+            return nearestWindow;
+        }
+
+//        else if (direction == Direction.LEFT) {
+//            int index = windowFrames.indexOf(nearestWindow);
+//            if (index % Building.WINDOWS_PER_FLOOR > 0) { // Checkt of het niet het eerste raam in de rij is
+//                nearestWindow = windowFrames.get(index - 1);
+//            } else {
+//                nearestWindow = null; // Geen raam links als het het eerste raam in de rij is
+//            }
+//
+//            return nearestWindow;
+//        } else if (direction == Direction.RIGHT) {
+//            int index = windowFrames.indexOf(nearestWindow);
+//            if (index % Building.WINDOWS_PER_FLOOR < Building.WINDOWS_PER_FLOOR - 1) { // Checkt of het niet het laatste raam in de rij is
+//                nearestWindow = windowFrames.get(index + 1);
+//            } else {
+//                nearestWindow = null; // Geen raam rechts als het het laatste raam in de rij is
+//            }
+//
+//            return nearestWindow;
+//        }
+
+        else {
+            System.out.println("NO WINDOW FOUND IN DIRECTION [" + direction + "]");
             return null;
         }
     }
