@@ -40,6 +40,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
+    // TODO: move to ralph / bricks
     public void destroy()
     {
         WindowFrame windowToRepair = findNearestWindow();
@@ -79,6 +80,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         boolean left = pressedKey == KeyBindings.LEFT.getKeyCode() && this.lastPressedKey != KeyBindings.LEFT.getKeyCode();
         boolean right = pressedKey == KeyBindings.RIGHT.getKeyCode() && this.lastPressedKey != KeyBindings.RIGHT.getKeyCode();
         boolean repair = pressedKey == KeyBindings.REPAIR.getKeyCode() && this.lastPressedKey != KeyBindings.REPAIR.getKeyCode();
+        boolean destroy = pressedKey == KeyBindings.DESTROY.getKeyCode() && this.lastPressedKey != KeyBindings.DESTROY.getKeyCode(); // TODO: move to ralph / bricks
 
         if (this.lastPressedKey != pressedKey) {
             this.lastPressedKey = null;
@@ -98,6 +100,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
         else if (repair) {
             this.repair();
+        }
+        else if (destroy) {
+            this.destroy();
         }
 
         this.lastPressedKey = pressedKey;
