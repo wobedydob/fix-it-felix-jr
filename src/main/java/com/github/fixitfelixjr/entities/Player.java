@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCode;
 import java.util.List;
 import java.util.Set;
 
-public class Player extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher, Newtonian, Collided, Collider
+public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
     public static final double WIDTH = 128;
@@ -197,32 +197,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     public void onCollision(List<Collider> collidingObjects)
     {
 //        System.out.println("Player collided with: " + collidingObjects);
-    }
-
-    @Override
-    public void notifyBoundaryTouching(SceneBorder border)
-    {
-        if (border == SceneBorder.BOTTOM) {
-            setGravityConstant(0);
-            setMotion(0, 0);
-        }
-
-        setSpeed(0);
-        switch (border) {
-            case TOP:
-                setAnchorLocationY(1);
-                break;
-            case BOTTOM:
-                setAnchorLocationY(getSceneHeight() - getHeight() - 1);
-                break;
-            case LEFT:
-                setAnchorLocationX(1);
-                break;
-            case RIGHT:
-                setAnchorLocationX(getSceneWidth() - getWidth() - 1);
-            default:
-                break;
-        }
     }
 
     public int getHealth()
