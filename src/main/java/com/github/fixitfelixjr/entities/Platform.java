@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.Collided;
 import com.github.hanyaeger.api.entities.Collider;
@@ -18,7 +19,7 @@ public class Platform extends RectangleEntity implements Collided
         this.position = position;
         this.setFill(Color.RED);
         this.setHeight(5);
-        this.setWidth(WindowFrame.WIDTH);
+        this.setWidth(WindowFrame.WIDTH * LevelScene.SPRITE_SIZE_APPLIER);
     }
 
     @Override
