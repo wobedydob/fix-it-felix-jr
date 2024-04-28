@@ -119,7 +119,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         } else if (right) {
             this.moveRight();
         } else if (repair) {
-            setCurrentFrameIndex(3);
             this.repair();
         } else if (destroy) {
             this.destroy();
