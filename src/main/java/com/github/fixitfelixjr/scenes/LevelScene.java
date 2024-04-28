@@ -6,6 +6,8 @@ import com.github.hanyaeger.api.scenes.DynamicScene;
 
 public class LevelScene extends DynamicScene implements Scene
 {
+    public static final int SPRITE_SIZE_APPLIER = 4;
+
     private static final int SCENE_ID = 1;
     private static final String BACKGROUND = Building.SPRITE_IMAGE;
 

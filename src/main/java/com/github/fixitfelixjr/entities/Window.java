@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
@@ -7,9 +8,9 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 public class Window extends DynamicSpriteEntity
 {
     public static final String SPRITE_IMAGE = "sprites/window.png";
-    public static final double WIDTH = 120 * 4;
-    public static final double HEIGHT = 43 * 4;
-    public final static Size SIZE = new Size(WIDTH, HEIGHT);
+    public static final double WIDTH = 120;
+    public static final double HEIGHT = 43;
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public final static int[] SPRITE_ROWS_COLS = {1, 5};
     public static final int MAX_REPAIR = 4;
     public static final int MIN_REPAIR = 0;

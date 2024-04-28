@@ -2,6 +2,7 @@ package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.enums.KeyBindings;
 import com.github.fixitfelixjr.enums.Position;
+import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.entities.*;
@@ -9,31 +10,38 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.userinput.KeyListener;
 import javafx.scene.input.KeyCode;
+
 import java.util.List;
 import java.util.Set;
 
 public class Player extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher, Newtonian, Collided, Collider
 {
-
     public static final String SPRITE_IMAGE = "sprites/felix.png";
-    public static final Size SIZE = new Size(75, 102);
-    public static final int[] SPRITE_ROWS_COLS = {1, 2};
+    public static final double WIDTH = 128;
+    public static final double HEIGHT = 34;
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
+
+    public static final int[] SPRITE_ROWS_COLS = {1, 4};
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
+    public static final Direction INITIAL_FACING_DIR = Direction.RIGHT;
     public static final double GRAVITY_CONSTANT = 0.5;
     public static final int MAX_HEALTH = 10;
 
     private int health;
     private KeyCode lastPressedKey;
+    private Direction facing;
 
     public Player()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
         this.health = MAX_HEALTH;
+        this.facing = INITIAL_FACING_DIR;
         setGravityConstant(GRAVITY_CONSTANT);
     }
 
     public void repair()
     {
+        // TODO: add repair animation
         WindowFrame windowToRepair = findNearestWindow();
         if (windowToRepair != null) {
             windowToRepair.getWindow().repair();
@@ -55,14 +63,30 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         if (window != null) {
 
             double y = window.getAnchorLocation().getY();
-            if(direction == Direction.UP || direction == Direction.DOWN) {
-                y += 50;
+            if (direction == Direction.UP || direction == Direction.DOWN) {
+                y += 20;
             } else {
                 y = getAnchorLocation().getY();
             }
 
             setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), y));
         }
+    }
+
+    public void moveLeft()
+    {
+        Direction direction = Direction.LEFT;
+        this.move(direction);
+        this.facing = direction;
+        setCurrentFrameIndex(0);
+    }
+
+    public void moveRight()
+    {
+        Direction direction = Direction.RIGHT;
+        this.move(direction);
+        this.facing = direction;
+        setCurrentFrameIndex(1);
     }
 
     // TODO: something about diagonal movement, which is currently possible (at high speed)
@@ -88,20 +112,16 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
 
         if (up) {
             this.move(Direction.UP);
-        }
-        else if (down) {
+        } else if (down) {
             this.move(Direction.DOWN);
-        }
-        else if (left) {
-            this.move(Direction.LEFT);
-        }
-        else if (right) {
-            this.move(Direction.RIGHT);
-        }
-        else if (repair) {
+        } else if (left) {
+            this.moveLeft();
+        } else if (right) {
+            this.moveRight();
+        } else if (repair) {
+            setCurrentFrameIndex(3);
             this.repair();
-        }
-        else if (destroy) {
+        } else if (destroy) {
             this.destroy();
         }
 
@@ -170,7 +190,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
             }
             return nearestWindow;
         } else {
-            System.out.println("NO WINDOW FOUND IN DIRECTION [" + direction + "]");
             return null;
         }
     }
