@@ -133,45 +133,37 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         int index = windowFrames.indexOf(nearestWindow);
 
         if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
-
             if (building.onGroundFloor(index) && index < 2) {
                 index--;
             }
             index += Building.WINDOWS_PER_FLOOR;
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
-
         }
         // TODO: fix magic numbers 3 (higher than ground floor indexes) and 6 (not the middle above door window)
         else if (direction == Direction.DOWN && index > 3 && index != 6) {
-
             index -= Building.WINDOWS_PER_FLOOR;
             if (building.onGroundFloor(index) && index < 2) {
                 index++;
             }
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
-
         }
         // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
         else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
-
             index--;
             if (!building.onBuildingEdge(index)) {
                 nearestWindow = windowFrames.get(index);
             }
             return nearestWindow;
-
         }
         // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
         else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
-
             index++;
             if (!building.onBuildingEdge(index)) {
                 nearestWindow = windowFrames.get(index);
             }
             return nearestWindow;
-
         } else {
             System.out.println("NO WINDOW FOUND IN DIRECTION [" + direction + "]");
             return null;
