@@ -6,7 +6,7 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 
 public class Window extends DynamicSpriteEntity
 {
-    public static final String SPRITE_IMAGE = "sprites/windows2.png";
+    public static final String SPRITE_IMAGE = "sprites/window.png";
     public static final double WIDTH = 120 * 4;
     public static final double HEIGHT = 43 * 4;
     public final static Size SIZE = new Size(WIDTH, HEIGHT);
@@ -53,6 +53,16 @@ public class Window extends DynamicSpriteEntity
     public Coordinate2D getPosition()
     {
         return position;
+    }
+
+    public void setRepairState(int repairState)
+    {
+        this.repairState = repairState;
+    }
+
+    public void setPosition(Coordinate2D position)
+    {
+        this.position = position;
     }
 
 }
