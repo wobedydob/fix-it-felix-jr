@@ -1,15 +1,11 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.hanyaeger.api.Coordinate2D;
-import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.entities.Collided;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.impl.RectangleEntity;
-import com.github.hanyaeger.core.entities.ShapeEntity;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import java.awt.*;
 import java.util.List;
 
 public class Platform extends RectangleEntity implements Collided
@@ -29,17 +25,14 @@ public class Platform extends RectangleEntity implements Collided
     public void onCollision(final List<Collider> collidingObjects)
     {
         for (Collider collider : collidingObjects) {
-            if (collider instanceof Player player) {
 
-//                System.out.println("player: " + player.getAnchorLocation().getY());
-//                System.out.println("platform: " + this.position.getY());
+            if (collider instanceof Player player) {
 
                 if (player.getAnchorLocation().getY() < position.getY() && player.getGravityConstant() != 0) {
 
                     player.setMotion(0, 0);
                     player.setGravityConstant(0);
                     player.setAnchorLocation(new Coordinate2D(position.getX(), position.getY() - player.getHeight()));
-                    player.setIsJumping(false);
 
                 } else if (player.getAnchorLocation().getX() > (position.getX() + this.getWidth() - 15)) {
 
@@ -54,9 +47,10 @@ public class Platform extends RectangleEntity implements Collided
                 }
 
             }
-        }
-    }
 
+        }
+
+    }
 
     public Coordinate2D getPosition()
     {

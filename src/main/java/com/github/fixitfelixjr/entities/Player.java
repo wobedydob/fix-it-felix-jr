@@ -8,12 +8,9 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.userinput.KeyListener;
 import javafx.scene.input.KeyCode;
-
 import java.util.List;
 import java.util.Set;
 
-
-// TODO: remove old movement logic
 public class Player extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher, Newtonian, Collided, Collider
 {
 
@@ -21,14 +18,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     public static final Size SIZE = new Size(75, 102);
     public static final int[] SPRITE_ROWS_COLS = {1, 2};
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
-
-    private static final int MAX_HEALTH = 10;
-    private static final double MOVE_SPEED = 7.5; // todo remove if unused
-    private static final double JUMP_STRENGTH = 20; // todo remove if unused
     public static final double GRAVITY_CONSTANT = 0.5;
+    public static final int MAX_HEALTH = 10;
 
     private int health;
-    private boolean isJumping = false;
     private KeyCode lastPressedKey;
 
     public Player()
@@ -54,41 +47,23 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
-    public void moveUp()
+    public void move(Direction direction)
     {
-        WindowFrame window = this.findNearestWindow(Direction.UP);
+        WindowFrame window = this.findNearestWindow(direction);
         if (window != null) {
-            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), window.getAnchorLocation().getY() + 50));
-        }
-        System.out.println("moved up");
-    }
 
-    public void moveDown()
-    {
-        WindowFrame window = this.findNearestWindow(Direction.DOWN);
-        if (window != null) {
-            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), window.getAnchorLocation().getY() + 50));
-        }
-        System.out.println("moved down");
-    }
+            double y = window.getAnchorLocation().getY();
+            if(direction == Direction.UP || direction == Direction.DOWN) {
+                y += 50;
+            } else {
+                y = getAnchorLocation().getY();
+            }
 
-    public void moveLeft()
-    {
-        WindowFrame window = this.findNearestWindow(Direction.LEFT);
-        if (window != null) {
-            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), getAnchorLocation().getY()));
-        }
-        System.out.println("moved left");
-    }
-
-    public void moveRight()
-    {
-        WindowFrame window = this.findNearestWindow(Direction.RIGHT);
-        if (window != null) {
-            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), getAnchorLocation().getY()));
+            setAnchorLocation(new Coordinate2D(window.getAnchorLocation().getX(), y));
         }
     }
 
+    // TODO: something about diagonal movement, which is currently possible (at high speed)
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
@@ -97,23 +72,22 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         boolean up = pressedKeys.contains(KeyCode.UP);
         boolean down = pressedKeys.contains(KeyCode.DOWN);
 
-        // System.out.println("Player pressed keys: " + pressedKeys.stream().findFirst().orElse(null));
         if (this.lastPressedKey != pressedKeys.stream().findFirst().orElse(null)) {
             this.lastPressedKey = null;
         }
 
         if (up && this.lastPressedKey != KeyCode.UP) {
             this.lastPressedKey = KeyCode.UP;
-            this.moveUp();
+            this.move(Direction.UP);
         } else if (down && lastPressedKey != KeyCode.DOWN) {
             lastPressedKey = KeyCode.DOWN;
-            this.moveDown();
+            this.move(Direction.DOWN);
         } else if (left && lastPressedKey != KeyCode.LEFT) {
             lastPressedKey = KeyCode.LEFT;
-            this.moveLeft();
+            this.move(Direction.LEFT);
         } else if (right && lastPressedKey != KeyCode.RIGHT) {
             lastPressedKey = KeyCode.RIGHT;
-            this.moveRight();
+            this.move(Direction.RIGHT);
         }
     }
 
@@ -141,72 +115,52 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
 
     private WindowFrame findNearestWindow(Direction direction)
     {
-        List<WindowFrame> windowFrames = Building.getInstance().getWindowFrames();
+        Building building = Building.getInstance();
+        List<WindowFrame> windowFrames = building.getWindowFrames();
         WindowFrame nearestWindow = findNearestWindow();
+        int index = windowFrames.indexOf(nearestWindow);
 
-        if (direction == Direction.UP && windowFrames.indexOf(nearestWindow) + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
-            int index = windowFrames.indexOf(nearestWindow) + Building.WINDOWS_PER_FLOOR;
-            System.out.println("UP INDEX: " + index);
+        if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
 
-            nearestWindow = windowFrames.get(index);
-            return nearestWindow;
-
-        } else if (direction == Direction.DOWN && windowFrames.indexOf(nearestWindow) - Building.WINDOWS_PER_FLOOR > 0) {
-            int index = windowFrames.indexOf(nearestWindow) - Building.WINDOWS_PER_FLOOR;
-            System.out.println("DOWN INDEX: " + index);
-
+            if (building.onGroundFloor(index) && index < 2) {
+                index--;
+            }
+            index += Building.WINDOWS_PER_FLOOR;
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
 
         }
+        // TODO: fix magic numbers 3 (higher than ground floor indexes) and 6 (not the middle above door window)
+        else if (direction == Direction.DOWN && index > 3 && index != 6) {
 
-        else if (direction == Direction.LEFT) {
-            int index = windowFrames.indexOf(nearestWindow);
-            System.out.println("LEFT INDEX: " + index);
-
-            // Check of we niet op de begane grond zijn OF het niet het eerste raam in de rij is
-            if ((index >= Building.WINDOWS_PER_FLOOR || index % Building.WINDOWS_PER_FLOOR > 0) && nearestWindow != null) {
-                nearestWindow = windowFrames.get(index - 1);
-            } else {
-                nearestWindow = null; // Geen raam links als het het eerste raam in de rij is of op de begane grond
+            index -= Building.WINDOWS_PER_FLOOR;
+            if (building.onGroundFloor(index) && index < 2) {
+                index++;
             }
-
+            nearestWindow = windowFrames.get(index);
             return nearestWindow;
-        } else if (direction == Direction.RIGHT) {
-            int index = windowFrames.indexOf(nearestWindow);
-            System.out.println("RIGHT INDEX: " + index);
 
-            // Check of we niet op de begane grond zijn OF het niet het laatste raam in de rij is
-            if ((index >= Building.WINDOWS_PER_FLOOR || index % Building.WINDOWS_PER_FLOOR < Building.WINDOWS_PER_FLOOR - 1) && nearestWindow != null) {
-                nearestWindow = windowFrames.get(index + 1);
-            } else {
-                nearestWindow = null; // Geen raam rechts als het het laatste raam in de rij is of op de begane grond
-            }
-
-            return nearestWindow;
         }
+        // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
+        else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
 
-//        else if (direction == Direction.LEFT) {
-//            int index = windowFrames.indexOf(nearestWindow);
-//            if (index % Building.WINDOWS_PER_FLOOR > 0) { // Checkt of het niet het eerste raam in de rij is
-//                nearestWindow = windowFrames.get(index - 1);
-//            } else {
-//                nearestWindow = null; // Geen raam links als het het eerste raam in de rij is
-//            }
-//
-//            return nearestWindow;
-//        } else if (direction == Direction.RIGHT) {
-//            int index = windowFrames.indexOf(nearestWindow);
-//            if (index % Building.WINDOWS_PER_FLOOR < Building.WINDOWS_PER_FLOOR - 1) { // Checkt of het niet het laatste raam in de rij is
-//                nearestWindow = windowFrames.get(index + 1);
-//            } else {
-//                nearestWindow = null; // Geen raam rechts als het het laatste raam in de rij is
-//            }
-//
-//            return nearestWindow;
-//        }
+            index--;
+            if (!building.onBuildingEdge(index)) {
+                nearestWindow = windowFrames.get(index);
+            }
+            return nearestWindow;
 
-        else {
+        }
+        // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
+        else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
+
+            index++;
+            if (!building.onBuildingEdge(index)) {
+                nearestWindow = windowFrames.get(index);
+            }
+            return nearestWindow;
+
+        } else {
             System.out.println("NO WINDOW FOUND IN DIRECTION [" + direction + "]");
             return null;
         }
@@ -221,9 +175,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     @Override
     public void notifyBoundaryTouching(SceneBorder border)
     {
-
         if (border == SceneBorder.BOTTOM) {
-            isJumping = false;
             setGravityConstant(0);
             setMotion(0, 0);
         }
@@ -235,7 +187,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
                 break;
             case BOTTOM:
                 setAnchorLocationY(getSceneHeight() - getHeight() - 1);
-                isJumping = false;
                 break;
             case LEFT:
                 setAnchorLocationX(1);
@@ -247,8 +198,24 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         }
     }
 
-    public void setIsJumping(boolean isJumping)
+    public int getHealth()
     {
-        this.isJumping = isJumping;
+        return health;
     }
+
+    public KeyCode getLastPressedKey()
+    {
+        return lastPressedKey;
+    }
+
+    public void setHealth(int health)
+    {
+        this.health = health;
+    }
+
+    public void setLastPressedKey(KeyCode lastPressedKey)
+    {
+        this.lastPressedKey = lastPressedKey;
+    }
+
 }
