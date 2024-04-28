@@ -67,6 +67,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
+        // only one key can be pressed at a time
+        if (pressedKeys.size() > 1) {
+            return;
+        }
+
         boolean left = pressedKeys.contains(KeyCode.LEFT);
         boolean right = pressedKeys.contains(KeyCode.RIGHT);
         boolean up = pressedKeys.contains(KeyCode.UP);
