@@ -31,7 +31,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         setGravityConstant(GRAVITY_CONSTANT);
     }
 
-    public void fixIt()
+    public void repair()
     {
         WindowFrame windowToRepair = findNearestWindow();
         if (windowToRepair != null) {
@@ -72,10 +72,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
             return;
         }
 
-        boolean left = pressedKeys.contains(KeyCode.LEFT);
-        boolean right = pressedKeys.contains(KeyCode.RIGHT);
         boolean up = pressedKeys.contains(KeyCode.UP);
         boolean down = pressedKeys.contains(KeyCode.DOWN);
+        boolean left = pressedKeys.contains(KeyCode.LEFT);
+        boolean right = pressedKeys.contains(KeyCode.RIGHT);
+        boolean repair = pressedKeys.contains(KeyCode.SPACE);
 
         if (this.lastPressedKey != pressedKeys.stream().findFirst().orElse(null)) {
             this.lastPressedKey = null;
@@ -84,16 +85,24 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
         if (up && this.lastPressedKey != KeyCode.UP) {
             this.lastPressedKey = KeyCode.UP;
             this.move(Direction.UP);
-        } else if (down && lastPressedKey != KeyCode.DOWN) {
+        }
+        else if (down && lastPressedKey != KeyCode.DOWN) {
             lastPressedKey = KeyCode.DOWN;
             this.move(Direction.DOWN);
-        } else if (left && lastPressedKey != KeyCode.LEFT) {
+        }
+        else if (left && lastPressedKey != KeyCode.LEFT) {
             lastPressedKey = KeyCode.LEFT;
             this.move(Direction.LEFT);
-        } else if (right && lastPressedKey != KeyCode.RIGHT) {
+        }
+        else if (right && lastPressedKey != KeyCode.RIGHT) {
             lastPressedKey = KeyCode.RIGHT;
             this.move(Direction.RIGHT);
         }
+        else if (repair && lastPressedKey != KeyCode.SPACE) {
+            lastPressedKey = KeyCode.SPACE;
+            this.repair();
+        }
+
     }
 
     private WindowFrame findNearestWindow()
