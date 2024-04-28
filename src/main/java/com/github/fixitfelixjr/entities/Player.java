@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.enums.KeyBindings;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -72,37 +73,34 @@ public class Player extends DynamicSpriteEntity implements KeyListener, SceneBor
             return;
         }
 
-        boolean up = pressedKeys.contains(KeyCode.UP);
-        boolean down = pressedKeys.contains(KeyCode.DOWN);
-        boolean left = pressedKeys.contains(KeyCode.LEFT);
-        boolean right = pressedKeys.contains(KeyCode.RIGHT);
-        boolean repair = pressedKeys.contains(KeyCode.SPACE);
+        KeyCode pressedKey = pressedKeys.stream().findFirst().orElse(null);
+        boolean up = pressedKey == KeyBindings.UP.getKeyCode() && this.lastPressedKey != KeyBindings.UP.getKeyCode();
+        boolean down = pressedKey == KeyBindings.DOWN.getKeyCode() && this.lastPressedKey != KeyBindings.DOWN.getKeyCode();
+        boolean left = pressedKey == KeyBindings.LEFT.getKeyCode() && this.lastPressedKey != KeyBindings.LEFT.getKeyCode();
+        boolean right = pressedKey == KeyBindings.RIGHT.getKeyCode() && this.lastPressedKey != KeyBindings.RIGHT.getKeyCode();
+        boolean repair = pressedKey == KeyBindings.REPAIR.getKeyCode() && this.lastPressedKey != KeyBindings.REPAIR.getKeyCode();
 
-        if (this.lastPressedKey != pressedKeys.stream().findFirst().orElse(null)) {
+        if (this.lastPressedKey != pressedKey) {
             this.lastPressedKey = null;
         }
 
-        if (up && this.lastPressedKey != KeyCode.UP) {
-            this.lastPressedKey = KeyCode.UP;
+        if (up) {
             this.move(Direction.UP);
         }
-        else if (down && lastPressedKey != KeyCode.DOWN) {
-            lastPressedKey = KeyCode.DOWN;
+        else if (down) {
             this.move(Direction.DOWN);
         }
-        else if (left && lastPressedKey != KeyCode.LEFT) {
-            lastPressedKey = KeyCode.LEFT;
+        else if (left) {
             this.move(Direction.LEFT);
         }
-        else if (right && lastPressedKey != KeyCode.RIGHT) {
-            lastPressedKey = KeyCode.RIGHT;
+        else if (right) {
             this.move(Direction.RIGHT);
         }
-        else if (repair && lastPressedKey != KeyCode.SPACE) {
-            lastPressedKey = KeyCode.SPACE;
+        else if (repair) {
             this.repair();
         }
 
+        this.lastPressedKey = pressedKey;
     }
 
     private WindowFrame findNearestWindow()
