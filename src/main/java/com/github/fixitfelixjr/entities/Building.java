@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 
@@ -16,6 +17,7 @@ public class Building
 
     private static final Building instance = new Building();
     private List<WindowFrame> windowFrames;
+    private int stage;
 
     private Building()
     {
@@ -29,6 +31,9 @@ public class Building
 
     public void createWindowFrames(LevelScene scene)
     {
+
+        // TODO: fix logic for stages and windows in array
+
         // Code om ramen te creëren, exclusief de plek van de deur.
         for (int floor = 0; floor < FLOORS; floor++) {
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
@@ -62,15 +67,52 @@ public class Building
         }
     }
 
-
     private double calculateYPosition(int floor)
     {
         return 700 - floor * 220;
     }
 
+    public boolean onGroundFloor(int index)
+    {
+        boolean result;
+        int windowsToIndex = Building.WINDOWS_PER_FLOOR - 1;
+
+        if(this.stage == Game.INITIAL_STAGE && index < windowsToIndex) {
+            result = true;
+        } else {
+            result = false;
+        }
+
+        return result;
+    }
+
+    public boolean onBuildingEdge(int index)
+    {
+        boolean result = false;
+        if(this.stage == Game.INITIAL_STAGE && this.onGroundFloor(index)) {
+            result = index % (Building.WINDOWS_PER_FLOOR - 1) == 0;
+        }
+
+        if(index == 0) {
+            result = false;
+        }
+
+        return result;
+    }
+
     public List<WindowFrame> getWindowFrames()
     {
         return this.windowFrames;
+    }
+
+    public int getStage()
+    {
+        return this.stage;
+    }
+
+    public void setStage(int stage)
+    {
+        this.stage = stage;
     }
 
 }

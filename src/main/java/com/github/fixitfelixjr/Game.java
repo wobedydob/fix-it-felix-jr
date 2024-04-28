@@ -11,6 +11,7 @@ public class Game extends YaegerGame
 {
     public static final int GAME_WIDTH = 1280;
     public static final int GAME_HEIGHT = 960;
+    public static final int INITIAL_STAGE = 1;
 
     public static void main(String[] args)
     {
@@ -29,7 +30,7 @@ public class Game extends YaegerGame
     public void setupScenes()
     {
 //        registerScene(new TitleScene());
-        registerScene(new LevelScene());
+        registerScene(new LevelScene(INITIAL_STAGE));
     }
 
     public void registerScene(Scene scene)
