@@ -40,9 +40,10 @@ public class Building
                 // Uitsluiten van de deur positie
                 if (floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
 
+                boolean hasPowerup = floor == 0 && windowNum == 0;  // todo: remove this
+
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
-//                Coordinate2D position = new Coordinate2D(150, scene.getHeight() - WindowFrame.HEIGHT - 100);
-                WindowFrame windowFrame = new WindowFrame(position, scene);
+                WindowFrame windowFrame = new WindowFrame(position, scene, hasPowerup);
                 scene.addEntity(windowFrame);
                 this.windowFrames.add(windowFrame);
 

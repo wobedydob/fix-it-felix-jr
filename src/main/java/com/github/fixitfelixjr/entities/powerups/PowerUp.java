@@ -11,7 +11,7 @@ public class PowerUp extends SpriteEntity implements Collider
 
     private int duration;
 
-    public PowerUp(String sprite, int duration, Coordinate2D position,  Size size, int spriteRows, int spriteColumns)
+    public PowerUp(String sprite, int duration, Coordinate2D position, Size size, int spriteRows, int spriteColumns)
     {
         super(sprite, position, size, spriteRows, spriteColumns);
         this.duration = duration;
@@ -26,5 +26,5 @@ public class PowerUp extends SpriteEntity implements Collider
     {
         this.duration = duration;
     }
-    
+
 }
