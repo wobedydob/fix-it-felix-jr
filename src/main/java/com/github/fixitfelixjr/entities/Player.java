@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.KeyBindings;
@@ -7,16 +8,16 @@ import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
+import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.entities.*;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
-import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.userinput.KeyListener;
 import javafx.scene.input.KeyCode;
 
 import java.util.List;
 import java.util.Set;
 
-public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider
+public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider, TimerContainer
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
     public static final double WIDTH = 128;
@@ -221,8 +222,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         // if colliding is type of PowerUp
         if (collidingObject instanceof PowerUp powerUp) {
             this.powerUp = powerUp;
+            this.activatePowerUp(powerUp);
             powerUp.remove();
         }
+
     }
 
     public int getHealth()
@@ -243,6 +246,31 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public void setLastPressedKey(KeyCode lastPressedKey)
     {
         this.lastPressedKey = lastPressedKey;
+    }
+
+    @Override
+    public void setupTimers() {
+        // ... fuck whoever thought this was a good idea ...
+    }
+
+    public void activatePowerUp(PowerUp powerUp)
+    {
+        System.out.println("activated powerup");
+        if (this.powerUp != null) {
+            int duration = this.powerUp.getDuration();
+            TimeEvent event = new TimeEvent(duration, () -> {
+                this.deactivatePowerUp();
+            });
+            addTimer(event);
+        }
+    }
+
+    public void deactivatePowerUp()
+    {
+        if (this.powerUp != null) {
+            System.out.println("deactivated powerup");
+            this.powerUp = null;
+        }
     }
 
 }

@@ -21,8 +21,9 @@ public class WindowFrame extends DynamicSpriteEntity
     private Platform platform;
     private PowerUp powerUp = null;
 
-    public WindowFrame(Coordinate2D position, LevelScene scene)
+    public WindowFrame(Coordinate2D position, LevelScene scene, boolean hasPowerUp)
     {
+        // todo: remove hasPowerUp
         super(SPRITE_IMAGE, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
 
         Coordinate2D platformPosition = new Coordinate2D(position.getX(), position.getY() + (HEIGHT * LevelScene.SPRITE_SIZE_APPLIER) - 10);
@@ -33,9 +34,12 @@ public class WindowFrame extends DynamicSpriteEntity
         this.window = new Window(windowPosition);
         scene.addEntity(window);
 
-        Coordinate2D powerUpPosition = new Coordinate2D(position.getX() + (26), position.getY() + (HEIGHT * 2));
-        PowerUp pie = new PiePowerUp(powerUpPosition);
-        scene.addEntity(pie);
+        if(hasPowerUp) {
+            Coordinate2D powerUpPosition = new Coordinate2D(position.getX() + (26), position.getY() + (HEIGHT * 2));
+            PowerUp pie = new PiePowerUp(powerUpPosition);
+            this.powerUp = pie;
+            scene.addEntity(pie);
+        }
     }
 
     public Window getWindow()
