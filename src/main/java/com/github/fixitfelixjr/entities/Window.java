@@ -33,6 +33,14 @@ public class Window extends DynamicSpriteEntity
         }
     }
 
+    public void repair(int repairState)
+    {
+        if (repairState <= MAX_REPAIR) {
+            this.repairState = repairState;
+            updateSprite();
+        }
+    }
+
     public void damage()
     {
         if (repairState > MIN_REPAIR) {
