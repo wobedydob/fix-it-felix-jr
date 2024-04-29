@@ -1,5 +1,7 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
+import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -17,6 +19,7 @@ public class WindowFrame extends DynamicSpriteEntity
 
     private Window window;
     private Platform platform;
+    private PowerUp powerUp = null;
 
     public WindowFrame(Coordinate2D position, LevelScene scene)
     {
@@ -29,6 +32,10 @@ public class WindowFrame extends DynamicSpriteEntity
         Coordinate2D windowPosition = new Coordinate2D(position.getX(), position.getY());
         this.window = new Window(windowPosition);
         scene.addEntity(window);
+
+        Coordinate2D powerUpPosition = new Coordinate2D(position.getX() + (26), position.getY() + (HEIGHT * 2));
+        PowerUp pie = new PiePowerUp(powerUpPosition);
+        scene.addEntity(pie);
     }
 
     public Window getWindow()

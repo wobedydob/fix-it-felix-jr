@@ -1,5 +1,7 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
+import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.KeyBindings;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
@@ -19,8 +21,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public static final String SPRITE_IMAGE = "sprites/felix.png";
     public static final double WIDTH = 128;
     public static final double HEIGHT = 34;
-    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
-
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public static final int[] SPRITE_ROWS_COLS = {1, 4};
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
     public static final Direction INITIAL_FACING_DIR = Direction.RIGHT;
@@ -29,7 +30,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     private int health;
     private KeyCode lastPressedKey;
-    private Direction facing;
+    private Direction facing; // TODO: for using the hammer animation
+    private PowerUp powerUp; // TODO: powerup logic, timer etc
 
     public Player()
     {
@@ -41,11 +43,24 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void repair()
     {
+        System.out.println("trying to repair");
+
         // TODO: add repair animation
         WindowFrame windowToRepair = findNearestWindow();
         if (windowToRepair != null) {
-            windowToRepair.getWindow().repair();
+            Window window = windowToRepair.getWindow();
+            System.out.println("found window to repair");
+
+            if (powerUp != null && powerUp instanceof PiePowerUp) {
+                System.out.println("player has powerup");
+                window.repair(Window.MAX_REPAIR);
+            } else {
+                System.out.println("default repair");
+                window.repair();
+            }
+
         }
+
     }
 
     // TODO: move to ralph / bricks
@@ -196,7 +211,18 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     @Override
     public void onCollision(List<Collider> collidingObjects)
     {
-//        System.out.println("Player collided with: " + collidingObjects);
+        // only one collision at a time
+        if (collidingObjects.size() > 1) {
+            return;
+        }
+
+        Collider collidingObject = collidingObjects.stream().findFirst().orElse(null);
+
+        // if colliding is type of PowerUp
+        if (collidingObject instanceof PowerUp powerUp) {
+            this.powerUp = powerUp;
+            powerUp.remove();
+        }
     }
 
     public int getHealth()
