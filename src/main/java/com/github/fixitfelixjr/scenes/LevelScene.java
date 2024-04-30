@@ -2,6 +2,7 @@ package com.github.fixitfelixjr.scenes;
 
 import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.entities.Building;
+import com.github.fixitfelixjr.entities.Enemy;
 import com.github.fixitfelixjr.entities.Player;
 import com.github.fixitfelixjr.entities.WindowFrame;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
@@ -42,19 +43,19 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     @Override
     public void setupEntities()
     {
-        Player felix = new Player();
-        this.player = felix;
-        addEntity(felix);
+//        Player felix = new Player();
+//        this.player = felix;
+//        addEntity(felix);
 
-//        Enemy ralph = new Enemy();
-//        addEntity(ralph);
+        Enemy ralph = new Enemy();
+        addEntity(ralph);
     }
 
     @Override
     public void setupTimers()
     {
-        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
-        addTimer(powerUpEvent);
+//        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
+//        addTimer(powerUpEvent);
     }
 
     // TODO: do powerups despawn?
