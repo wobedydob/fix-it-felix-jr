@@ -11,7 +11,7 @@ public class PiePowerUp extends PowerUp
     public static final double HEIGHT = 13;
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public static final int[] SPRITE_ROWS_COLS = {1, 2};
-    public static final int DURATION = 3;
+    public static final int DURATION = 5;
 
     public PiePowerUp(Coordinate2D position)
     {

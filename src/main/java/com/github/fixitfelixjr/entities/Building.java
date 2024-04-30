@@ -40,10 +40,8 @@ public class Building
                 // Uitsluiten van de deur positie
                 if (floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
 
-                boolean hasPowerup = floor == 0 && windowNum == 0;  // todo: remove this
-
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
-                WindowFrame windowFrame = new WindowFrame(position, scene, hasPowerup);
+                WindowFrame windowFrame = new WindowFrame(position, scene);
                 scene.addEntity(windowFrame);
                 this.windowFrames.add(windowFrame);
 
@@ -78,7 +76,7 @@ public class Building
         boolean result;
         int windowsToIndex = Building.WINDOWS_PER_FLOOR - 1;
 
-        if(this.stage == Game.INITIAL_STAGE && index < windowsToIndex) {
+        if (this.stage == Game.INITIAL_STAGE && index < windowsToIndex) {
             result = true;
         } else {
             result = false;
@@ -90,11 +88,11 @@ public class Building
     public boolean onBuildingEdge(int index)
     {
         boolean result = false;
-        if(this.stage == Game.INITIAL_STAGE && this.onGroundFloor(index)) {
+        if (this.stage == Game.INITIAL_STAGE && this.onGroundFloor(index)) {
             result = index % (Building.WINDOWS_PER_FLOOR - 1) == 0;
         }
 
-        if(index == 0) {
+        if (index == 0) {
             result = false;
         }
 
@@ -104,6 +102,29 @@ public class Building
     public List<WindowFrame> getWindowFrames()
     {
         return this.windowFrames;
+    }
+
+    public WindowFrame getRandomWindowFrame()
+    {
+        return this.windowFrames.get(new java.util.Random().nextInt(this.windowFrames.size()));
+    }
+
+    public boolean canSpawnPowerUp()
+    {
+        // so only one power up can be spawned
+        for (WindowFrame windowFrame : this.windowFrames) {
+            if (windowFrame.getPowerUp() != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void clearPowerUps()
+    {
+        for (WindowFrame windowFrame : this.windowFrames) {
+            windowFrame.setPowerUp(null);
+        }
     }
 
     public int getStage()
