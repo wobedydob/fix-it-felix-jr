@@ -7,7 +7,7 @@ import com.github.hanyaeger.api.entities.impl.SpriteEntity;
 
 public class PowerUp extends SpriteEntity implements Collider
 {
-    public static final int DESPAWN_DELAY = 10;
+    public static final int DESPAWN_DELAY = 10; // TODO: add despawning?
 
     private int duration;
 
