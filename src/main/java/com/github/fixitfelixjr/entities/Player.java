@@ -1,6 +1,7 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.TimeEvent;
+import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.KeyBindings;
@@ -17,12 +18,13 @@ import javafx.scene.input.KeyCode;
 import java.util.List;
 import java.util.Set;
 
+// TODO: figure out a better way to do the animations?
 public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider, TimerContainer
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
     public static final double WIDTH = 128;
-    public static final double HEIGHT = 68;
-    public static final int[] SPRITE_ROWS_COLS = {2, 4};
+    public static final double HEIGHT = 102;
+    public static final int[] SPRITE_ROWS_COLS = {3, 4};
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER / SPRITE_ROWS_COLS[0]);
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
     public static final Direction INITIAL_FACING_DIR = Direction.LEFT;
@@ -30,10 +32,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public static final int MAX_HEALTH = 10;
 
     private int health;
-    private String sprite; // so we can change the animation for powerups etc
     private KeyCode lastPressedKey;
     private Direction facing; // TODO: for using the correct hammer animation
-    private PowerUp powerUp;
+    private PowerUp powerUp = null;
 
     public Player()
     {
@@ -80,16 +81,20 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         int newFrameIndex = initialFrameIndex;
         System.out.println("initial frame index: " + initialFrameIndex);
 
-        if(this.facing == Direction.LEFT) {
+        if (this.facing == Direction.LEFT) {
             newFrameIndex = 2;
-        } else if(this.facing == Direction.RIGHT) {
+        } else if (this.facing == Direction.RIGHT) {
             newFrameIndex = 3;
         }
 
-        if(this.powerUp instanceof PiePowerUp) {
+        if (this.powerUp instanceof PiePowerUp) {
             System.out.println("repairing with powerup");
             newFrameIndex += SPRITE_ROWS_COLS[1];
+        } else if (this.powerUp instanceof HardhatPowerUp) {
+            System.out.println("repairing with hardhat");
+            newFrameIndex += SPRITE_ROWS_COLS[1] * 2;
         }
+
         System.out.println("new frame index: " + newFrameIndex);
 
         setCurrentFrameIndex(newFrameIndex);
@@ -135,7 +140,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
         if (this.powerUp instanceof PiePowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
-        } else {
+        }
+        else if (this.powerUp instanceof HardhatPowerUp) {
+            setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1] * 2);
+        }
+        else {
             setCurrentFrameIndex(frameIndex);
         }
 
@@ -150,7 +159,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
         if (this.powerUp instanceof PiePowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
-        } else {
+        }
+        else if (this.powerUp instanceof HardhatPowerUp) {
+            setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1] * 2);
+        }
+        else {
             setCurrentFrameIndex(frameIndex);
         }
     }
@@ -307,16 +320,25 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void activatePowerUp()
     {
-        System.out.println("activated powerup");
-        System.out.println("while facing: " + this.facing);
-
-        int frameIndex = 0;
-        if (this.facing == Direction.RIGHT) {
-            frameIndex = 1;
-        }
-        setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
-
         if (this.powerUp != null) {
+            System.out.println("activated powerup");
+            System.out.println("while facing: " + this.facing);
+
+            int addition = 0;
+            int frameIndex = 0;
+            if (this.facing == Direction.RIGHT) {
+                frameIndex = 1;
+            }
+
+            if(this.powerUp instanceof PiePowerUp) {
+                addition = SPRITE_ROWS_COLS[1];
+            }
+            else if(this.powerUp instanceof HardhatPowerUp) {
+                addition = SPRITE_ROWS_COLS[1] * 2; // 2 rows
+            }
+
+            setCurrentFrameIndex(frameIndex + addition);
+
             int duration = this.powerUp.getDuration() * 1000; // convert to seconds
             TimeEvent event = new TimeEvent(duration, () -> {
                 this.deactivatePowerUp();
@@ -331,6 +353,16 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             System.out.println("deactivated powerup");
             this.powerUp = null;
         }
+    }
+
+    public PowerUp getPowerUp()
+    {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp)
+    {
+        this.powerUp = powerUp;
     }
 
 }
