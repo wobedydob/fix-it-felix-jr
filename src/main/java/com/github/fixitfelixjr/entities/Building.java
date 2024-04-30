@@ -9,6 +9,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The Building class represents a multi-floor building with specific navigation rules based on the floor and stage.
+ * Each floor has a pre-defined number of windows, with special rules applied to the ground floor based on the building's stage.
+ * Constants:
+ *   - FLOORS: Total number of floors in the building, set to 4.
+ *   - WINDOWS_PER_FLOOR: Number of windows per floor, set to 5.
+ *   - MIDDLE_WINDOW_INDEX: Index of the middle window on the bottom floor in the array of windows on a floor, set to 2.
+ * Ground Floor Behavior:
+ *   - If the stage is set to 1, the number of navigable windows on the ground floor is reduced by one (from 5 to 4). This affects indices and navigation.
+ *     For the ground floor, the navigable index range is 0-3 instead of 0-4.
+ * Navigation Adjustments:
+ *   - UP: When moving upwards in window indices on the ground floor, if the index is less than 2, it is decremented before moving up to account for the reduced window count.
+ *         This prevents going out of range and aligns with the indices of the floor above.
+ *         Example: Moving up from index 0 would usually go to index 5 in a typical setting, but with the stage 1 adjustment, it moves to index 4.
+ *   - DOWN: When moving downwards in window indices on the ground floor, if the index is less than 2, it is incremented after moving down to ensure correct positioning at the lower indices.
+ *           This adjustment keeps the index within the valid range, compensating for the reduced number of items on the ground floor.
+ *           Example: Moving down from index 4 would typically land at index 0. The adjustment ensures it aligns correctly with the reduced index range on the ground floor.
+ * Note:
+ *   - The adjustments for UP and DOWN operations are only applied when the building is in stage 1 and only affect the ground floor navigation.
+ */
 public class Building
 {
 
@@ -138,7 +158,7 @@ public class Building
     // fix for finding nearest window
     public WindowFrame findNearestWindow(Coordinate2D position)
     {
-        List<WindowFrame> windowFrames = Building.getInstance().getWindowFrames();
+        List<WindowFrame> windowFrames = this.windowFrames;
         WindowFrame nearestWindow = null;
         double nearestDistance = Double.MAX_VALUE;
 
@@ -160,13 +180,12 @@ public class Building
 
     public WindowFrame findNearestWindow(Coordinate2D position, Direction direction)
     {
-        Building building = Building.getInstance();
-        List<WindowFrame> windowFrames = building.getWindowFrames();
+        List<WindowFrame> windowFrames = this.getWindowFrames();
         WindowFrame nearestWindow = findNearestWindow(position);
         int index = windowFrames.indexOf(nearestWindow);
 
         if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
-            if (building.onGroundFloor(index) && index < 2) {
+            if (this.onGroundFloor(index) && index < 2) {
                 index--;
             }
             index += Building.WINDOWS_PER_FLOOR;
@@ -176,7 +195,7 @@ public class Building
         // TODO: fix magic numbers 3 (higher than ground floor indexes) and 6 (not the middle above door window)
         else if (direction == Direction.DOWN && index > 3 && index != 6) {
             index -= Building.WINDOWS_PER_FLOOR;
-            if (building.onGroundFloor(index) && index < 2) {
+            if (this.onGroundFloor(index) && index < 2) {
                 index++;
             }
             nearestWindow = windowFrames.get(index);
@@ -185,7 +204,7 @@ public class Building
         // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
         else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
             index--;
-            if (!building.onBuildingEdge(index)) {
+            if (!this.onBuildingEdge(index)) {
                 nearestWindow = windowFrames.get(index);
             }
             return nearestWindow;
@@ -193,7 +212,7 @@ public class Building
         // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
         else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
             index++;
-            if (!building.onBuildingEdge(index)) {
+            if (!this.onBuildingEdge(index)) {
                 nearestWindow = windowFrames.get(index);
             }
             return nearestWindow;
@@ -201,6 +220,10 @@ public class Building
             return null;
         }
     }
+
+//     TODO: workout these methods and introduce them above
+//    public findNearestWindowHorizontally(){}
+//    public findNearestWindowVertically(){}
 
 
 
