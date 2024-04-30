@@ -3,8 +3,10 @@ package com.github.fixitfelixjr.entities;
 import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
+import com.github.hanyaeger.api.entities.Direction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Building
@@ -31,14 +33,10 @@ public class Building
 
     public void createWindowFrames(LevelScene scene)
     {
-
-        // TODO: fix logic for stages and windows in array
-
-        // Code om ramen te creëren, exclusief de plek van de deur.
         for (int floor = 0; floor < FLOORS; floor++) {
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
-                // Uitsluiten van de deur positie
-                if (floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
+
+                if(this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
 
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
                 WindowFrame windowFrame = new WindowFrame(position, scene);
@@ -136,5 +134,74 @@ public class Building
     {
         this.stage = stage;
     }
+
+    // fix for finding nearest window
+    public WindowFrame findNearestWindow(Coordinate2D position)
+    {
+        List<WindowFrame> windowFrames = Building.getInstance().getWindowFrames();
+        WindowFrame nearestWindow = null;
+        double nearestDistance = Double.MAX_VALUE;
+
+        for (WindowFrame windowFrame : windowFrames) {
+            double distance = position.distance(windowFrame.getAnchorLocation());
+
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestWindow = windowFrame;
+            }
+        }
+
+        if (nearestDistance <= WindowFrame.NEARBY_WINDOW_THRESHOLD) {
+            return nearestWindow;
+        } else {
+            return null;
+        }
+    }
+
+    public WindowFrame findNearestWindow(Coordinate2D position, Direction direction)
+    {
+        Building building = Building.getInstance();
+        List<WindowFrame> windowFrames = building.getWindowFrames();
+        WindowFrame nearestWindow = findNearestWindow(position);
+        int index = windowFrames.indexOf(nearestWindow);
+
+        if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
+            if (building.onGroundFloor(index) && index < 2) {
+                index--;
+            }
+            index += Building.WINDOWS_PER_FLOOR;
+            nearestWindow = windowFrames.get(index);
+            return nearestWindow;
+        }
+        // TODO: fix magic numbers 3 (higher than ground floor indexes) and 6 (not the middle above door window)
+        else if (direction == Direction.DOWN && index > 3 && index != 6) {
+            index -= Building.WINDOWS_PER_FLOOR;
+            if (building.onGroundFloor(index) && index < 2) {
+                index++;
+            }
+            nearestWindow = windowFrames.get(index);
+            return nearestWindow;
+        }
+        // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
+        else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
+            index--;
+            if (!building.onBuildingEdge(index)) {
+                nearestWindow = windowFrames.get(index);
+            }
+            return nearestWindow;
+        }
+        // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
+        else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
+            index++;
+            if (!building.onBuildingEdge(index)) {
+                nearestWindow = windowFrames.get(index);
+            }
+            return nearestWindow;
+        } else {
+            return null;
+        }
+    }
+
+
 
 }
