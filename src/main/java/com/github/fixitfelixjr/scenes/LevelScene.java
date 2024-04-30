@@ -16,8 +16,8 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public static final int SPRITE_SIZE_APPLIER = 4;
     public static final int SCENE_ID = 1;
     public static final String BACKGROUND = Building.SPRITE_IMAGE;
-    public static final int POWERUP_SPAWN_RATE = 5; // in seconds
-    public static final int POWERUP_CHANCE_RATE = 4; // 1 in x chance
+    public static final int POWERUP_SPAWN_RATE = 2; // in milliseconds
+    public static final int POWERUP_CHANCE_RATE = 2; // 1 in x chance
 
     private int levelStage;
     private Building building;
@@ -50,7 +50,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     @Override
     public void setupTimers()
     {
-        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE, () -> this.spawnPowerUp(), true);
+        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
         addTimer(powerUpEvent);
     }
 

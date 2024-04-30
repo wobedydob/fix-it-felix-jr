@@ -25,7 +25,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public static final int[] SPRITE_ROWS_COLS = {2, 4};
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER / SPRITE_ROWS_COLS[0]);
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
-    public static final Direction INITIAL_FACING_DIR = Direction.RIGHT;
+    public static final Direction INITIAL_FACING_DIR = Direction.LEFT;
     public static final double GRAVITY_CONSTANT = 0.5;
     public static final int MAX_HEALTH = 10;
 
@@ -57,9 +57,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
             if (powerUp != null && powerUp instanceof PiePowerUp) {
                 System.out.println("player has powerup");
+                this.repairAnimation();
                 window.repair(Window.MAX_REPAIR);
             } else {
                 System.out.println("default repair");
+                this.repairAnimation();
                 window.repair();
             }
 
@@ -67,6 +69,35 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
         System.out.println("-----------------------------");
         System.out.println(" ");
+
+    }
+
+    private void repairAnimation()
+    {
+        System.out.println("player is facing: " + this.facing);
+
+        int initialFrameIndex = getCurrentFrameIndex();
+        int newFrameIndex = initialFrameIndex;
+        System.out.println("initial frame index: " + initialFrameIndex);
+
+        if(this.facing == Direction.LEFT) {
+            newFrameIndex = 2;
+        } else if(this.facing == Direction.RIGHT) {
+            newFrameIndex = 3;
+        }
+
+        if(this.powerUp instanceof PiePowerUp) {
+            System.out.println("repairing with powerup");
+            newFrameIndex += SPRITE_ROWS_COLS[1];
+        }
+        System.out.println("new frame index: " + newFrameIndex);
+
+        setCurrentFrameIndex(newFrameIndex);
+
+        TimeEvent event = new TimeEvent(50, () -> {
+            setCurrentFrameIndex(initialFrameIndex);
+        });
+        addTimer(event);
 
     }
 
@@ -102,7 +133,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.move(direction);
         this.facing = direction;
 
-        if(this.powerUp instanceof PiePowerUp) {
+        if (this.powerUp instanceof PiePowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
         } else {
             setCurrentFrameIndex(frameIndex);
@@ -114,10 +145,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     {
         int frameIndex = 1;
         Direction direction = Direction.RIGHT;
-        this.move(direction);
         this.facing = direction;
+        this.move(direction);
 
-        if(this.powerUp instanceof PiePowerUp) {
+        if (this.powerUp instanceof PiePowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
         } else {
             setCurrentFrameIndex(frameIndex);
@@ -269,7 +300,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     }
 
     @Override
-    public void setupTimers() {
+    public void setupTimers()
+    {
         // ... fuck whoever thought this was a good idea ...
     }
 
@@ -279,13 +311,13 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         System.out.println("while facing: " + this.facing);
 
         int frameIndex = 0;
-        if(this.facing == Direction.RIGHT) {
+        if (this.facing == Direction.RIGHT) {
             frameIndex = 1;
         }
         setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
 
         if (this.powerUp != null) {
-            int duration = this.powerUp.getDuration();
+            int duration = this.powerUp.getDuration() * 1000; // convert to seconds
             TimeEvent event = new TimeEvent(duration, () -> {
                 this.deactivatePowerUp();
             });

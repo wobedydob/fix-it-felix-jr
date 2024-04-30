@@ -6,19 +6,18 @@ public class TimeEvent extends Timer
 {
 
     private Runnable eventAction;
-    private long repeatInterval;
     private boolean repeat;
 
-    public TimeEvent(final long intervalInSeconds, Runnable eventAction)
+    public TimeEvent(final long intervalInMilliseconds, Runnable eventAction)
     {
-        super(intervalInSeconds * 1000); // convert seconds to milliseconds
+        super(intervalInMilliseconds);
         this.eventAction = eventAction;
         this.repeat = false;
     }
 
-    public TimeEvent(final long intervalInSeconds, Runnable eventAction, boolean repeat)
+    public TimeEvent(final long intervalInMilliseconds, Runnable eventAction, boolean repeat)
     {
-        super(intervalInSeconds * 1000); // convert seconds to milliseconds
+        super(intervalInMilliseconds);
         this.eventAction = eventAction;
         this.repeat = repeat;
     }
