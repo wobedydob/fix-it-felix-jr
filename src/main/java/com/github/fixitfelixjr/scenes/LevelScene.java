@@ -1,10 +1,7 @@
 package com.github.fixitfelixjr.scenes;
 
 import com.github.fixitfelixjr.TimeEvent;
-import com.github.fixitfelixjr.entities.Building;
-import com.github.fixitfelixjr.entities.Enemy;
-import com.github.fixitfelixjr.entities.Player;
-import com.github.fixitfelixjr.entities.WindowFrame;
+import com.github.fixitfelixjr.entities.*;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.hanyaeger.api.Coordinate2D;
@@ -24,11 +21,14 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     private int levelStage;
     private Building building;
     private Player player;
+    private Enemy enemy;
 
     public LevelScene(int stage)
     {
         this.levelStage = stage;
         this.building = Building.getInstance();
+        this.player = new Player();
+        this.enemy = new Enemy(this);
     }
 
     @Override
@@ -43,19 +43,15 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     @Override
     public void setupEntities()
     {
-//        Player felix = new Player();
-//        this.player = felix;
-//        addEntity(felix);
-
-        Enemy ralph = new Enemy();
-        addEntity(ralph);
+        addEntity(this.player);
+        addEntity(this.enemy);
     }
 
     @Override
     public void setupTimers()
     {
-//        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
-//        addTimer(powerUpEvent);
+        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
+        addTimer(powerUpEvent);
     }
 
     // TODO: do powerups despawn?
