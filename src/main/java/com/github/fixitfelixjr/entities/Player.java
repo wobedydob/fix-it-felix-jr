@@ -224,6 +224,26 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             Building.getInstance().clearPowerUps();
         }
 
+        // if colliding is type of Projectile
+        if (collidingObject instanceof Projectile projectile) {
+
+            if (this.powerUp instanceof HardhatPowerUp) {
+                System.out.println("hardhat caught brick");
+                projectile.remove();
+                return;
+            }
+
+            this.health--;
+            projectile.remove();
+            System.out.println("health: " + this.health);
+        }
+
+
+        if (this.health <= 0) {
+            System.out.println("player died");
+            this.remove();
+        }
+
     }
 
     public int getHealth()
