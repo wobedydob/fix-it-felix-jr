@@ -21,15 +21,16 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
     public static final double WIDTH = 128;
-    public static final double HEIGHT = 34;
-    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
-    public static final int[] SPRITE_ROWS_COLS = {1, 4};
+    public static final double HEIGHT = 68;
+    public static final int[] SPRITE_ROWS_COLS = {2, 4};
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER / SPRITE_ROWS_COLS[0]);
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
     public static final Direction INITIAL_FACING_DIR = Direction.RIGHT;
     public static final double GRAVITY_CONSTANT = 0.5;
     public static final int MAX_HEALTH = 10;
 
     private int health;
+    private String sprite; // so we can change the animation for powerups etc
     private KeyCode lastPressedKey;
     private Direction facing; // TODO: for using the correct hammer animation
     private PowerUp powerUp;
@@ -96,18 +97,31 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void moveLeft()
     {
+        int frameIndex = 0;
         Direction direction = Direction.LEFT;
         this.move(direction);
         this.facing = direction;
-        setCurrentFrameIndex(0);
+
+        if(this.powerUp instanceof PiePowerUp) {
+            setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
+        } else {
+            setCurrentFrameIndex(frameIndex);
+        }
+
     }
 
     public void moveRight()
     {
+        int frameIndex = 1;
         Direction direction = Direction.RIGHT;
         this.move(direction);
         this.facing = direction;
-        setCurrentFrameIndex(1);
+
+        if(this.powerUp instanceof PiePowerUp) {
+            setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
+        } else {
+            setCurrentFrameIndex(frameIndex);
+        }
     }
 
     // TODO: something about diagonal movement, which is currently possible (at high speed)
@@ -227,7 +241,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         // if colliding is type of PowerUp
         if (collidingObject instanceof PowerUp powerUp) {
             this.powerUp = powerUp;
-            this.activatePowerUp(powerUp);
+            this.activatePowerUp();
             powerUp.remove();
             Building.getInstance().clearPowerUps();
         }
@@ -259,9 +273,17 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         // ... fuck whoever thought this was a good idea ...
     }
 
-    public void activatePowerUp(PowerUp powerUp)
+    public void activatePowerUp()
     {
         System.out.println("activated powerup");
+        System.out.println("while facing: " + this.facing);
+
+        int frameIndex = 0;
+        if(this.facing == Direction.RIGHT) {
+            frameIndex = 1;
+        }
+        setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
+
         if (this.powerUp != null) {
             int duration = this.powerUp.getDuration();
             TimeEvent event = new TimeEvent(duration, () -> {
