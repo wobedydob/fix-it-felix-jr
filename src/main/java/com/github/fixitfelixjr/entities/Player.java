@@ -51,7 +51,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         System.out.println("trying to repair");
 
         // TODO: add repair animation
-        WindowFrame windowToRepair = findNearestWindow();
+        WindowFrame windowToRepair = Building.getInstance().findNearestWindow(getAnchorLocation());
         if (windowToRepair != null) {
             Window window = windowToRepair.getWindow();
             System.out.println("found window to repair");
@@ -109,7 +109,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     // TODO: move to ralph / bricks
     public void destroy()
     {
-        WindowFrame windowToRepair = findNearestWindow();
+        WindowFrame windowToRepair = Building.getInstance().findNearestWindow(getAnchorLocation());
         if (windowToRepair != null) {
             windowToRepair.getWindow().damage();
         }
@@ -117,7 +117,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void move(Direction direction)
     {
-        WindowFrame window = this.findNearestWindow(direction);
+        WindowFrame window = Building.getInstance().findNearestWindow(getAnchorLocation(), direction);
         if (window != null) {
 
             double y = window.getAnchorLocation().getY();
@@ -204,72 +204,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
 
         this.lastPressedKey = pressedKey;
-    }
-
-    private WindowFrame findNearestWindow()
-    {
-        List<WindowFrame> windowFrames = Building.getInstance().getWindowFrames();
-        WindowFrame nearestWindow = null;
-        double nearestDistance = Double.MAX_VALUE;
-
-        for (WindowFrame windowFrame : windowFrames) {
-            double distance = getAnchorLocation().distance(windowFrame.getAnchorLocation());
-
-            if (distance < nearestDistance) {
-                nearestDistance = distance;
-                nearestWindow = windowFrame;
-            }
-        }
-
-        if (nearestDistance <= WindowFrame.NEARBY_WINDOW_THRESHOLD) {
-            return nearestWindow;
-        } else {
-            return null;
-        }
-    }
-
-    private WindowFrame findNearestWindow(Direction direction)
-    {
-        Building building = Building.getInstance();
-        List<WindowFrame> windowFrames = building.getWindowFrames();
-        WindowFrame nearestWindow = findNearestWindow();
-        int index = windowFrames.indexOf(nearestWindow);
-
-        if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
-            if (building.onGroundFloor(index) && index < 2) {
-                index--;
-            }
-            index += Building.WINDOWS_PER_FLOOR;
-            nearestWindow = windowFrames.get(index);
-            return nearestWindow;
-        }
-        // TODO: fix magic numbers 3 (higher than ground floor indexes) and 6 (not the middle above door window)
-        else if (direction == Direction.DOWN && index > 3 && index != 6) {
-            index -= Building.WINDOWS_PER_FLOOR;
-            if (building.onGroundFloor(index) && index < 2) {
-                index++;
-            }
-            nearestWindow = windowFrames.get(index);
-            return nearestWindow;
-        }
-        // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
-        else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
-            index--;
-            if (!building.onBuildingEdge(index)) {
-                nearestWindow = windowFrames.get(index);
-            }
-            return nearestWindow;
-        }
-        // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
-        else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
-            index++;
-            if (!building.onBuildingEdge(index)) {
-                nearestWindow = windowFrames.get(index);
-            }
-            return nearestWindow;
-        } else {
-            return null;
-        }
     }
 
     @Override
