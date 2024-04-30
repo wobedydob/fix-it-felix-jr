@@ -4,9 +4,12 @@ import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.entities.*;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
+import com.github.fixitfelixjr.enums.Fonts;
+import com.github.fixitfelixjr.scenes.parts.ScoreBoard;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.scenes.DynamicScene;
+import javafx.scene.text.Font;
 
 import java.util.Random;
 
