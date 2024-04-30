@@ -5,7 +5,6 @@ import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.Collided;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.impl.RectangleEntity;
-import javafx.scene.paint.Color;
 
 import java.util.List;
 
@@ -17,9 +16,8 @@ public class Platform extends RectangleEntity implements Collided
     {
         super(position);
         this.position = position;
-        this.setFill(Color.RED);
         this.setHeight(5);
-        this.setWidth(WindowFrame.WIDTH * LevelScene.SPRITE_SIZE_APPLIER);
+        this.setWidth((WindowFrame.WIDTH) * LevelScene.SPRITE_SIZE_APPLIER);
     }
 
     @Override

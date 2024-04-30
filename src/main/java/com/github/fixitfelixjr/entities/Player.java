@@ -31,8 +31,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     private int health;
     private KeyCode lastPressedKey;
-    private Direction facing; // TODO: for using the hammer animation
-    private PowerUp powerUp; // TODO: powerup logic, timer etc
+    private Direction facing; // TODO: for using the correct hammer animation
+    private PowerUp powerUp;
 
     public Player()
     {
@@ -44,6 +44,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void repair()
     {
+        System.out.println(" ");
+        System.out.println("-----------------------------");
         System.out.println("trying to repair");
 
         // TODO: add repair animation
@@ -61,6 +63,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             }
 
         }
+
+        System.out.println("-----------------------------");
+        System.out.println(" ");
 
     }
 
@@ -224,6 +229,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             this.powerUp = powerUp;
             this.activatePowerUp(powerUp);
             powerUp.remove();
+            Building.getInstance().clearPowerUps();
         }
 
     }
