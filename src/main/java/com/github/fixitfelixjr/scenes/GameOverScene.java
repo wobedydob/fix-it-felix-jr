@@ -12,15 +12,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class TitleScene extends StaticScene implements Scene
+public class GameOverScene extends StaticScene implements Scene
 {
 
-    public static final int SCENE_ID = 0;
+    public static final int SCENE_ID = 2;
     public static final String BACKGROUND = "backgrounds/screens/TITLESCREEN.png";
 
-    public TitleScene()
-    {
-    }
+    public GameOverScene() {}
 
     @Override
     public void setupScene()
@@ -29,7 +27,7 @@ public class TitleScene extends StaticScene implements Scene
 
         getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                Game.getInstance().setActiveScene(LevelScene.SCENE_ID);
+                Game.getInstance().setActiveScene(TitleScene.SCENE_ID);
             }
         });
     }

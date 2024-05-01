@@ -1,11 +1,13 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.KeyBindings;
 import com.github.fixitfelixjr.enums.Position;
+import com.github.fixitfelixjr.scenes.GameOverScene;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -29,7 +31,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
     public static final Direction INITIAL_FACING_DIR = Direction.LEFT;
     public static final double GRAVITY_CONSTANT = 0.5;
-    public static final int MAX_HEALTH = 10;
+//    public static final int MAX_HEALTH = 10;
+    public static final int MAX_HEALTH = 1;
 
     private int health;
     private KeyCode lastPressedKey;
@@ -168,6 +171,48 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    public void activatePowerUp()
+    {
+        if (this.powerUp != null) {
+            System.out.println("activated powerup");
+            System.out.println("while facing: " + this.facing);
+
+            int addition = 0;
+            int frameIndex = 0;
+            if (this.facing == Direction.RIGHT) {
+                frameIndex = 1;
+            }
+
+            if(this.powerUp instanceof PiePowerUp) {
+                addition = SPRITE_ROWS_COLS[1];
+            }
+            else if(this.powerUp instanceof HardhatPowerUp) {
+                addition = SPRITE_ROWS_COLS[1] * 2; // 2 rows
+            }
+
+            setCurrentFrameIndex(frameIndex + addition);
+
+            int duration = this.powerUp.getDuration() * 1000; // convert to seconds
+            TimeEvent event = new TimeEvent(duration, () -> {
+                this.deactivatePowerUp();
+            });
+            addTimer(event);
+        }
+    }
+
+    public void deactivatePowerUp()
+    {
+        if (this.powerUp != null) {
+            System.out.println("deactivated powerup");
+            this.powerUp = null;
+        }
+    }
+
+    public void die()
+    {
+        Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
+    }
+
     // TODO: something about diagonal movement, which is currently possible (at high speed)
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
@@ -242,8 +287,15 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         if (this.health <= 0) {
             System.out.println("player died");
             this.remove();
+            this.die();
         }
 
+    }
+
+    @Override
+    public void setupTimers()
+    {
+        // ... fuck whoever thought this was a good idea ...
     }
 
     public int getHealth()
@@ -264,49 +316,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public void setLastPressedKey(KeyCode lastPressedKey)
     {
         this.lastPressedKey = lastPressedKey;
-    }
-
-    @Override
-    public void setupTimers()
-    {
-        // ... fuck whoever thought this was a good idea ...
-    }
-
-    public void activatePowerUp()
-    {
-        if (this.powerUp != null) {
-            System.out.println("activated powerup");
-            System.out.println("while facing: " + this.facing);
-
-            int addition = 0;
-            int frameIndex = 0;
-            if (this.facing == Direction.RIGHT) {
-                frameIndex = 1;
-            }
-
-            if(this.powerUp instanceof PiePowerUp) {
-                addition = SPRITE_ROWS_COLS[1];
-            }
-            else if(this.powerUp instanceof HardhatPowerUp) {
-                addition = SPRITE_ROWS_COLS[1] * 2; // 2 rows
-            }
-
-            setCurrentFrameIndex(frameIndex + addition);
-
-            int duration = this.powerUp.getDuration() * 1000; // convert to seconds
-            TimeEvent event = new TimeEvent(duration, () -> {
-                this.deactivatePowerUp();
-            });
-            addTimer(event);
-        }
-    }
-
-    public void deactivatePowerUp()
-    {
-        if (this.powerUp != null) {
-            System.out.println("deactivated powerup");
-            this.powerUp = null;
-        }
     }
 
     public PowerUp getPowerUp()

@@ -12,8 +12,8 @@ import java.util.Random;
 
 public class LevelScene extends DynamicScene implements Scene, TimerContainer
 {
-    public static final int SPRITE_SIZE_APPLIER = 4;
     public static final int SCENE_ID = 1;
+    public static final int SPRITE_SIZE_APPLIER = 4;
     public static final String BACKGROUND = Building.SPRITE_IMAGE;
     public static final int POWERUP_SPAWN_RATE = 5; // in milliseconds
     public static final int POWERUP_CHANCE_RATE = 4; // 1 in x chance
