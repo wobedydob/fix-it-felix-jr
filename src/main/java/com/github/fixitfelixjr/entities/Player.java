@@ -39,7 +39,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     private PowerUp powerUp = null;
 
 
-
     public Player()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
@@ -135,11 +134,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
         if (this.powerUp instanceof PiePowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
-        }
-        else if (this.powerUp instanceof HardhatPowerUp) {
+        } else if (this.powerUp instanceof HardhatPowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1] * 2);
-        }
-        else {
+        } else {
             setCurrentFrameIndex(frameIndex);
         }
 
@@ -154,11 +151,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
         if (this.powerUp instanceof PiePowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1]);
-        }
-        else if (this.powerUp instanceof HardhatPowerUp) {
+        } else if (this.powerUp instanceof HardhatPowerUp) {
             setCurrentFrameIndex(frameIndex + SPRITE_ROWS_COLS[1] * 2);
-        }
-        else {
+        } else {
             setCurrentFrameIndex(frameIndex);
         }
     }
@@ -175,10 +170,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
                 frameIndex = 1;
             }
 
-            if(this.powerUp instanceof PiePowerUp) {
+            if (this.powerUp instanceof PiePowerUp) {
                 addition = SPRITE_ROWS_COLS[1];
-            }
-            else if(this.powerUp instanceof HardhatPowerUp) {
+            } else if (this.powerUp instanceof HardhatPowerUp) {
                 addition = SPRITE_ROWS_COLS[1] * 2; // 2 rows
             }
 

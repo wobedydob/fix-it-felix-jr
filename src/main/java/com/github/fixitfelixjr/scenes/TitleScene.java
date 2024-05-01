@@ -23,7 +23,8 @@ public class TitleScene extends StaticScene implements Scene
 
 
     public TitleScene()
-    {}
+    {
+    }
 
     @Override
     public void setupScene()
@@ -40,7 +41,8 @@ public class TitleScene extends StaticScene implements Scene
         addEntity(scoreBoard);
     }
 
-    public void updateScore(int score){
+    public void updateScore(int score)
+    {
         scoreBoard.updateScore(score);
     }
 

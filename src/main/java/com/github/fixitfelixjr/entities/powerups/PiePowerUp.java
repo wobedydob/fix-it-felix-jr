@@ -10,7 +10,7 @@ public class PiePowerUp extends PowerUp
     public static final String SPRITE_IMAGE = "sprites/pie_powerup.png";
     public static final double WIDTH = 22;
     public static final double HEIGHT = 13;
-    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public static final int[] SPRITE_ROWS_COLS = {1, 2};
     public static final int DURATION = 5;
 

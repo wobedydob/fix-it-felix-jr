@@ -10,7 +10,7 @@ public class HardhatPowerUp extends PowerUp
     public static final String SPRITE_IMAGE = "sprites/hardhat_powerup.png";
     public static final double WIDTH = 10;
     public static final double HEIGHT = 7;
-    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public static final int[] SPRITE_ROWS_COLS = {1, 1};
     public static final int DURATION = 5;
 

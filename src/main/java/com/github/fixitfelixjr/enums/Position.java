@@ -19,11 +19,10 @@ public enum Position
 
     PLAYER_INITIAL_POSITION(900, 800),
     ENEMY_INITIAL_POSITION(getGameWidth() / 2 - 75, 0),
-    ENEMY_CENTER_LEFT_POSITION(getGameWidth() / 2 -225, 0),
+    ENEMY_CENTER_LEFT_POSITION(getGameWidth() / 2 - 225, 0),
     ENEMY_LEFT_POSITION(getGameWidth() / 2 - 350, 0),
     ENEMY_CENTER_RIGHT_POSITION(getGameWidth() / 2 + 75, 0),
-    ENEMY_RIGHT_POSITION(getGameWidth() / 2 + 200, 0)
-    ;
+    ENEMY_RIGHT_POSITION(getGameWidth() / 2 + 200, 0);
 
     private final double x;
     private final double y;

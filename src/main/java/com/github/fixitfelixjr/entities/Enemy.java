@@ -9,6 +9,7 @@ import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.entities.*;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
+
 import java.util.Random;
 
 public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider

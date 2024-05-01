@@ -10,7 +10,7 @@ public class Window extends DynamicSpriteEntity
     public static final String SPRITE_IMAGE = "sprites/window.png";
     public static final double WIDTH = 120;
     public static final double HEIGHT = 43;
-    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER,  HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
+    public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public final static int[] SPRITE_ROWS_COLS = {1, 5};
     public static final int MAX_REPAIR = 4;
     public static final int MIN_REPAIR = 0;

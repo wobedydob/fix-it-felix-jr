@@ -9,7 +9,8 @@ import javafx.scene.text.FontWeight;
 
 public class ScoreBoard extends TextEntity
 {
-    public ScoreBoard(Coordinate2D initialLocation){
+    public ScoreBoard(Coordinate2D initialLocation)
+    {
         super(initialLocation);
 
         Font font = Fonts.UPHEAVTT.getFont(20);
@@ -19,7 +20,8 @@ public class ScoreBoard extends TextEntity
         setText("SCORE: 0"); // Initialisatie van de tekst
     }
 
-    public void updateScore(int score){
+    public void updateScore(int score)
+    {
         setText("SCORE: " + score); // Methode om de score bij te werken
     }
 }

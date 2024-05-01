@@ -32,7 +32,8 @@ public class Game extends YaegerGame
     }
 
     @Override
-    public void start(final Stage primaryStage) {
+    public void start(final Stage primaryStage)
+    {
         super.start(primaryStage);
         instance = this;
     }

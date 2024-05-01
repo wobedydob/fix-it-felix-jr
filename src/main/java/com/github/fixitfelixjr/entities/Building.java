@@ -13,21 +13,21 @@ import java.util.List;
  * The Building class represents a multi-floor building with specific navigation rules based on the floor and stage.
  * Each floor has a pre-defined number of windows, with special rules applied to the ground floor based on the building's stage.
  * Constants:
- *   - FLOORS: Total number of floors in the building, set to 4.
- *   - WINDOWS_PER_FLOOR: Number of windows per floor, set to 5.
- *   - MIDDLE_WINDOW_INDEX: Index of the middle window on the bottom floor in the array of windows on a floor, set to 2.
+ * - FLOORS: Total number of floors in the building, set to 4.
+ * - WINDOWS_PER_FLOOR: Number of windows per floor, set to 5.
+ * - MIDDLE_WINDOW_INDEX: Index of the middle window on the bottom floor in the array of windows on a floor, set to 2.
  * Ground Floor Behavior:
- *   - If the stage is set to 1, the number of navigable windows on the ground floor is reduced by one (from 5 to 4). This affects indices and navigation.
- *     For the ground floor, the navigable index range is 0-3 instead of 0-4.
+ * - If the stage is set to 1, the number of navigable windows on the ground floor is reduced by one (from 5 to 4). This affects indices and navigation.
+ * For the ground floor, the navigable index range is 0-3 instead of 0-4.
  * Navigation Adjustments:
- *   - UP: When moving upwards in window indices on the ground floor, if the index is less than 2, it is decremented before moving up to account for the reduced window count.
- *         This prevents going out of range and aligns with the indices of the floor above.
- *         Example: Moving up from index 0 would usually go to index 5 in a typical setting, but with the stage 1 adjustment, it moves to index 4.
- *   - DOWN: When moving downwards in window indices on the ground floor, if the index is less than 2, it is incremented after moving down to ensure correct positioning at the lower indices.
- *           This adjustment keeps the index within the valid range, compensating for the reduced number of items on the ground floor.
- *           Example: Moving down from index 4 would typically land at index 0. The adjustment ensures it aligns correctly with the reduced index range on the ground floor.
+ * - UP: When moving upwards in window indices on the ground floor, if the index is less than 2, it is decremented before moving up to account for the reduced window count.
+ * This prevents going out of range and aligns with the indices of the floor above.
+ * Example: Moving up from index 0 would usually go to index 5 in a typical setting, but with the stage 1 adjustment, it moves to index 4.
+ * - DOWN: When moving downwards in window indices on the ground floor, if the index is less than 2, it is incremented after moving down to ensure correct positioning at the lower indices.
+ * This adjustment keeps the index within the valid range, compensating for the reduced number of items on the ground floor.
+ * Example: Moving down from index 4 would typically land at index 0. The adjustment ensures it aligns correctly with the reduced index range on the ground floor.
  * Note:
- *   - The adjustments for UP and DOWN operations are only applied when the building is in stage 1 and only affect the ground floor navigation.
+ * - The adjustments for UP and DOWN operations are only applied when the building is in stage 1 and only affect the ground floor navigation.
  */
 public class Building
 {
@@ -51,7 +51,7 @@ public class Building
         for (int floor = 0; floor < FLOORS; floor++) {
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
 
-                if(this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
+                if (this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
 
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
                 WindowFrame windowFrame = new WindowFrame(position, scene);
@@ -125,7 +125,7 @@ public class Building
     public WindowFrame getRandomAvailableWindowFrame()
     {
         WindowFrame windowFrame = this.getRandomWindowFrame();
-        if(windowFrame.hasPowerUp() || windowFrame.hasNPC()) {
+        if (windowFrame.hasPowerUp() || windowFrame.hasNPC()) {
             return this.getRandomAvailableWindowFrame();
         }
 
@@ -247,7 +247,6 @@ public class Building
 //     TODO: workout these methods and introduce them above
 //    public findNearestWindowHorizontally(){}
 //    public findNearestWindowVertically(){}
-
 
 
 }
