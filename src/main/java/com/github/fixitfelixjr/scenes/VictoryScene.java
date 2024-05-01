@@ -1,13 +1,12 @@
-package com.github.fixitfelixjr;
+package com.github.fixitfelixjr.scenes;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.entities.ScoreBoard;
 import com.github.fixitfelixjr.enums.ButtonText;
 import com.github.fixitfelixjr.enums.Fonts;
 import com.github.fixitfelixjr.enums.Position;
-import com.github.fixitfelixjr.scenes.Scene;
 import com.github.fixitfelixjr.scenes.parts.Button;
 import com.github.hanyaeger.api.AnchorPoint;
-import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.impl.TextEntity;
 import com.github.hanyaeger.api.scenes.StaticScene;
 import javafx.scene.input.KeyCode;
@@ -19,12 +18,6 @@ public class VictoryScene extends StaticScene implements Scene
     public static final int SCENE_ID = 3;
     public static final String BACKGROUND = "backgrounds/screens/victory_screen.png";
 
-    private ScoreBoard scoreBoard;
-
-    public VictoryScene()
-    {
-    }
-
     @Override
     public void setupScene()
     {
@@ -32,7 +25,7 @@ public class VictoryScene extends StaticScene implements Scene
 
         getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                Game.getInstance().quit();
+                Game.getInstance().quit(); // TODO: why do we get an error?
             }
         });
     }
@@ -43,7 +36,7 @@ public class VictoryScene extends StaticScene implements Scene
         // Font loader
         Font font = Fonts.UPHEAVTT.getFont(40);
 
-        TextEntity pressStart = new Button(
+        TextEntity pressQuit = new Button(
                 Position.BUTTON_BOTTOM_CENTER,
                 ButtonText.QUIT.getText(),
                 Color.WHITE,
@@ -51,15 +44,11 @@ public class VictoryScene extends StaticScene implements Scene
                 AnchorPoint.CENTER_CENTER
         );
 
-        addEntity(pressStart);
+        addEntity(pressQuit);
 
-        scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
+        int score = Game.getInstance().getScoreBoard().getScore();
+        ScoreBoard scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_END.getCoordinate(), score);
         addEntity(scoreBoard);
-    }
-
-    public void updateScore(int score)
-    {
-        scoreBoard.updateScore(score);
     }
 
     @Override
@@ -80,6 +69,3 @@ public class VictoryScene extends StaticScene implements Scene
 
 
 
-
-
-}

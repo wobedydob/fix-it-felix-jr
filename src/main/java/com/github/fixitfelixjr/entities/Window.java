@@ -1,6 +1,7 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
+import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -43,6 +44,7 @@ public class Window extends DynamicSpriteEntity
             boolean fullRepair = repairState == MAX_REPAIR - 1;
             this.repairState = repairState;
             this.update(fullRepair);
+            Game.getInstance().getLevelScene().onWindowRepaired();
         }
     }
 
@@ -51,6 +53,12 @@ public class Window extends DynamicSpriteEntity
         setCurrentFrameIndex(repairState);
         int score = fullRepair ? SCORE_POINTS_FULL : SCORE_POINTS;
         Game.getInstance().getScoreBoard().updateScore(score);
+        Game.getInstance().getLevelScene().onWindowRepaired();
+    }
+
+    public boolean isRepaired()
+    {
+        return repairState == MAX_REPAIR;
     }
 
     public int getRepairState()

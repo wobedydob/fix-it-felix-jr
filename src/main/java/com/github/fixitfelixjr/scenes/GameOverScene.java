@@ -7,7 +7,6 @@ import com.github.fixitfelixjr.enums.Fonts;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.parts.Button;
 import com.github.hanyaeger.api.AnchorPoint;
-import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.impl.TextEntity;
 import com.github.hanyaeger.api.scenes.StaticScene;
 import javafx.scene.input.KeyCode;
@@ -18,9 +17,6 @@ public class GameOverScene extends StaticScene implements Scene
 {
     public static final int SCENE_ID = 2;
     public static final String BACKGROUND = "backgrounds/screens/game_over_screen.png";
-
-    public GameOverScene()
-    {}
 
     @Override
     public void setupScene()

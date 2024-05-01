@@ -20,7 +20,6 @@ import javafx.scene.input.KeyCode;
 import java.util.List;
 import java.util.Set;
 
-// TODO: figure out a better way to do the animations?
 public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider, TimerContainer
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
@@ -35,9 +34,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     private int health;
     private KeyCode lastPressedKey;
-    private Direction facing; // TODO: for using the correct hammer animation
+    private Direction facing;
     private PowerUp powerUp = null;
-
 
     public Player()
     {
@@ -192,11 +190,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
-    public void addScore(int score)
-    {
-        Game.getInstance().getScoreBoard().updateScore(score);
-    }
-
     public void die()
     {
         remove();
@@ -250,8 +243,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             this.onPowerUpCollision(powerUp);
         } else if (collidingObject instanceof Projectile projectile) {
             this.onProjectileCollision(projectile);
-        } else if (collidingObject instanceof Enemy enemy) {
-            this.onEnemyCollision(enemy);
+        } else if (collidingObject instanceof Enemy) {
+            this.onEnemyCollision();
         }
 
         // check if player is dead
@@ -281,7 +274,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         projectile.remove();
     }
 
-    public void onEnemyCollision(Enemy enemy)
+    public void onEnemyCollision()
     {
         this.health--;
     }

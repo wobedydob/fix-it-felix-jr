@@ -2,6 +2,7 @@ package com.github.fixitfelixjr.scenes;
 
 import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
+import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.entities.*;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
@@ -12,7 +13,7 @@ import com.github.hanyaeger.api.scenes.DynamicScene;
 
 import java.util.Random;
 
-public class LevelScene extends DynamicScene implements Scene, TimerContainer
+public class LevelScene extends DynamicScene implements Scene, WindowRepairListener, TimerContainer
 {
     public static final int SCENE_ID = 1;
     public static final int SPRITE_SIZE_APPLIER = 4;
@@ -52,6 +53,20 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     {
         addEntity(this.player);
         addEntity(this.enemy);
+    }
+
+    @Override
+    public void onWindowRepaired()
+    {
+        checkAllWindowsRepaired();
+    }
+
+    public void checkAllWindowsRepaired()
+    {
+        if (this.building.areAllWindowsRepaired()) {
+            System.out.println("all windows are repaired");
+            Game.getInstance().setActiveScene(VictoryScene.SCENE_ID);
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
+import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.scenes.LevelScene;
@@ -37,7 +39,6 @@ public class WindowFrame extends DynamicSpriteEntity
         Coordinate2D windowPosition = new Coordinate2D(position.getX(), position.getY());
         this.window = new Window(windowPosition);
         scene.addEntity(window);
-
     }
 
     public boolean hasPowerUp()

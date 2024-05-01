@@ -19,12 +19,6 @@ public class TitleScene extends StaticScene implements Scene
 
     public static final int SCENE_ID = 0;
     public static final String BACKGROUND = "backgrounds/screens/title_screen.png";
-    private ScoreBoard scoreBoard;
-
-
-    public TitleScene()
-    {
-    }
 
     @Override
     public void setupScene()
@@ -36,11 +30,6 @@ public class TitleScene extends StaticScene implements Scene
                 Game.getInstance().setActiveScene(LevelScene.SCENE_ID);
             }
         });
-    }
-
-    public void updateScore(int score)
-    {
-        scoreBoard.updateScore(score);
     }
 
     @Override
@@ -58,7 +47,6 @@ public class TitleScene extends StaticScene implements Scene
         );
 
         addEntity(pressStart);
-
 
     }
 

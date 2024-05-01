@@ -1,6 +1,7 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
+import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.Direction;
@@ -129,6 +130,16 @@ public class Building
         }
 
         return windowFrame;
+    }
+
+    public boolean areAllWindowsRepaired()
+    {
+        for (WindowFrame windowFrame : this.windowFrames) {
+            if (!windowFrame.getWindow().isRepaired()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean canSpawnPowerUp()
