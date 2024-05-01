@@ -150,7 +150,6 @@ public class Building
         this.stage = stage;
     }
 
-    // fix for finding nearest window
     public WindowFrame findNearestWindow(Coordinate2D position)
     {
         List<WindowFrame> windowFrames = this.windowFrames;

@@ -51,7 +51,8 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         addEntity(scoreBoard);
     }
 
-    public void updateScore(int score){
+    public void updateScore(int score)
+    {
         scoreBoard.updateScore(score);
     }
 
@@ -128,6 +129,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         return SCENE_ID;
     }
 
+    @Override
     public String getBackground()
     {
         return BACKGROUND;
@@ -135,12 +137,27 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
 
     public int getLevelStage()
     {
-        return this.levelStage;
+        return levelStage;
     }
 
     public Building getBuilding()
     {
         return building;
+    }
+
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    public Enemy getEnemy()
+    {
+        return enemy;
+    }
+
+    public ScoreBoard getScoreBoard()
+    {
+        return scoreBoard;
     }
 
     public void setLevelStage(int levelStage)
@@ -151,6 +168,21 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public void setBuilding(Building building)
     {
         this.building = building;
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
+    }
+
+    public void setEnemy(Enemy enemy)
+    {
+        this.enemy = enemy;
+    }
+
+    public void setScoreBoard(ScoreBoard scoreBoard)
+    {
+        this.scoreBoard = scoreBoard;
     }
 
 }

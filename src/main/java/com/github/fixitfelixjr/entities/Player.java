@@ -116,7 +116,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public void move(Direction direction)
     {
         WindowFrame window = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation(), direction);
-        System.out.println(window.getAnchorLocation());
         if (window != null) {
 
             double y = window.getAnchorLocation().getY();
@@ -206,10 +205,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void die()
     {
+        this.remove();
         Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
     }
 
-    // TODO: something about diagonal movement, which is currently possible (at high speed)
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
@@ -253,37 +252,43 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
 
         Collider collidingObject = collidingObjects.stream().findFirst().orElse(null);
-
-        // if colliding is type of PowerUp
         if (collidingObject instanceof PowerUp powerUp) {
-            this.powerUp = powerUp;
-            this.activatePowerUp();
-            powerUp.remove();
-            Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
+            this.onPowerUpCollision(powerUp);
+        } else if (collidingObject instanceof Projectile projectile) {
+            this.onProjectileCollision(projectile);
+        } else if (collidingObject instanceof Enemy enemy) {
+            this.onEnemyCollision(enemy);
         }
 
-        // if colliding is type of Projectile
-        if (collidingObject instanceof Projectile projectile) {
-
-            if (this.powerUp instanceof HardhatPowerUp) {
-                System.out.println("hardhat caught brick");
-                projectile.remove();
-                return;
-            }
-
-            this.health--;
-            projectile.remove();
-            System.out.println("health: " + this.health);
-        }
-
-
+        // check if player is dead
         if (this.health <= 0) {
-            System.out.println("player died");
-            this.remove();
             this.die();
         }
 
+    }
 
+    public void onPowerUpCollision(PowerUp powerUp)
+    {
+        this.powerUp = powerUp;
+        this.activatePowerUp();
+        this.powerUp.remove();
+        Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
+    }
+
+    public void onProjectileCollision(Projectile projectile)
+    {
+        if (this.powerUp instanceof HardhatPowerUp) {
+            projectile.remove();
+            return;
+        }
+
+        this.health--;
+        projectile.remove();
+    }
+
+    public void onEnemyCollision(Enemy enemy)
+    {
+        this.die();
     }
 
     @Override

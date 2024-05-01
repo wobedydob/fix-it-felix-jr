@@ -9,15 +9,9 @@ import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.entities.*;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
-import com.github.hanyaeger.api.scenes.SceneBorder;
-import com.github.hanyaeger.api.userinput.KeyListener;
-import javafx.scene.input.KeyCode;
-
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
-public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collided, Collider
+public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider
 {
 
     public static final String SPRITE_IMAGE = "sprites/Ralph_front_sprite.png";
@@ -66,11 +60,6 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         System.out.println("moving to: " + position);
         setAnchorLocation(position.getCoordinate());
         this.isMoving = false;
-    }
-
-    @Override
-    public void onCollision(List<Collider> collidingObjects)
-    {
     }
 
     @Override
