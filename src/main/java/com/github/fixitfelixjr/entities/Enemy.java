@@ -1,8 +1,7 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
-import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
-import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
@@ -30,15 +29,12 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     public static final int MOVE_RATE = 2; // in seconds
     public static final int DESTROY_RATE = 2; // in seconds
 
-    private LevelScene scene;
-
     private boolean isMoving = false;
     private boolean isWrecking = false;
 
-    public Enemy(LevelScene levelScene)
+    public Enemy()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
-        this.scene = levelScene;
     }
 
     public void destroy()
@@ -59,7 +55,7 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
 
             Coordinate2D position = new Coordinate2D(getAnchorLocation().getX() + offsetX, getAnchorLocation().getY() + HEIGHT + offsetY);
             Projectile projectile = new Projectile(position, gravityConstant);
-            this.scene.addEntity(projectile);
+            Game.getInstance().getLevelScene().addEntity(projectile);
         }
         this.isWrecking = false;
     }

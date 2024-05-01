@@ -14,7 +14,6 @@ import javafx.scene.text.Font;
 
 public class GameOverScene extends StaticScene implements Scene
 {
-
     public static final int SCENE_ID = 2;
     public static final String BACKGROUND = "backgrounds/screens/TITLESCREEN.png";
 
