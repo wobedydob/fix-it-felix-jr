@@ -31,8 +31,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
     public static final Direction INITIAL_FACING_DIR = Direction.LEFT;
     public static final double GRAVITY_CONSTANT = 0.5;
-//    public static final int MAX_HEALTH = 10;
-    public static final int MAX_HEALTH = 1;
+    public static final int MAX_HEALTH = 3;
 
     private int health;
     private KeyCode lastPressedKey;
@@ -47,8 +46,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.health = MAX_HEALTH;
         this.facing = INITIAL_FACING_DIR;
         setGravityConstant(GRAVITY_CONSTANT);
-
-
     }
 
     public void repair()
@@ -205,7 +202,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void die()
     {
-        this.remove();
+        remove();
         Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
     }
 

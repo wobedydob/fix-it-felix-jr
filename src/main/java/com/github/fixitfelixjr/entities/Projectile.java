@@ -9,7 +9,7 @@ import com.github.hanyaeger.api.scenes.SceneBorder;
 
 import java.util.List;
 
-public class Projectile extends DynamicSpriteEntity implements SceneBorderTouchingWatcher, Newtonian, Collided, Collider
+public class Projectile extends DynamicSpriteEntity implements SceneBorderTouchingWatcher, Newtonian, Collider
 {
     public static final String SPRITE_IMAGE = "sprites/brick.png";
     public static final double WIDTH = 24;
@@ -24,15 +24,10 @@ public class Projectile extends DynamicSpriteEntity implements SceneBorderTouchi
     }
 
     @Override
-    public void onCollision(List<Collider> collidingObjects)
-    {
-
-    }
-
-    @Override
     public void notifyBoundaryTouching(SceneBorder border)
     {
-
+        // if projectile hits the scene border, destroy it
+        remove();
     }
 
 }

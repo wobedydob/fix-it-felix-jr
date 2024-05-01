@@ -23,9 +23,7 @@ public class TitleScene extends StaticScene implements Scene
 
 
     public TitleScene()
-    {
-
-    }
+    {}
 
     @Override
     public void setupScene()

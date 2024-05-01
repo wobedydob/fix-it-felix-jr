@@ -17,6 +17,8 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public static final String BACKGROUND = Building.SPRITE_IMAGE;
     public static final int POWERUP_SPAWN_RATE = 5; // in milliseconds
     public static final int POWERUP_CHANCE_RATE = 4; // 1 in x chance
+    public static final int NPC_SPAWN_RATE = 2; // in milliseconds
+    public static final int NPC_CHANCE_RATE = 2; // 1 in x chance
 
     private int levelStage;
     private Building building;
@@ -47,6 +49,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         addEntity(this.player);
         addEntity(this.enemy);
 
+        // todo: improve
         scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
         addEntity(scoreBoard);
     }
@@ -61,6 +64,9 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     {
         TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
         addTimer(powerUpEvent);
+
+        TimeEvent npcEvent = new TimeEvent(NPC_SPAWN_RATE * 1000, () -> this.spawnNPC(), true);
+        addTimer(npcEvent);
     }
 
     // TODO: do powerups despawn?
@@ -78,7 +84,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
                 System.out.println("lucky");
 
                 System.out.println("get random window");
-                WindowFrame windowFrame = this.building.getRandomWindowFrame();
+                WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
                 if (!windowFrame.hasPowerUp()) {
                     random = new Random().nextInt(2); // TODO: make more dynamic, 2 specifies the amount of powerups...
                     switch (random) {
@@ -122,6 +128,45 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition);
         windowFrame.setPowerUp(hardhatPowerUp);
         addEntity(hardhatPowerUp);
+    }
+
+    public void spawnNPC()
+    {
+        System.out.println(" ");
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("trying to spawn npc");
+
+        if (this.building.canSpawnNPC()) {
+            System.out.println("can spawn npc");
+
+            System.out.println("1/" + POWERUP_CHANCE_RATE + " chance to spawn npc");
+            int random = new Random().nextInt(POWERUP_CHANCE_RATE);
+            if (random == 0) {
+                System.out.println("lucky");
+
+                System.out.println("get random window");
+                WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
+
+                if (!windowFrame.hasNPC()) {
+                    Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
+                    Coordinate2D npcPosition = new Coordinate2D(windowPosition.getX() + (24), windowPosition.getY() - (72));
+                    int randomSpriteIndex = new Random().nextInt(NPC.NPC_COUNT);
+                    NPC npc = new NPC(npcPosition, randomSpriteIndex, windowFrame);
+                    addEntity(npc);
+                }
+
+
+            } else {
+                System.out.println("unlucky");
+            }
+
+        } else {
+            System.out.println("can't spawn a npc");
+        }
+
+        System.out.println("-----------------------------------------------------------");
+        System.out.println(" ");
+
     }
 
     public int getSceneId()

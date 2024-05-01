@@ -122,11 +122,21 @@ public class Building
         return this.windowFrames.get(new java.util.Random().nextInt(this.windowFrames.size()));
     }
 
+    public WindowFrame getRandomAvailableWindowFrame()
+    {
+        WindowFrame windowFrame = this.getRandomWindowFrame();
+        if(windowFrame.hasPowerUp() || windowFrame.hasNPC()) {
+            return this.getRandomAvailableWindowFrame();
+        }
+
+        return windowFrame;
+    }
+
     public boolean canSpawnPowerUp()
     {
         // so only one power up can be spawned
         for (WindowFrame windowFrame : this.windowFrames) {
-            if (windowFrame.getPowerUp() != null) {
+            if (windowFrame.hasPowerUp()) {
                 return false;
             }
         }
@@ -137,6 +147,25 @@ public class Building
     {
         for (WindowFrame windowFrame : this.windowFrames) {
             windowFrame.setPowerUp(null);
+        }
+    }
+
+    public boolean canSpawnNPC()
+    {
+        // so only one npc can be spawned
+        for (WindowFrame windowFrame : this.windowFrames) {
+            if (windowFrame.hasNPC()) {
+                System.out.println(windowFrame.getAnchorLocation());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void clearNPCs()
+    {
+        for (WindowFrame windowFrame : this.windowFrames) {
+            windowFrame.setNPC(null);
         }
     }
 

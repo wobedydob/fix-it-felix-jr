@@ -24,6 +24,7 @@ public class WindowFrame extends DynamicSpriteEntity
     private Window window;
     private Platform platform;
     private PowerUp powerUp = null;
+    private NPC npc = null;
 
     public WindowFrame(Coordinate2D position, LevelScene scene)
     {
@@ -44,6 +45,11 @@ public class WindowFrame extends DynamicSpriteEntity
         return powerUp != null;
     }
 
+    public boolean hasNPC()
+    {
+        return npc != null;
+    }
+
     public Window getWindow()
     {
         return window;
@@ -59,6 +65,11 @@ public class WindowFrame extends DynamicSpriteEntity
         return powerUp;
     }
 
+    public NPC getNPC()
+    {
+        return npc;
+    }
+
     public void setWindow(Window window)
     {
         this.window = window;
@@ -72,6 +83,11 @@ public class WindowFrame extends DynamicSpriteEntity
     public void setPowerUp(PowerUp powerUp)
     {
         this.powerUp = powerUp;
+    }
+
+    public void setNPC(NPC npc)
+    {
+        this.npc = npc;
     }
 
 }

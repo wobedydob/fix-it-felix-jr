@@ -48,7 +48,7 @@ public class TimeEvent extends Timer {
         eventAction.run();
 
         if (!repeat) {
-            this.remove();
+            remove();
         } else {
             reset();
         }
