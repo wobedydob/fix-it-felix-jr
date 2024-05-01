@@ -6,7 +6,6 @@ import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.Direction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

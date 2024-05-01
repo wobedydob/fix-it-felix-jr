@@ -1,6 +1,5 @@
 package com.github.fixitfelixjr.entities.powerups;
 
-import com.github.fixitfelixjr.entities.WindowFrame;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;

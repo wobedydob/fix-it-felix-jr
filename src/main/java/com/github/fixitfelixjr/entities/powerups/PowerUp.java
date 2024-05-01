@@ -1,10 +1,7 @@
 package com.github.fixitfelixjr.entities.powerups;
 
-import com.github.fixitfelixjr.TimeEvent;
-import com.github.fixitfelixjr.entities.WindowFrame;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
-import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.impl.SpriteEntity;
 

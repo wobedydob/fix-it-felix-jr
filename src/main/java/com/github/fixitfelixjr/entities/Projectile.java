@@ -7,8 +7,6 @@ import com.github.hanyaeger.api.entities.*;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 
-import java.util.List;
-
 public class Projectile extends DynamicSpriteEntity implements SceneBorderTouchingWatcher, Newtonian, Collider
 {
     public static final String SPRITE_IMAGE = "sprites/brick.png";
