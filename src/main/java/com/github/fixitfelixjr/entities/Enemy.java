@@ -20,8 +20,9 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public static final int[] SPRITE_ROWS_COLS = {1, 1};
     public static final Position INITIAL_POSITION = Position.ENEMY_INITIAL_POSITION;
-    public static final int MOVE_RATE = 2; // in seconds
-    public static final int DESTROY_RATE = 2; // in seconds
+    public static final int MOVE_RATE = 5; // in seconds
+    public static final int DESTROY_RATE = 3; // in seconds
+    public static final int BRICK_COUNT = 2; // counts +1 when randomized
 
     private boolean isMoving = false;
     private boolean isWrecking = false;
@@ -36,7 +37,7 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         this.isWrecking = true;
 
         // determine how many bricks are thrown
-        int random = new Random().nextInt(5) + 3; // between 3 and 7
+        int random = new Random().nextInt(BRICK_COUNT) + 1; // between 1 and 3
 
         for (int i = 0; i <= random; i++) {
 

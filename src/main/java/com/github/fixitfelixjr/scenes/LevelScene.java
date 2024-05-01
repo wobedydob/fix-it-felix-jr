@@ -18,7 +18,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public static final int POWERUP_SPAWN_RATE = 5; // in milliseconds
     public static final int POWERUP_CHANCE_RATE = 4; // 1 in x chance
     public static final int NPC_SPAWN_RATE = 2; // in milliseconds
-    public static final int NPC_CHANCE_RATE = 2; // 1 in x chance
+    public static final int NPC_CHANCE_RATE = 4; // 1 in x chance
 
     private int levelStage;
     private Building building;
@@ -69,7 +69,6 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         addTimer(npcEvent);
     }
 
-    // TODO: do powerups despawn?
     public void spawnPowerUp()
     {
         System.out.println(" ");
@@ -86,7 +85,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
                 System.out.println("get random window");
                 WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
                 if (!windowFrame.hasPowerUp()) {
-                    random = new Random().nextInt(2); // TODO: make more dynamic, 2 specifies the amount of powerups...
+                    random = new Random().nextInt(PiePowerUp.POWER_UP_COUNT);
                     switch (random) {
                         case 0:
                             this.spawnPiePowerUp(windowFrame);
@@ -115,7 +114,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         System.out.println("spawned pie powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
         Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (26), windowPosition.getY() - (63));
-        PiePowerUp piePowerUp = new PiePowerUp(powerUpPosition, windowFrame);
+        PiePowerUp piePowerUp = new PiePowerUp(powerUpPosition);
         windowFrame.setPowerUp(piePowerUp);
         addEntity(piePowerUp);
     }
@@ -125,7 +124,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         System.out.println("spawned hardhat powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
         Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (30), windowPosition.getY() - (43));
-        HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition, windowFrame);
+        HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition);
         windowFrame.setPowerUp(hardhatPowerUp);
         addEntity(hardhatPowerUp);
     }
@@ -139,8 +138,8 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         if (this.building.canSpawnNPC()) {
             System.out.println("can spawn npc");
 
-            System.out.println("1/" + POWERUP_CHANCE_RATE + " chance to spawn npc");
-            int random = new Random().nextInt(POWERUP_CHANCE_RATE);
+            System.out.println("1/" + NPC_CHANCE_RATE + " chance to spawn npc");
+            int random = new Random().nextInt(NPC_CHANCE_RATE);
             if (random == 0) {
                 System.out.println("lucky");
 

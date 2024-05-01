@@ -14,8 +14,8 @@ public class PiePowerUp extends PowerUp
     public static final int[] SPRITE_ROWS_COLS = {1, 2};
     public static final int DURATION = 5;
 
-    public PiePowerUp(Coordinate2D position, WindowFrame windowFrame)
+    public PiePowerUp(Coordinate2D position)
     {
-        super(SPRITE_IMAGE, DURATION, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1], windowFrame);
+        super(SPRITE_IMAGE, DURATION, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
     }
 }
