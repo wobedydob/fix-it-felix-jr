@@ -4,12 +4,12 @@ import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.entities.ScoreBoard;
 import com.github.fixitfelixjr.enums.ButtonText;
 import com.github.fixitfelixjr.enums.Fonts;
+import com.github.fixitfelixjr.enums.KeyBindings;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.parts.Button;
 import com.github.hanyaeger.api.AnchorPoint;
 import com.github.hanyaeger.api.entities.impl.TextEntity;
 import com.github.hanyaeger.api.scenes.StaticScene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -24,7 +24,7 @@ public class VictoryScene extends StaticScene implements Scene
         setBackgroundImage(BACKGROUND);
 
         getScene().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
+            if (event.getCode() == KeyBindings.SELECT.getKeyCode()) {
                 Game.getInstance().quit(); // TODO: why do we get an error?
             }
         });
