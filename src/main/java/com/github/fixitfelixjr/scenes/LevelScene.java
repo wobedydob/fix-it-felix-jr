@@ -45,6 +45,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     {
         addEntity(this.player);
         addEntity(this.enemy);
+
     }
 
     @Override

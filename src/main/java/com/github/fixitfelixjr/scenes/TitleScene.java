@@ -1,6 +1,7 @@
 package com.github.fixitfelixjr.scenes;
 
 import com.github.fixitfelixjr.Game;
+import com.github.fixitfelixjr.entities.ScoreBoard;
 import com.github.fixitfelixjr.enums.ButtonText;
 import com.github.fixitfelixjr.enums.Fonts;
 import com.github.fixitfelixjr.enums.Position;
@@ -17,9 +18,12 @@ public class TitleScene extends StaticScene implements Scene
 
     public static final int SCENE_ID = 0;
     public static final String BACKGROUND = "backgrounds/screens/TITLESCREEN.png";
+    private ScoreBoard scoreBoard;
+
 
     public TitleScene()
     {
+
     }
 
     @Override
@@ -32,6 +36,13 @@ public class TitleScene extends StaticScene implements Scene
                 Game.getInstance().setActiveScene(LevelScene.SCENE_ID);
             }
         });
+
+        scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
+        addEntity(scoreBoard);
+    }
+
+    public void updateScore(int score){
+        scoreBoard.updateScore(score);
     }
 
     @Override

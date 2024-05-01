@@ -39,12 +39,16 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     private Direction facing; // TODO: for using the correct hammer animation
     private PowerUp powerUp = null;
 
+
+
     public Player()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
         this.health = MAX_HEALTH;
         this.facing = INITIAL_FACING_DIR;
         setGravityConstant(GRAVITY_CONSTANT);
+
+
     }
 
     public void repair()
