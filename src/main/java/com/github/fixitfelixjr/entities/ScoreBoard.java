@@ -5,13 +5,17 @@ import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.impl.TextEntity;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class ScoreBoard extends TextEntity
 {
+    public static final int INITIAL_SCORE = 0;
+
+    private int score;
+
     public ScoreBoard(Coordinate2D initialLocation)
     {
         super(initialLocation);
+        this.score = INITIAL_SCORE;
 
         Font font = Fonts.UPHEAVTT.getFont(20);
         setFill(Color.WHITE);
@@ -22,6 +26,23 @@ public class ScoreBoard extends TextEntity
 
     public void updateScore(int score)
     {
-        setText("SCORE: " + score); // Methode om de score bij te werken
+        this.addScore(score);
+        setText("SCORE: " + this.score);
     }
+
+    public int getScore()
+    {
+        return this.score;
+    }
+
+    public void addScore(int score)
+    {
+        this.score += score;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
+
 }

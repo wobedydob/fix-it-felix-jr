@@ -36,9 +36,6 @@ public class TitleScene extends StaticScene implements Scene
                 Game.getInstance().setActiveScene(LevelScene.SCENE_ID);
             }
         });
-
-        scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
-        addEntity(scoreBoard);
     }
 
     public void updateScore(int score)

@@ -1,9 +1,11 @@
 package com.github.fixitfelixjr.scenes;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.entities.*;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
+import com.github.fixitfelixjr.enums.Position;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.scenes.DynamicScene;
@@ -25,8 +27,6 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     private Player player;
     private Enemy enemy;
 
-    private ScoreBoard scoreBoard;
-
     public LevelScene(int stage)
     {
         this.levelStage = stage;
@@ -41,6 +41,10 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         setBackgroundImage(BACKGROUND);
         this.building.setStage(this.levelStage);
         this.building.createWindowFrames(this);
+
+        ScoreBoard scoreBoard = Game.getInstance().getScoreBoard();
+        scoreBoard.setAnchorLocation(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate());
+        addEntity(scoreBoard);
     }
 
     @Override
@@ -48,15 +52,6 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     {
         addEntity(this.player);
         addEntity(this.enemy);
-
-        // todo: improve
-        scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
-        addEntity(scoreBoard);
-    }
-
-    public void updateScore(int score)
-    {
-        scoreBoard.updateScore(score);
     }
 
     @Override
@@ -199,11 +194,6 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         return enemy;
     }
 
-    public ScoreBoard getScoreBoard()
-    {
-        return scoreBoard;
-    }
-
     public void setLevelStage(int levelStage)
     {
         this.levelStage = levelStage;
@@ -222,11 +212,6 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public void setEnemy(Enemy enemy)
     {
         this.enemy = enemy;
-    }
-
-    public void setScoreBoard(ScoreBoard scoreBoard)
-    {
-        this.scoreBoard = scoreBoard;
     }
 
 }

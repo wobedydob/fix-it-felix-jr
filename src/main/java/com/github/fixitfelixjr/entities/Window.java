@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
+import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -14,6 +15,8 @@ public class Window extends DynamicSpriteEntity
     public final static int[] SPRITE_ROWS_COLS = {1, 5};
     public static final int MAX_REPAIR = 4;
     public static final int MIN_REPAIR = 0;
+    public static final int SCORE_POINTS = 10;
+    public static final int SCORE_POINTS_FULL = 100;
 
     private int repairState;
     private Coordinate2D position;
@@ -27,31 +30,27 @@ public class Window extends DynamicSpriteEntity
 
     public void repair()
     {
-        if (repairState < MAX_REPAIR) {
-            repairState++;
-            updateSprite();
+        if (this.repairState < MAX_REPAIR) {
+            boolean fullRepair = repairState == MAX_REPAIR - 1;
+            this.repairState++;
+            this.update(fullRepair);
         }
     }
 
     public void repair(int repairState)
     {
         if (repairState <= MAX_REPAIR) {
+            boolean fullRepair = repairState == MAX_REPAIR - 1;
             this.repairState = repairState;
-            updateSprite();
+            this.update(fullRepair);
         }
     }
 
-    public void damage()
-    {
-        if (repairState > MIN_REPAIR) {
-            repairState--;
-            updateSprite();
-        }
-    }
-
-    private void updateSprite()
+    private void update(boolean fullRepair)
     {
         setCurrentFrameIndex(repairState);
+        int score = fullRepair ? SCORE_POINTS_FULL : SCORE_POINTS;
+        Game.getInstance().getScoreBoard().updateScore(score);
     }
 
     public int getRepairState()

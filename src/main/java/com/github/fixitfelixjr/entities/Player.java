@@ -53,11 +53,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         System.out.println("-----------------------------");
         System.out.println("trying to repair");
 
-        // TODO: add repair animation
         WindowFrame windowToRepair = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation());
         if (windowToRepair != null) {
             Window window = windowToRepair.getWindow();
-            System.out.println("found window to repair");
 
             if (powerUp != null && powerUp instanceof PiePowerUp) {
                 System.out.println("player has powerup");
@@ -194,6 +192,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    public void addScore(int score)
+    {
+        Game.getInstance().getScoreBoard().updateScore(score);
+    }
+
     public void die()
     {
         remove();
@@ -264,6 +267,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.activatePowerUp();
         this.powerUp.remove();
         Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
+        Game.getInstance().getScoreBoard().addScore(300);
     }
 
     public void onProjectileCollision(Projectile projectile)
@@ -279,7 +283,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void onEnemyCollision(Enemy enemy)
     {
-        this.die();
+        this.health--;
     }
 
     @Override

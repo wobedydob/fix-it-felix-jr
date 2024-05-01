@@ -22,7 +22,11 @@ public enum Position
     ENEMY_CENTER_LEFT_POSITION(getGameWidth() / 2 - 225, 0),
     ENEMY_LEFT_POSITION(getGameWidth() / 2 - 350, 0),
     ENEMY_CENTER_RIGHT_POSITION(getGameWidth() / 2 + 75, 0),
-    ENEMY_RIGHT_POSITION(getGameWidth() / 2 + 200, 0);
+    ENEMY_RIGHT_POSITION(getGameWidth() / 2 + 200, 0),
+
+    SCOREBOARD_POSITION_TITLE(0, 0),
+    SCOREBOARD_POSITION_LEVEL(10, 10),
+    ;
 
     private final double x;
     private final double y;
