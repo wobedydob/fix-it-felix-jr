@@ -30,7 +30,7 @@ public class GameOverScene extends StaticScene implements Scene
 
         getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                Game.getInstance().setActiveScene(TitleScene.SCENE_ID);
+                Game.getInstance().quit();
             }
         });
     }
@@ -43,7 +43,7 @@ public class GameOverScene extends StaticScene implements Scene
 
         TextEntity pressStart = new Button(
                 Position.BUTTON_BOTTOM_CENTER,
-                ButtonText.RESTART.getText(),
+                ButtonText.QUIT.getText(),
                 Color.WHITE,
                 font,
                 AnchorPoint.CENTER_CENTER

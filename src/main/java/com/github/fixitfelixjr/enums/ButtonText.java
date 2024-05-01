@@ -4,8 +4,7 @@ public enum ButtonText
 {
 
     START("PRESS ENTER TO START"),
-    RESTART("PRESS ENTER TO RESTART"),
-    QUIT("Quit");
+    QUIT("PRESS ENTER TO QUIT");
 
     private final String text;
 
