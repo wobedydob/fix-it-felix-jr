@@ -7,6 +7,7 @@ import com.github.fixitfelixjr.enums.Fonts;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.parts.Button;
 import com.github.hanyaeger.api.AnchorPoint;
+import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.impl.TextEntity;
 import com.github.hanyaeger.api.scenes.StaticScene;
 import javafx.scene.input.KeyCode;
