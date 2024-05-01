@@ -15,7 +15,7 @@ import java.util.List;
  * Constants:
  * - FLOORS: Total number of floors in the building, set to 4.
  * - WINDOWS_PER_FLOOR: Number of windows per floor, set to 5.
- * - MIDDLE_WINDOW_INDEX: Index of the middle window on the bottom floor in the array of windows on a floor, set to 2.
+ * - BUILDING_ENTRANCE_INDEX: Index of the middle window on the bottom floor in the array of windows on a floor, set to 2.
  * Ground Floor Behavior:
  * - If the stage is set to 1, the number of navigable windows on the ground floor is reduced by one (from 5 to 4). This affects indices and navigation.
  * For the ground floor, the navigable index range is 0-3 instead of 0-4.
@@ -35,7 +35,7 @@ public class Building
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
     public static final int FLOORS = 4;
     public static final int WINDOWS_PER_FLOOR = 5;
-    public static final int MIDDLE_WINDOW_INDEX = 2;
+    public static final int BUILDING_ENTRANCE_INDEX = 2;
 
     private List<WindowFrame> windowFrames;
     private int stage;
@@ -51,7 +51,7 @@ public class Building
         for (int floor = 0; floor < FLOORS; floor++) {
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
 
-                if (this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == MIDDLE_WINDOW_INDEX) continue;
+                if (this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == BUILDING_ENTRANCE_INDEX) continue;
 
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
                 WindowFrame windowFrame = new WindowFrame(position, scene);
@@ -72,10 +72,10 @@ public class Building
             additionalDistance = 20;
         }
 
-        if (windowNum < MIDDLE_WINDOW_INDEX) {
-            return startX - (MIDDLE_WINDOW_INDEX - windowNum) * (windowWidth - additionalDistance);
+        if (windowNum < BUILDING_ENTRANCE_INDEX) {
+            return startX - (BUILDING_ENTRANCE_INDEX - windowNum) * (windowWidth - additionalDistance);
         } else {
-            return startX + (windowNum - MIDDLE_WINDOW_INDEX) * (windowWidth - additionalDistance);
+            return startX + (windowNum - BUILDING_ENTRANCE_INDEX) * (windowWidth - additionalDistance);
         }
     }
 
@@ -217,6 +217,13 @@ public class Building
         WindowFrame nearestWindow = findNearestWindow(position);
         int index = windowFrames.indexOf(nearestWindow);
 
+        // todo improve ==============================
+        int checkedIndex = WINDOWS_PER_FLOOR - 1; // because we start from 0
+        if(this.stage == Game.INITIAL_STAGE) {
+            checkedIndex = WINDOWS_PER_FLOOR - 2; // because there is a door in the middle of the ground floor
+        }
+        // todo improve ==============================
+
         if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
             if (this.onGroundFloor(index) && index < 2) {
                 index--;
@@ -225,10 +232,16 @@ public class Building
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
         }
-        // TODO: fix magic numbers 3 (higher than ground floor indexes) and 6 (not the middle above door window)
-        else if (direction == Direction.DOWN && index > 3 && index != 6) {
+
+        // todo improve ============================== (checkedIndex)
+        else if (direction == Direction.DOWN && index > checkedIndex) {
+
+            if(this.stage == Game.INITIAL_STAGE && index == (BUILDING_ENTRANCE_INDEX + WINDOWS_PER_FLOOR - 1)) {
+                return null;
+            }
+
             index -= Building.WINDOWS_PER_FLOOR;
-            if (this.onGroundFloor(index) && index < 2) {
+            if (this.onGroundFloor(index) && index < BUILDING_ENTRANCE_INDEX) {
                 index++;
             }
             nearestWindow = windowFrames.get(index);
@@ -252,6 +265,7 @@ public class Building
         } else {
             return null;
         }
+        // end todo improve ==============================
     }
 
 //     TODO: workout these methods and introduce them above
