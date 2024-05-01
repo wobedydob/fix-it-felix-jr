@@ -58,7 +58,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         System.out.println("trying to repair");
 
         // TODO: add repair animation
-        WindowFrame windowToRepair = Building.getInstance().findNearestWindow(getAnchorLocation());
+        WindowFrame windowToRepair = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation());
         if (windowToRepair != null) {
             Window window = windowToRepair.getWindow();
             System.out.println("found window to repair");
@@ -113,18 +113,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     }
 
-    // TODO: move to ralph / bricks
-    public void destroy()
-    {
-        WindowFrame windowToRepair = Building.getInstance().findNearestWindow(getAnchorLocation());
-        if (windowToRepair != null) {
-            windowToRepair.getWindow().damage();
-        }
-    }
-
     public void move(Direction direction)
     {
-        WindowFrame window = Building.getInstance().findNearestWindow(getAnchorLocation(), direction);
+        WindowFrame window = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation(), direction);
+        System.out.println(window.getAnchorLocation());
         if (window != null) {
 
             double y = window.getAnchorLocation().getY();
@@ -232,7 +224,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         boolean left = pressedKey == KeyBindings.LEFT.getKeyCode() && this.lastPressedKey != KeyBindings.LEFT.getKeyCode();
         boolean right = pressedKey == KeyBindings.RIGHT.getKeyCode() && this.lastPressedKey != KeyBindings.RIGHT.getKeyCode();
         boolean repair = pressedKey == KeyBindings.REPAIR.getKeyCode() && this.lastPressedKey != KeyBindings.REPAIR.getKeyCode();
-        boolean destroy = pressedKey == KeyBindings.DESTROY.getKeyCode() && this.lastPressedKey != KeyBindings.DESTROY.getKeyCode(); // TODO: move to ralph / bricks
 
         if (this.lastPressedKey != pressedKey) {
             this.lastPressedKey = null;
@@ -248,8 +239,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             this.moveRight();
         } else if (repair) {
             this.repair();
-        } else if (destroy) {
-            this.destroy();
         }
 
         this.lastPressedKey = pressedKey;
@@ -270,7 +259,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             this.powerUp = powerUp;
             this.activatePowerUp();
             powerUp.remove();
-            Building.getInstance().clearPowerUps();
+            Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
         }
 
         // if colliding is type of Projectile
@@ -293,6 +282,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             this.remove();
             this.die();
         }
+
 
     }
 

@@ -37,18 +37,13 @@ public class Building
     public static final int WINDOWS_PER_FLOOR = 5;
     public static final int MIDDLE_WINDOW_INDEX = 2;
 
-    private static final Building instance = new Building();
     private List<WindowFrame> windowFrames;
     private int stage;
 
-    private Building()
+    public Building(int stage)
     {
+        this.stage = stage;
         this.windowFrames = new ArrayList<>();
-    }
-
-    public static Building getInstance()
-    {
-        return instance;
     }
 
     public void createWindowFrames(LevelScene scene)

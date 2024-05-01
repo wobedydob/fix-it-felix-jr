@@ -26,7 +26,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public LevelScene(int stage)
     {
         this.levelStage = stage;
-        this.building = Building.getInstance();
+        this.building = new Building(stage);
         this.player = new Player();
         this.enemy = new Enemy();
     }
@@ -35,7 +35,6 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     public void setupScene()
     {
         setBackgroundImage(BACKGROUND);
-
         this.building.setStage(this.levelStage);
         this.building.createWindowFrames(this);
     }
