@@ -48,7 +48,7 @@ public class Game extends YaegerGame
         this.levelScene = new LevelScene(INITIAL_STAGE);
         this.gameOverScene = new GameOverScene();
 
-        this.scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_TITLE.getCoordinate());
+        this.scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_TITLE.getCoordinate(), ScoreBoard.INITIAL_SCORE);
 
         setGameTitle("Fix-It Felix Jr.");
         setSize(new Size(GAME_WIDTH, GAME_HEIGHT));

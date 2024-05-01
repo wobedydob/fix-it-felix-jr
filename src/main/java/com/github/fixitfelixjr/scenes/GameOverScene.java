@@ -19,11 +19,8 @@ public class GameOverScene extends StaticScene implements Scene
     public static final int SCENE_ID = 2;
     public static final String BACKGROUND = "backgrounds/screens/game_over_screen.png";
 
-    private ScoreBoard scoreBoard;
-
     public GameOverScene()
-    {
-    }
+    {}
 
     @Override
     public void setupScene()
@@ -43,7 +40,7 @@ public class GameOverScene extends StaticScene implements Scene
         // Font loader
         Font font = Fonts.UPHEAVTT.getFont(40);
 
-        TextEntity pressStart = new Button(
+        TextEntity pressQuit = new Button(
                 Position.BUTTON_BOTTOM_CENTER,
                 ButtonText.QUIT.getText(),
                 Color.WHITE,
@@ -51,15 +48,11 @@ public class GameOverScene extends StaticScene implements Scene
                 AnchorPoint.CENTER_CENTER
         );
 
-        addEntity(pressStart);
+        addEntity(pressQuit);
 
-        scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
+        int score = Game.getInstance().getScoreBoard().getScore();
+        ScoreBoard scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_END.getCoordinate(), score);
         addEntity(scoreBoard);
-    }
-
-    public void updateScore(int score)
-    {
-        scoreBoard.updateScore(score);
     }
 
     @Override

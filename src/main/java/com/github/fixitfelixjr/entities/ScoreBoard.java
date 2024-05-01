@@ -12,16 +12,19 @@ public class ScoreBoard extends TextEntity
 
     private int score;
 
-    public ScoreBoard(Coordinate2D initialLocation)
+    public ScoreBoard(Coordinate2D position, int score)
     {
-        super(initialLocation);
-        this.score = INITIAL_SCORE;
+        super(position);
+        this.score = score;
+        this.scoreText();
+    }
 
+    public void scoreText()
+    {
         Font font = Fonts.UPHEAVTT.getFont(20);
         setFill(Color.WHITE);
         setFont(font);
-
-        setText("SCORE: 0"); // Initialisatie van de tekst
+        setText("SCORE: " + this.score);
     }
 
     public void updateScore(int score)
