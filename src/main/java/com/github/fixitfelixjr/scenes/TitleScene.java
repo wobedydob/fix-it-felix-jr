@@ -18,7 +18,7 @@ public class TitleScene extends StaticScene implements Scene
 {
 
     public static final int SCENE_ID = 0;
-    public static final String BACKGROUND = "backgrounds/screens/TITLESCREEN.png";
+    public static final String BACKGROUND = "backgrounds/screens/title_screen.png";
     private ScoreBoard scoreBoard;
 
 

@@ -14,7 +14,7 @@ import java.util.Random;
 public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider
 {
 
-    public static final String SPRITE_IMAGE = "sprites/Ralph_front_sprite.png";
+    public static final String SPRITE_IMAGE = "sprites/ralph.png";
     public static final double WIDTH = 180;
     public static final double HEIGHT = 195;
     public static final Size SIZE = new Size(WIDTH, HEIGHT);
