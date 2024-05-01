@@ -20,6 +20,7 @@ public class NPC extends DynamicSpriteEntity implements TimerContainer, Collided
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
     public static final int[] SPRITE_ROWS_COLS = {1, 6};
     public static final int NPC_COUNT = 6;
+    public static final int DESPAWN_RATE = 5;
 
     private WindowFrame windowFrame;
 
@@ -39,7 +40,7 @@ public class NPC extends DynamicSpriteEntity implements TimerContainer, Collided
     @Override
     public void setupTimers()
     {
-        TimeEvent despawnEvent = new TimeEvent(5000, () -> this.despawn(), false);
+        TimeEvent despawnEvent = new TimeEvent(DESPAWN_RATE * 1000, () -> this.despawn(), false);
         addTimer(despawnEvent);
     }
 

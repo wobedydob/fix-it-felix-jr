@@ -115,7 +115,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         System.out.println("spawned pie powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
         Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (26), windowPosition.getY() - (63));
-        PiePowerUp piePowerUp = new PiePowerUp(powerUpPosition);
+        PiePowerUp piePowerUp = new PiePowerUp(powerUpPosition, windowFrame);
         windowFrame.setPowerUp(piePowerUp);
         addEntity(piePowerUp);
     }
@@ -125,7 +125,7 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         System.out.println("spawned hardhat powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
         Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (30), windowPosition.getY() - (43));
-        HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition);
+        HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition, windowFrame);
         windowFrame.setPowerUp(hardhatPowerUp);
         addEntity(hardhatPowerUp);
     }

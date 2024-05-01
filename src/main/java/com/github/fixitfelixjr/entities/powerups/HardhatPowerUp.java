@@ -1,5 +1,6 @@
 package com.github.fixitfelixjr.entities.powerups;
 
+import com.github.fixitfelixjr.entities.WindowFrame;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -13,8 +14,8 @@ public class HardhatPowerUp extends PowerUp
     public static final int[] SPRITE_ROWS_COLS = {1, 1};
     public static final int DURATION = 5;
 
-    public HardhatPowerUp(Coordinate2D position)
+    public HardhatPowerUp(Coordinate2D position, WindowFrame windowFrame)
     {
-        super(SPRITE_IMAGE, DURATION, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
+        super(SPRITE_IMAGE, DURATION, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1], windowFrame);
     }
 }
