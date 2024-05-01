@@ -23,6 +23,8 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
     private Player player;
     private Enemy enemy;
 
+    private ScoreBoard scoreBoard;
+
     public LevelScene(int stage)
     {
         this.levelStage = stage;
@@ -45,6 +47,12 @@ public class LevelScene extends DynamicScene implements Scene, TimerContainer
         addEntity(this.player);
         addEntity(this.enemy);
 
+        scoreBoard = new ScoreBoard(new Coordinate2D(10, 10)); // Positie linksboven
+        addEntity(scoreBoard);
+    }
+
+    public void updateScore(int score){
+        scoreBoard.updateScore(score);
     }
 
     @Override

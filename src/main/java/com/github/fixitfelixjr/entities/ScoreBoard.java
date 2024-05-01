@@ -16,10 +16,10 @@ public class ScoreBoard extends TextEntity
         setFill(Color.WHITE);
         setFont(font);
 
-        setText("HI SCORE: 0"); // Initialisatie van de tekst
+        setText("SCORE: 0"); // Initialisatie van de tekst
     }
 
     public void updateScore(int score){
-        setText("HI SCORE: " + score); // Methode om de score bij te werken
+        setText("SCORE: " + score); // Methode om de score bij te werken
     }
 }
