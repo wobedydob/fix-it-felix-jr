@@ -138,14 +138,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
-    public void activateLifePowerUp()
-    {
-        if (this.health <= MAX_HEALTH) {
-            this.health++;
-            Game.getInstance().getLevelScene().updateLives(this.health);
-        }
-    }
-
     public void activatePowerUp()
     {
         if (this.powerUp != null) {
@@ -173,6 +165,14 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             int duration = this.powerUp.getDuration() * 1000; // convert to seconds
             TimeEvent event = new TimeEvent(duration, this::deactivatePowerUp);
             addTimer(event);
+        }
+    }
+
+    public void activateLifePowerUp()
+    {
+        if (this.health <= MAX_HEALTH) {
+            this.health++;
+            Game.getInstance().getLevelScene().updateLives(this.health);
         }
     }
 
