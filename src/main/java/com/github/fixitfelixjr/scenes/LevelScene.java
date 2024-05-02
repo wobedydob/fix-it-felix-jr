@@ -8,7 +8,6 @@ import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.hanyaeger.api.Coordinate2D;
-import com.github.hanyaeger.api.Size; // imported voor de Life sprite?
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.scenes.DynamicScene;
 
