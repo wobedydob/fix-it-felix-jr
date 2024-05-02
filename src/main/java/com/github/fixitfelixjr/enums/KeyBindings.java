@@ -9,7 +9,7 @@ public enum KeyBindings
     DOWN(KeyCode.S),
     LEFT(KeyCode.A),
     RIGHT(KeyCode.D),
-    REPAIR(KeyCode.SPACE),
+    REPAIR(KeyCode.ENTER),
     DESTROY(KeyCode.BACK_SPACE);
 
     private final KeyCode keyCode;
