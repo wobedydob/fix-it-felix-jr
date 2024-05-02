@@ -8,6 +8,7 @@ import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.hanyaeger.api.Coordinate2D;
+import com.github.hanyaeger.api.Size; // imported voor de Life sprite?
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.scenes.DynamicScene;
 
@@ -28,12 +29,16 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     private Player player;
     private Enemy enemy;
 
+
+
     public LevelScene(int stage)
     {
         this.levelStage = stage;
         this.building = new Building(stage);
         this.player = new Player();
         this.enemy = new Enemy();
+
+
     }
 
     @Override
@@ -46,6 +51,23 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         ScoreBoard scoreBoard = Game.getInstance().getScoreBoard();
         scoreBoard.setAnchorLocation(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate());
         addEntity(scoreBoard);
+
+
+        Coordinate2D position1 = new Coordinate2D(1130, 10);
+        Coordinate2D position2 = new Coordinate2D(1165, 10);
+        Coordinate2D position3 = new Coordinate2D(1200, 10);
+        Size size = new Size(30, 30);
+
+
+        Lifes lifes1 = new Lifes("sprites/felix_life_sprite.png", position1, size);
+        Lifes lifes2 = new Lifes("sprites/felix_life_sprite.png", position2, size);
+        Lifes lifes3 = new Lifes("sprites/felix_life_sprite.png", position3, size);
+
+        addEntity(lifes1);
+        addEntity(lifes2);
+        addEntity(lifes3);
+
+
     }
 
     @Override
@@ -53,6 +75,8 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     {
         addEntity(this.player);
         addEntity(this.enemy);
+
+
     }
 
     @Override
