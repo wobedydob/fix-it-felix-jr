@@ -6,9 +6,7 @@ import java.io.InputStream;
 
 public enum Fonts
 {
-
     UPHEAVTT("/fonts/upheavtt.ttf");
-
 
     private final String fontPath;
 

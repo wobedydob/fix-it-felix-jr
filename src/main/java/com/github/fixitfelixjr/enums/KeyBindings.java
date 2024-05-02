@@ -23,5 +23,4 @@ public enum KeyBindings
     {
         return keyCode;
     }
-
 }

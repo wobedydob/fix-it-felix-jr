@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class WindowFrame extends DynamicSpriteEntity
 {
-
     public static final String SPRITE_IMAGE = "sprites/window_frame.png";
     public static final double WIDTH = 24;
     public static final double HEIGHT = 43;
@@ -28,47 +27,47 @@ public class WindowFrame extends DynamicSpriteEntity
     private PowerUp powerUp = null;
     private NPC npc = null;
 
-    public WindowFrame(Coordinate2D position, LevelScene scene)
+    public WindowFrame(Coordinate2D position)
     {
         super(SPRITE_IMAGE, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
 
         Coordinate2D platformPosition = new Coordinate2D(position.getX(), position.getY() + (HEIGHT * LevelScene.SPRITE_SIZE_APPLIER) - 21);
         this.platform = new Platform(platformPosition);
-        scene.addEntity(platform);
+        Game.getInstance().getLevelScene().addEntity(this.platform);
 
         Coordinate2D windowPosition = new Coordinate2D(position.getX(), position.getY());
         this.window = new Window(windowPosition);
-        scene.addEntity(window);
+        Game.getInstance().getLevelScene().addEntity(this.window);
     }
 
     public boolean hasPowerUp()
     {
-        return powerUp != null;
+        return this.powerUp != null;
     }
 
     public boolean hasNPC()
     {
-        return npc != null;
+        return this.npc != null;
     }
 
     public Window getWindow()
     {
-        return window;
+        return this.window;
     }
 
     public Platform getPlatform()
     {
-        return platform;
+        return this.platform;
     }
 
     public PowerUp getPowerUp()
     {
-        return powerUp;
+        return this.powerUp;
     }
 
     public NPC getNPC()
     {
-        return npc;
+        return this.npc;
     }
 
     public void setWindow(Window window)
@@ -90,5 +89,4 @@ public class WindowFrame extends DynamicSpriteEntity
     {
         this.npc = npc;
     }
-
 }

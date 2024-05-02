@@ -28,8 +28,7 @@ public enum Position
 
     SCOREBOARD_POSITION_TITLE(0, 0),
     SCOREBOARD_POSITION_LEVEL(10, 10),
-    SCOREBOARD_POSITION_END(getGameWidth() / 2 - 50, getGameHeight() / 2 + 100),
-    ;
+    SCOREBOARD_POSITION_END(getGameWidth() / 2 - 50, getGameHeight() / 2 + 100);
 
     private final double x;
     private final double y;
@@ -64,6 +63,5 @@ public enum Position
     {
         return y;
     }
-
 }
 

@@ -6,7 +6,6 @@ import com.github.hanyaeger.api.entities.impl.SpriteEntity;
 
 public class Life extends SpriteEntity
 {
-
     public static final String SPRITE_IMAGE = "sprites/felix_life_sprite.png";
     public static final double SPRITE_SIZE_APPLIER = 2.5;
     public static final double WIDTH = 14;

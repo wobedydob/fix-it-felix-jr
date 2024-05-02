@@ -2,7 +2,6 @@ package com.github.fixitfelixjr.enums;
 
 public enum ButtonText
 {
-
     START("PRESS ENTER TO START"),
     QUIT("PRESS ENTER TO QUIT");
 
@@ -17,5 +16,4 @@ public enum ButtonText
     {
         return text;
     }
-
 }

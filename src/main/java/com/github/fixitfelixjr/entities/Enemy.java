@@ -2,8 +2,6 @@ package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
-import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
-import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
@@ -16,7 +14,6 @@ import java.util.Random;
 
 public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider
 {
-
     public static final String SPRITE_IMAGE = "sprites/ralph.png";
     public static final double WIDTH = 183;
     public static final double HEIGHT = 56;
@@ -24,6 +21,7 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     public static final int[] SPRITE_ROWS_COLS = {1, 3};
     public static final Position INITIAL_POSITION = Position.ENEMY_INITIAL_POSITION;
     public static final int MOVE_RATE = 5; // in seconds
+    public static final int MOVE_OPTIONS_COUNT = 5; // 0 = left, 1 = center left, 2 = center, 3 = center right , 4 = right (5 options)
     public static final int DESTROY_RATE = 3; // in seconds
     public static final int BRICK_COUNT = 2; // counts +1 when randomized
 
@@ -39,9 +37,9 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     {
         this.isWrecking = true;
         this.destroyAnimation();
+
         // determine how many bricks are thrown
         int random = new Random().nextInt(BRICK_COUNT) + 1; // between 1 and 3
-
         for (int i = 0; i <= random; i++) {
 
             // randomize offset from enemy position x
@@ -54,12 +52,12 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
             Projectile projectile = new Projectile(position, gravityConstant);
             Game.getInstance().getLevelScene().addEntity(projectile);
         }
+
         this.isWrecking = false;
     }
 
     private void destroyAnimation()
     {
-
         int initialFrameIndex = getCurrentFrameIndex();
 
         TimeEvent goToFrame1 = new TimeEvent(50, () -> {
@@ -76,7 +74,6 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
             setCurrentFrameIndex(initialFrameIndex);
         });
         addTimer(resetFrame);
-
     }
 
     public void move(Position position)
@@ -87,29 +84,14 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         this.isMoving = false;
     }
 
-    @Override
-    public void setupTimers()
-    {
-        TimeEvent moveEvent = new TimeEvent(MOVE_RATE * 1000, () -> this.randomizeMove(), true);
-        addTimer(moveEvent);
 
-        TimeEvent destroyEvent = new TimeEvent(DESTROY_RATE * 1000, () -> this.destroy(), true);
-        addTimer(destroyEvent);
-    }
-
-    // TODO: improve movement with animation
     public void randomizeMove()
     {
-        System.out.println(" ");
-        System.out.println("-----------------------------");
-
         if (this.isMoving || this.isWrecking) {
-            System.out.println("wrecking, can't move");
             return;
         }
 
-        System.out.println("trying to randomize move");
-        int random = new Random().nextInt(6); // 0 = left, 1 = center left, 2 = center, 3 = center right , 4 = right
+        int random = new Random().nextInt(MOVE_OPTIONS_COUNT);
         switch (random) {
             case 0:
                 move(Position.ENEMY_LEFT_POSITION);
@@ -128,8 +110,15 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
                 break;
         }
 
-        System.out.println("-----------------------------");
-        System.out.println(" ");
     }
 
+    @Override
+    public void setupTimers()
+    {
+        TimeEvent moveEvent = new TimeEvent(MOVE_RATE * 1000, () -> this.randomizeMove(), true);
+        addTimer(moveEvent);
+
+        TimeEvent destroyEvent = new TimeEvent(DESTROY_RATE * 1000, () -> this.destroy(), true);
+        addTimer(destroyEvent);
+    }
 }

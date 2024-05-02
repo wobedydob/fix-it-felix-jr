@@ -16,12 +16,21 @@ import javafx.scene.text.Font;
 public class GameOverScene extends StaticScene implements Scene
 {
     public static final int SCENE_ID = 2;
-    public static final String BACKGROUND = "backgrounds/screens/game_over_screen.png";
+    public static final String GAME_OVER_BACKGROUND = "backgrounds/screens/game_over_screen.png";
+    public static final String VICTORY_BACKGROUND = "backgrounds/screens/victory_screen.png";
+
+    private String backgroundImage;
+
+    public GameOverScene(String backgroundImage)
+    {
+        super();
+        this.backgroundImage = backgroundImage;
+    }
 
     @Override
     public void setupScene()
     {
-        setBackgroundImage(BACKGROUND);
+        setBackgroundImage(this.backgroundImage);
 
         getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyBindings.SELECT.getKeyCode()) {
@@ -33,9 +42,7 @@ public class GameOverScene extends StaticScene implements Scene
     @Override
     public void setupEntities()
     {
-        // Font loader
         Font font = Fonts.UPHEAVTT.getFont(40);
-
         TextEntity pressQuit = new Button(
                 Position.BUTTON_BOTTOM_CENTER,
                 ButtonText.QUIT.getText(),
@@ -43,7 +50,6 @@ public class GameOverScene extends StaticScene implements Scene
                 font,
                 AnchorPoint.CENTER_CENTER
         );
-
         addEntity(pressQuit);
 
         int score = Game.getInstance().getScoreBoard().getScore();
@@ -60,10 +66,13 @@ public class GameOverScene extends StaticScene implements Scene
     @Override
     public String getBackground()
     {
-        return BACKGROUND;
+        return this.backgroundImage;
     }
 
-
+    public void setBackground(String backgroundImage)
+    {
+        this.backgroundImage = backgroundImage;
+    }
 }
 
 

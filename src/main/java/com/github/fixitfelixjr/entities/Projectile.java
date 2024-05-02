@@ -24,8 +24,6 @@ public class Projectile extends DynamicSpriteEntity implements SceneBorderTouchi
     @Override
     public void notifyBoundaryTouching(SceneBorder border)
     {
-        // if projectile hits the scene border, destroy it
         remove();
     }
-
 }

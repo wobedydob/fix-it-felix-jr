@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 public class ScoreBoard extends TextEntity
 {
     public static final int INITIAL_SCORE = 0;
+    public static final String SCORE_TEXT = "SCORE: ";
 
     private int score;
 
@@ -24,13 +25,13 @@ public class ScoreBoard extends TextEntity
         Font font = Fonts.UPHEAVTT.getFont(20);
         setFill(Color.WHITE);
         setFont(font);
-        setText("SCORE: " + this.score);
+        setText(SCORE_TEXT + this.score);
     }
 
     public void updateScore(int score)
     {
         this.addScore(score);
-        setText("SCORE: " + this.score);
+        setText(SCORE_TEXT + this.score);
     }
 
     public int getScore()
@@ -47,5 +48,4 @@ public class ScoreBoard extends TextEntity
     {
         this.score = score;
     }
-
 }

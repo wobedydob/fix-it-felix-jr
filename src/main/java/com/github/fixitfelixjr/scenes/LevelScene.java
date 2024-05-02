@@ -44,13 +44,9 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void setupScene()
     {
         setBackgroundImage(BACKGROUND);
-        this.building.setStage(this.levelStage);
-        this.building.createWindowFrames(this);
 
-        ScoreBoard scoreBoard = Game.getInstance().getScoreBoard();
-        scoreBoard.setAnchorLocation(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate());
-        addEntity(scoreBoard);
-
+        this.setupBuilding();
+        this.setupScoreBoard(Game.getInstance().getScoreBoard());
         this.setupLives();
     }
 
@@ -64,31 +60,44 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     @Override
     public void onWindowRepaired()
     {
-        checkAllWindowsRepaired();
+        this.checkAllWindowsRepaired();
     }
 
     public void checkAllWindowsRepaired()
     {
         if (this.building.areAllWindowsRepaired()) {
             System.out.println("all windows are repaired");
-            Game.getInstance().setActiveScene(VictoryScene.SCENE_ID);
+            Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
+            Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
         }
     }
 
     @Override
     public void setupTimers()
     {
-        TimeEvent powerUpEvent = new TimeEvent(POWER_UP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
+        TimeEvent powerUpEvent = new TimeEvent(POWER_UP_SPAWN_RATE * 1000, this::spawnPowerUp, true);
         addTimer(powerUpEvent);
 
-        TimeEvent npcEvent = new TimeEvent(NPC_SPAWN_RATE * 1000, () -> this.spawnNPC(), true);
+        TimeEvent npcEvent = new TimeEvent(NPC_SPAWN_RATE * 1000, this::spawnNPC, true);
         addTimer(npcEvent);
+    }
+
+    public void setupBuilding()
+    {
+        this.building.setStage(this.levelStage);
+        this.building.createWindowFrames(this);
+    }
+
+    public void setupScoreBoard(ScoreBoard scoreBoard)
+    {
+        scoreBoard.setAnchorLocation(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate());
+        addEntity(scoreBoard);
     }
 
     public void setupLives()
     {
-        int lifeX = (int) Position.PLAYER_LIFE_POSITION.getCoordinate().getX();
-        int lifeY = (int) Position.PLAYER_LIFE_POSITION.getCoordinate().getY();
+        double lifeX = Position.PLAYER_LIFE_POSITION.getCoordinate().getX();
+        double lifeY = Position.PLAYER_LIFE_POSITION.getCoordinate().getY();
         for (int i = 0; i < Player.MAX_HEALTH; i++) {
             lives[i] = new Life(new Coordinate2D(lifeX, lifeY));
             addEntity(lives[i]);
@@ -105,52 +114,38 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void spawnPowerUp()
     {
-        System.out.println(" ");
-        System.out.println("-----------------------------------------------------------");
-        System.out.println("trying to spawn a powerup");
-        if (this.building.canSpawnPowerUp() && this.player.getPowerUp() == null) {
-            System.out.println("can spawn a powerup");
 
-            System.out.println("1/" + POWER_UP_CHANCE_RATE + " chance to spawn a powerup");
+        if (this.building.canSpawnPowerUp() && this.player.getPowerUp() == null) {
+
             int random = new Random().nextInt(POWER_UP_CHANCE_RATE);
             if (random == 0) {
-                System.out.println("lucky");
 
-                System.out.println("get random window");
                 WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
                 if (!windowFrame.hasPowerUp()) {
+
                     random = new Random().nextInt(PowerUp.POWER_UP_COUNT);
                     switch (random) {
                         case 0:
-//                            this.spawnPiePowerUp(windowFrame);
-                            this.spawnLifePowerUp(windowFrame);
+                            this.spawnPiePowerUp(windowFrame);
                             break;
                         case 1:
-//                            this.spawnHardhatPowerUp(windowFrame);
-                            this.spawnLifePowerUp(windowFrame);
+                            this.spawnHardhatPowerUp(windowFrame);
                             break;
                         case 2:
                             this.spawnLifePowerUp(windowFrame);
                             break;
                     }
+
                 }
 
-            } else {
-                System.out.println("unlucky");
             }
 
-        } else {
-            System.out.println("can't spawn a powerup");
         }
-
-        System.out.println("-----------------------------------------------------------");
-        System.out.println(" ");
 
     }
 
     public void spawnPiePowerUp(WindowFrame windowFrame)
     {
-        System.out.println("spawned pie powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
         Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (26), windowPosition.getY() - (63));
         PiePowerUp piePowerUp = new PiePowerUp(powerUpPosition);
@@ -160,7 +155,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void spawnHardhatPowerUp(WindowFrame windowFrame)
     {
-        System.out.println("spawned hardhat powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
         Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (30), windowPosition.getY() - (43));
         HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition);
@@ -170,30 +164,20 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void spawnLifePowerUp(WindowFrame windowFrame)
     {
-        System.out.println("spawned life powerup");
         Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
-        Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (30), windowPosition.getY() - (43));
+        Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (35), windowPosition.getY() - (40));
         LifePowerUp lifePowerUp = new LifePowerUp(powerUpPosition);
         windowFrame.setPowerUp(lifePowerUp);
         addEntity(lifePowerUp);
-
     }
 
     public void spawnNPC()
     {
-        System.out.println(" ");
-        System.out.println("-----------------------------------------------------------");
-        System.out.println("trying to spawn npc");
-
         if (this.building.canSpawnNPC()) {
-            System.out.println("can spawn npc");
 
-            System.out.println("1/" + NPC_CHANCE_RATE + " chance to spawn npc");
             int random = new Random().nextInt(NPC_CHANCE_RATE);
             if (random == 0) {
-                System.out.println("lucky");
 
-                System.out.println("get random window");
                 WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
 
                 if (!windowFrame.hasNPC()) {
@@ -204,18 +188,9 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
                     addEntity(npc);
                 }
 
-
-            } else {
-                System.out.println("unlucky");
             }
 
-        } else {
-            System.out.println("can't spawn a npc");
         }
-
-        System.out.println("-----------------------------------------------------------");
-        System.out.println(" ");
-
     }
 
     public int getSceneId()
@@ -231,27 +206,27 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public int getLevelStage()
     {
-        return levelStage;
+        return this.levelStage;
     }
 
     public Building getBuilding()
     {
-        return building;
+        return this.building;
     }
 
     public Player getPlayer()
     {
-        return player;
+        return this.player;
     }
 
     public Enemy getEnemy()
     {
-        return enemy;
+        return this.enemy;
     }
 
     public Life[] getLives()
     {
-        return lives;
+        return this.lives;
     }
 
     public void setLevelStage(int levelStage)
@@ -278,5 +253,4 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     {
         this.lives = lives;
     }
-
 }

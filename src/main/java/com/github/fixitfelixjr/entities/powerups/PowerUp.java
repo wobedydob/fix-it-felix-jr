@@ -26,5 +26,4 @@ public class PowerUp extends SpriteEntity implements Collider
     {
         this.duration = duration;
     }
-
 }

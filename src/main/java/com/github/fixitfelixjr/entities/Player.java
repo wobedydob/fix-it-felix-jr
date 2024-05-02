@@ -48,15 +48,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void repair()
     {
-        System.out.println(" ");
-        System.out.println("-----------------------------");
-        System.out.println("trying to repair");
-
         WindowFrame windowToRepair = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation());
         if (windowToRepair != null) {
             Window window = windowToRepair.getWindow();
 
-            if (powerUp != null && powerUp instanceof PiePowerUp) {
+            if (this.powerUp != null && this.powerUp instanceof PiePowerUp) {
                 System.out.println("player has powerup");
                 this.repairAnimation();
                 window.repair(Window.MAX_REPAIR);
@@ -67,26 +63,21 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             }
 
         }
-
-        System.out.println("-----------------------------");
-        System.out.println(" ");
-
     }
 
     private void repairAnimation()
     {
-        System.out.println("player is facing: " + this.facing);
-
         int initialFrameIndex = getCurrentFrameIndex();
         int newFrameIndex = initialFrameIndex;
-        System.out.println("initial frame index: " + initialFrameIndex);
 
+        // calculate new frame index
         if (this.facing == Direction.LEFT) {
             newFrameIndex = 2;
         } else if (this.facing == Direction.RIGHT) {
             newFrameIndex = 3;
         }
 
+        // check if player has power-up
         if (this.powerUp instanceof PiePowerUp) {
             System.out.println("repairing with powerup");
             newFrameIndex += SPRITE_ROWS_COLS[1];
@@ -94,8 +85,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             System.out.println("repairing with hardhat");
             newFrameIndex += SPRITE_ROWS_COLS[1] * 2;
         }
-
-        System.out.println("new frame index: " + newFrameIndex);
 
         setCurrentFrameIndex(newFrameIndex);
 
@@ -155,12 +144,24 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    public void activateLifePowerUp()
+    {
+        if (this.health <= MAX_HEALTH) {
+            this.health++;
+            Game.getInstance().getLevelScene().updateLives(this.health);
+        }
+    }
+
     public void activatePowerUp()
     {
         if (this.powerUp != null) {
-            System.out.println("activated powerup");
-            System.out.println("while facing: " + this.facing);
 
+            if(this.powerUp instanceof LifePowerUp) {
+                this.activateLifePowerUp();
+                return;
+            }
+
+            // calculate sprite frame index (based on power-ups)
             int addition = 0;
             int frameIndex = 0;
             if (this.facing == Direction.RIGHT) {
@@ -176,9 +177,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             setCurrentFrameIndex(frameIndex + addition);
 
             int duration = this.powerUp.getDuration() * 1000; // convert to seconds
-            TimeEvent event = new TimeEvent(duration, () -> {
-                this.deactivatePowerUp();
-            });
+            TimeEvent event = new TimeEvent(duration, this::deactivatePowerUp);
             addTimer(event);
         }
     }
@@ -186,14 +185,12 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public void deactivatePowerUp()
     {
         if (this.powerUp != null) {
-            System.out.println("deactivated powerup");
             this.powerUp = null;
         }
     }
 
     public void die()
     {
-
         // check if player is dead
         if (this.health <= 0) {
             remove();
@@ -256,23 +253,16 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         } else if (collidingObject instanceof Enemy) {
             this.onEnemyCollision();
         }
-
     }
 
     public void onPowerUpCollision(PowerUp powerUp)
     {
-        if(powerUp instanceof LifePowerUp) {
-
-            this.health++;
-            Game.getInstance().getLevelScene().updateLives(this.health);
-            return;
-        }
-
         this.powerUp = powerUp;
         this.activatePowerUp();
-        this.powerUp.remove();
+        System.out.println(powerUp);
         Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
         Game.getInstance().getScoreBoard().addScore(PowerUp.SCORE_POINTS);
+        this.powerUp.remove();
     }
 
     public void onProjectileCollision(Projectile projectile)
@@ -299,12 +289,12 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public int getHealth()
     {
-        return health;
+        return this.health;
     }
 
     public KeyCode getLastPressedKey()
     {
-        return lastPressedKey;
+        return this.lastPressedKey;
     }
 
     public void setHealth(int health)
@@ -319,12 +309,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public PowerUp getPowerUp()
     {
-        return powerUp;
+        return this.powerUp;
     }
 
     public void setPowerUp(PowerUp powerUp)
     {
         this.powerUp = powerUp;
     }
-
 }

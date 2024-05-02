@@ -14,7 +14,6 @@ import javafx.scene.text.Font;
 
 public class TitleScene extends StaticScene implements Scene
 {
-
     public static final int SCENE_ID = 0;
     public static final String BACKGROUND = "backgrounds/screens/title_screen.png";
 
@@ -33,9 +32,7 @@ public class TitleScene extends StaticScene implements Scene
     @Override
     public void setupEntities()
     {
-        // Font loader
         Font font = Fonts.UPHEAVTT.getFont(40);
-
         TextEntity pressStart = new Button(
                 Position.BUTTON_BOTTOM_CENTER,
                 ButtonText.START.getText(),
@@ -43,9 +40,7 @@ public class TitleScene extends StaticScene implements Scene
                 font,
                 AnchorPoint.CENTER_CENTER
         );
-
         addEntity(pressStart);
-
     }
 
     @Override
@@ -59,8 +54,6 @@ public class TitleScene extends StaticScene implements Scene
     {
         return BACKGROUND;
     }
-
-
 }
 
 

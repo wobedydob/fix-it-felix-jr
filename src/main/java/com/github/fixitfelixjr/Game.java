@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 public class Game extends YaegerGame
 {
+    public static final String GAME_TITLE = "Fix-It Felix Jr.";
     public static final int GAME_WIDTH = 1280;
     public static final int GAME_HEIGHT = 960;
     public static final int INITIAL_STAGE = 0;
@@ -23,7 +24,6 @@ public class Game extends YaegerGame
     private TitleScene titleScene;
     private LevelScene levelScene;
     private GameOverScene gameOverScene;
-    private VictoryScene victoryScene;
     private ScoreBoard scoreBoard;
 
     public static Game getInstance()
@@ -48,11 +48,10 @@ public class Game extends YaegerGame
     {
         this.titleScene = new TitleScene();
         this.levelScene = new LevelScene(INITIAL_STAGE);
-        this.gameOverScene = new GameOverScene();
-        this.victoryScene = new VictoryScene();
+        this.gameOverScene = new GameOverScene(GameOverScene.GAME_OVER_BACKGROUND);
         this.scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_TITLE.getCoordinate(), ScoreBoard.INITIAL_SCORE);
 
-        setGameTitle("Fix-It Felix Jr.");
+        setGameTitle(GAME_TITLE);
         setSize(new Size(GAME_WIDTH, GAME_HEIGHT));
     }
 
@@ -62,7 +61,6 @@ public class Game extends YaegerGame
         registerScene(this.titleScene);
         registerScene(this.levelScene);
         registerScene(this.gameOverScene);
-        registerScene(this.victoryScene);
     }
 
     public void registerScene(Scene scene)
@@ -72,22 +70,22 @@ public class Game extends YaegerGame
 
     public TitleScene getTitleScene()
     {
-        return titleScene;
+        return this.titleScene;
     }
 
     public LevelScene getLevelScene()
     {
-        return levelScene;
+        return this.levelScene;
     }
 
     public GameOverScene getGameOverScene()
     {
-        return gameOverScene;
+        return this.gameOverScene;
     }
 
     public ScoreBoard getScoreBoard()
     {
-        return scoreBoard;
+        return this.scoreBoard;
     }
 
     public void setTitleScene(TitleScene titleScene)
@@ -109,5 +107,4 @@ public class Game extends YaegerGame
     {
         this.scoreBoard = scoreBoard;
     }
-
 }

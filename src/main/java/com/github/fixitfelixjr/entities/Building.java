@@ -1,7 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
-import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.Direction;
@@ -9,6 +8,7 @@ import com.github.hanyaeger.api.entities.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: remove this text
 /**
  * The Building class represents a multi-floor building with specific navigation rules based on the floor and stage.
  * Each floor has a pre-defined number of windows, with special rules applied to the ground floor based on the building's stage.
@@ -31,7 +31,6 @@ import java.util.List;
  */
 public class Building
 {
-
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
     public static final int FLOORS = 4;
     public static final int WINDOWS_PER_FLOOR = 5;
@@ -48,41 +47,109 @@ public class Building
 
     public void createWindowFrames(LevelScene scene)
     {
+
         for (int floor = 0; floor < FLOORS; floor++) {
+
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
 
                 if (this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == BUILDING_ENTRANCE_INDEX) continue;
-
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
-                WindowFrame windowFrame = new WindowFrame(position, scene);
-                scene.addEntity(windowFrame);
-                this.windowFrames.add(windowFrame);
+                createWindowFrame(position);
+            }
 
+        }
+
+    }
+
+    public void createWindowFrame(Coordinate2D position)
+    {
+        WindowFrame windowFrame = new WindowFrame(position);
+        Game.getInstance().getLevelScene().addEntity(windowFrame);
+        this.windowFrames.add(windowFrame);
+    }
+
+    public WindowFrame findNearestWindow(Coordinate2D position)
+    {
+        List<WindowFrame> windowFrames = this.windowFrames;
+        WindowFrame nearestWindow = null;
+        double nearestDistance = Double.MAX_VALUE;
+
+        for (WindowFrame windowFrame : windowFrames) {
+            double distance = position.distance(windowFrame.getAnchorLocation());
+
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestWindow = windowFrame;
             }
         }
-    }
 
-    private double calculateXPosition(int windowNum)
-    {
-        double windowWidth = 160;
-        double startX = 595;
-        double additionalDistance = 0;
-
-        if (windowNum == 0 || windowNum == 4) {
-            additionalDistance = 20;
-        }
-
-        if (windowNum < BUILDING_ENTRANCE_INDEX) {
-            return startX - (BUILDING_ENTRANCE_INDEX - windowNum) * (windowWidth - additionalDistance);
+        if (nearestDistance <= WindowFrame.NEARBY_WINDOW_THRESHOLD) {
+            return nearestWindow;
         } else {
-            return startX + (windowNum - BUILDING_ENTRANCE_INDEX) * (windowWidth - additionalDistance);
+            return null;
         }
     }
 
-    private double calculateYPosition(int floor)
+    public WindowFrame findNearestWindow(Coordinate2D position, Direction direction)
     {
-        return 700 - floor * 220;
+        List<WindowFrame> windowFrames = this.getWindowFrames();
+        WindowFrame nearestWindow = findNearestWindow(position);
+        int index = windowFrames.indexOf(nearestWindow);
+
+        // todo improve ==============================
+        int checkedIndex = WINDOWS_PER_FLOOR - 1; // because we start from 0
+        if(this.stage == Game.INITIAL_STAGE) {
+            checkedIndex = WINDOWS_PER_FLOOR - 2; // because there is a door in the middle of the ground floor
+        }
+        // todo improve ==============================
+
+        if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
+            if (this.onGroundFloor(index) && index < 2) {
+                index--;
+            }
+            index += Building.WINDOWS_PER_FLOOR;
+            nearestWindow = windowFrames.get(index);
+            return nearestWindow;
+        }
+
+        // todo improve ============================== (checkedIndex)
+        else if (direction == Direction.DOWN && index > checkedIndex) {
+
+            if(this.stage == Game.INITIAL_STAGE && index == (BUILDING_ENTRANCE_INDEX + WINDOWS_PER_FLOOR - 1)) {
+                return null;
+            }
+
+            index -= Building.WINDOWS_PER_FLOOR;
+            if (this.onGroundFloor(index) && index < BUILDING_ENTRANCE_INDEX) {
+                index++;
+            }
+            nearestWindow = windowFrames.get(index);
+            return nearestWindow;
+        }
+        // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
+        else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
+            index--;
+            if (!this.onBuildingEdge(index)) {
+                nearestWindow = windowFrames.get(index);
+            }
+            return nearestWindow;
+        }
+        // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
+        else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
+            index++;
+            if (!this.onBuildingEdge(index)) {
+                nearestWindow = windowFrames.get(index);
+            }
+            return nearestWindow;
+        } else {
+            return null;
+        }
+        // end todo improve ==============================
     }
+
+//     TODO: workout these methods and introduce them above
+//    public findNearestWindowHorizontally(){}
+//    public findNearestWindowVertically(){}
 
     public boolean onGroundFloor(int index)
     {
@@ -179,6 +246,28 @@ public class Building
         }
     }
 
+    private double calculateXPosition(int windowNum)
+    {
+        double windowWidth = 160;
+        double startX = 595;
+        double additionalDistance = 0;
+
+        if (windowNum == 0 || windowNum == 4) {
+            additionalDistance = 20;
+        }
+
+        if (windowNum < BUILDING_ENTRANCE_INDEX) {
+            return startX - (BUILDING_ENTRANCE_INDEX - windowNum) * (windowWidth - additionalDistance);
+        } else {
+            return startX + (windowNum - BUILDING_ENTRANCE_INDEX) * (windowWidth - additionalDistance);
+        }
+    }
+
+    private double calculateYPosition(int floor)
+    {
+        return 700 - floor * 220;
+    }
+
     public int getStage()
     {
         return this.stage;
@@ -188,89 +277,4 @@ public class Building
     {
         this.stage = stage;
     }
-
-    public WindowFrame findNearestWindow(Coordinate2D position)
-    {
-        List<WindowFrame> windowFrames = this.windowFrames;
-        WindowFrame nearestWindow = null;
-        double nearestDistance = Double.MAX_VALUE;
-
-        for (WindowFrame windowFrame : windowFrames) {
-            double distance = position.distance(windowFrame.getAnchorLocation());
-
-            if (distance < nearestDistance) {
-                nearestDistance = distance;
-                nearestWindow = windowFrame;
-            }
-        }
-
-        if (nearestDistance <= WindowFrame.NEARBY_WINDOW_THRESHOLD) {
-            return nearestWindow;
-        } else {
-            return null;
-        }
-    }
-
-    public WindowFrame findNearestWindow(Coordinate2D position, Direction direction)
-    {
-        List<WindowFrame> windowFrames = this.getWindowFrames();
-        WindowFrame nearestWindow = findNearestWindow(position);
-        int index = windowFrames.indexOf(nearestWindow);
-
-        // todo improve ==============================
-        int checkedIndex = WINDOWS_PER_FLOOR - 1; // because we start from 0
-        if(this.stage == Game.INITIAL_STAGE) {
-            checkedIndex = WINDOWS_PER_FLOOR - 2; // because there is a door in the middle of the ground floor
-        }
-        // todo improve ==============================
-
-        if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
-            if (this.onGroundFloor(index) && index < 2) {
-                index--;
-            }
-            index += Building.WINDOWS_PER_FLOOR;
-            nearestWindow = windowFrames.get(index);
-            return nearestWindow;
-        }
-
-        // todo improve ============================== (checkedIndex)
-        else if (direction == Direction.DOWN && index > checkedIndex) {
-
-            if(this.stage == Game.INITIAL_STAGE && index == (BUILDING_ENTRANCE_INDEX + WINDOWS_PER_FLOOR - 1)) {
-                return null;
-            }
-
-            index -= Building.WINDOWS_PER_FLOOR;
-            if (this.onGroundFloor(index) && index < BUILDING_ENTRANCE_INDEX) {
-                index++;
-            }
-            nearestWindow = windowFrames.get(index);
-            return nearestWindow;
-        }
-        // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
-        else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
-            index--;
-            if (!this.onBuildingEdge(index)) {
-                nearestWindow = windowFrames.get(index);
-            }
-            return nearestWindow;
-        }
-        // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
-        else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
-            index++;
-            if (!this.onBuildingEdge(index)) {
-                nearestWindow = windowFrames.get(index);
-            }
-            return nearestWindow;
-        } else {
-            return null;
-        }
-        // end todo improve ==============================
-    }
-
-//     TODO: workout these methods and introduce them above
-//    public findNearestWindowHorizontally(){}
-//    public findNearestWindowVertically(){}
-
-
 }

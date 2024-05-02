@@ -16,10 +16,11 @@ public class Platform extends RectangleEntity implements Collided
     {
         super(position);
         this.position = position;
-        this.setHeight(5);
-        this.setWidth((WindowFrame.WIDTH) * LevelScene.SPRITE_SIZE_APPLIER);
+        setHeight(5);
+        setWidth((WindowFrame.WIDTH) * LevelScene.SPRITE_SIZE_APPLIER);
     }
 
+    // TODO: wtf does this do exactly?
     @Override
     public void onCollision(final List<Collider> collidingObjects)
     {
@@ -27,18 +28,18 @@ public class Platform extends RectangleEntity implements Collided
 
             if (collider instanceof Player player) {
 
-                if (player.getAnchorLocation().getY() < position.getY() && player.getGravityConstant() != 0) {
+                if (player.getAnchorLocation().getY() < this.position.getY() && player.getGravityConstant() != 0) {
 
                     player.setMotion(0, 0);
                     player.setGravityConstant(0);
-                    player.setAnchorLocation(new Coordinate2D(position.getX(), position.getY() - player.getHeight()));
+                    player.setAnchorLocation(new Coordinate2D(this.position.getX(), this.position.getY() - player.getHeight()));
 
-                } else if (player.getAnchorLocation().getX() > (position.getX() + this.getWidth() - 15)) {
+                } else if (player.getAnchorLocation().getX() > (this.position.getX() + this.getWidth() - 15)) {
 
                     player.setAnchorLocation(new Coordinate2D(player.getAnchorLocation().getX() + 15, player.getAnchorLocation().getY()));
                     player.setGravityConstant(Player.GRAVITY_CONSTANT);
 
-                } else if (player.getAnchorLocation().getX() < (position.getX() - this.getWidth())) {
+                } else if (player.getAnchorLocation().getX() < (this.position.getX() - this.getWidth())) {
 
                     player.setAnchorLocation(new Coordinate2D(player.getAnchorLocation().getX() - 15, player.getAnchorLocation().getY()));
                     player.setGravityConstant(Player.GRAVITY_CONSTANT);
@@ -53,6 +54,6 @@ public class Platform extends RectangleEntity implements Collided
 
     public Coordinate2D getPosition()
     {
-        return position;
+        return this.position;
     }
 }

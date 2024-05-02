@@ -13,7 +13,6 @@ import java.util.List;
 
 public class NPC extends DynamicSpriteEntity implements TimerContainer, Collided
 {
-
     public static final String SPRITE_IMAGE = "sprites/nicelanders.png";
     public static final double WIDTH = 78;
     public static final double HEIGHT = 19;
@@ -22,7 +21,7 @@ public class NPC extends DynamicSpriteEntity implements TimerContainer, Collided
     public static final int NPC_COUNT = 6;
     public static final int DESPAWN_RATE = 5;
 
-    private WindowFrame windowFrame;
+    private final WindowFrame windowFrame;
 
     public NPC(Coordinate2D position, int spriteIndex, WindowFrame windowFrame)
     {
@@ -40,7 +39,7 @@ public class NPC extends DynamicSpriteEntity implements TimerContainer, Collided
     @Override
     public void setupTimers()
     {
-        TimeEvent despawnEvent = new TimeEvent(DESPAWN_RATE * 1000, () -> this.despawn(), false);
+        TimeEvent despawnEvent = new TimeEvent(DESPAWN_RATE * 1000, this::despawn, false);
         addTimer(despawnEvent);
     }
 
@@ -56,7 +55,5 @@ public class NPC extends DynamicSpriteEntity implements TimerContainer, Collided
         if (collidingObject instanceof Projectile) {
             this.despawn();
         }
-
     }
-
 }

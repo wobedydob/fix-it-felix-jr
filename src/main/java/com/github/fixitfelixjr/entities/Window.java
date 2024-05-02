@@ -1,7 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
-import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
@@ -58,17 +57,17 @@ public class Window extends DynamicSpriteEntity
 
     public boolean isRepaired()
     {
-        return repairState == MAX_REPAIR;
+        return this.repairState == MAX_REPAIR;
     }
 
     public int getRepairState()
     {
-        return repairState;
+        return this.repairState;
     }
 
     public Coordinate2D getPosition()
     {
-        return position;
+        return this.position;
     }
 
     public void setRepairState(int repairState)
@@ -80,5 +79,4 @@ public class Window extends DynamicSpriteEntity
     {
         this.position = position;
     }
-
 }
