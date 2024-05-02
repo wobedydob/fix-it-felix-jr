@@ -20,11 +20,11 @@ public class Building
     public Building(int stage)
     {
         this.stage = stage;
-        this.windowFrames = new ArrayList<>();
     }
 
     public void createWindowFrames()
     {
+        this.windowFrames = new ArrayList<>();
         for (int floor = 0; floor < FLOORS; floor++) {
 
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
@@ -71,37 +71,30 @@ public class Building
         List<WindowFrame> windowFrames = this.getWindowFrames();
         WindowFrame nearestWindow = findNearestWindow(position);
         int index = windowFrames.indexOf(nearestWindow);
-
-        // TODO: understand this....
-
-        int checkedIndex = WINDOWS_PER_FLOOR - 1; // because we start from 0
-        if (this.stage == Game.INITIAL_STAGE) {
-            checkedIndex = WINDOWS_PER_FLOOR - 2; // because there is a door in the middle of the bottom floor
-        }
-
-        // calculate the index of the first window on the current floor
         int floorIndex = index / WINDOWS_PER_FLOOR;
         int bottomWindows = this.stage == Game.INITIAL_STAGE ? WINDOWS_PER_FLOOR - 1 : WINDOWS_PER_FLOOR;
         int firstWindowIndex = floorIndex * WINDOWS_PER_FLOOR + bottomWindows;
-
-        // calculate the index of the last window on the current floor
         int lastWindowIndex = firstWindowIndex + WINDOWS_PER_FLOOR - 1;
 
+        if (index < 0 || index >= this.windowFrames.size()) {
+            return null;
+        }
+
         if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
+
             if (this.onGroundFloor(index) && index < 2) {
                 index--;
             }
             index += Building.WINDOWS_PER_FLOOR;
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
-        } else if (direction == Direction.DOWN && index > checkedIndex) {
 
-            if (this.stage == Game.INITIAL_STAGE && index == (BUILDING_ENTRANCE_INDEX + WINDOWS_PER_FLOOR - 1)) {
-                return null;
-            }
+        } else if (direction == Direction.DOWN && index >= bottomWindows) {
+
+            if (this.stage == Game.INITIAL_STAGE && index == 6) return null;
 
             index -= Building.WINDOWS_PER_FLOOR;
-            if (this.onGroundFloor(index) && index < BUILDING_ENTRANCE_INDEX) {
+            if (this.onGroundFloor(index) && index < 2) {
                 index++;
             }
             nearestWindow = windowFrames.get(index);
@@ -126,6 +119,7 @@ public class Building
         } else {
             return null;
         }
+
     }
 
     public boolean onGroundFloor(int index)
