@@ -5,7 +5,9 @@ import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.WindowRepairListener;
 import com.github.fixitfelixjr.entities.*;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
+import com.github.fixitfelixjr.entities.powerups.LifePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
+import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.TimerContainer;
@@ -117,13 +119,18 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
                 System.out.println("get random window");
                 WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
                 if (!windowFrame.hasPowerUp()) {
-                    random = new Random().nextInt(PiePowerUp.POWER_UP_COUNT);
+                    random = new Random().nextInt(PowerUp.POWER_UP_COUNT);
                     switch (random) {
                         case 0:
-                            this.spawnPiePowerUp(windowFrame);
+//                            this.spawnPiePowerUp(windowFrame);
+                            this.spawnLifePowerUp(windowFrame);
                             break;
                         case 1:
-                            this.spawnHardhatPowerUp(windowFrame);
+//                            this.spawnHardhatPowerUp(windowFrame);
+                            this.spawnLifePowerUp(windowFrame);
+                            break;
+                        case 2:
+                            this.spawnLifePowerUp(windowFrame);
                             break;
                     }
                 }
@@ -159,6 +166,17 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition);
         windowFrame.setPowerUp(hardhatPowerUp);
         addEntity(hardhatPowerUp);
+    }
+
+    public void spawnLifePowerUp(WindowFrame windowFrame)
+    {
+        System.out.println("spawned life powerup");
+        Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
+        Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (30), windowPosition.getY() - (43));
+        LifePowerUp lifePowerUp = new LifePowerUp(powerUpPosition);
+        windowFrame.setPowerUp(lifePowerUp);
+        addEntity(lifePowerUp);
+
     }
 
     public void spawnNPC()

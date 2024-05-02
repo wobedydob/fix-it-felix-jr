@@ -3,6 +3,7 @@ package com.github.fixitfelixjr.entities;
 import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
 import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
+import com.github.fixitfelixjr.entities.powerups.LifePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.KeyBindings;
@@ -260,11 +261,20 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void onPowerUpCollision(PowerUp powerUp)
     {
+        if(powerUp instanceof LifePowerUp) {
+
+            this.health++;
+            Game.getInstance().getLevelScene().updateLives(this.health);
+            return;
+        }
+
         this.powerUp = powerUp;
         this.activatePowerUp();
         this.powerUp.remove();
         Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
         Game.getInstance().getScoreBoard().addScore(300);
+
+
     }
 
     public void onProjectileCollision(Projectile projectile)

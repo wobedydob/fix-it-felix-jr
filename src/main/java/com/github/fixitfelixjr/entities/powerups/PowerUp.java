@@ -8,7 +8,7 @@ import com.github.hanyaeger.api.entities.impl.SpriteEntity;
 public class PowerUp extends SpriteEntity implements Collider
 {
     public static final int SCORE_POINTS = 300;
-    public static final int POWER_UP_COUNT = 2; // amount of powerups
+    public static final int POWER_UP_COUNT = 3; // amount of powerups
     private int duration;
 
     public PowerUp(String sprite, int duration, Coordinate2D position, Size size, int spriteRows, int spriteColumns)
