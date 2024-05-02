@@ -84,7 +84,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void setupBuilding()
     {
         this.building.setStage(this.levelStage);
-        this.building.createWindowFrames(this);
+        this.building.createWindowFrames();
     }
 
     public void setupScoreBoard(ScoreBoard scoreBoard)

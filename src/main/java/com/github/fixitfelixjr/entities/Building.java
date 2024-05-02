@@ -45,7 +45,7 @@ public class Building
         this.windowFrames = new ArrayList<>();
     }
 
-    public void createWindowFrames(LevelScene scene)
+    public void createWindowFrames()
     {
 
         for (int floor = 0; floor < FLOORS; floor++) {
