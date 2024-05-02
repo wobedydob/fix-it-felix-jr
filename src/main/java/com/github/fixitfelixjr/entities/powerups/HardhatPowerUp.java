@@ -6,7 +6,7 @@ import com.github.hanyaeger.api.Size;
 
 public class HardhatPowerUp extends PowerUp
 {
-    public static final String SPRITE_IMAGE = "sprites/hardhat_powerup.png";
+    public static final String SPRITE_IMAGE = "sprites/hardhat_power_up.png";
     public static final double WIDTH = 10;
     public static final double HEIGHT = 7;
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);

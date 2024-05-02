@@ -6,7 +6,6 @@ import com.github.fixitfelixjr.scenes.GameOverScene;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.fixitfelixjr.scenes.Scene;
 import com.github.fixitfelixjr.scenes.TitleScene;
-import com.github.fixitfelixjr.scenes.VictoryScene;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.YaegerGame;
 import com.github.hanyaeger.api.scenes.YaegerScene;
