@@ -291,6 +291,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         return this.lastPressedKey;
     }
 
+    public PowerUp getPowerUp()
+    {
+        return this.powerUp;
+    }
+
     public void setHealth(int health)
     {
         this.health = health;
@@ -299,11 +304,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public void setLastPressedKey(KeyCode lastPressedKey)
     {
         this.lastPressedKey = lastPressedKey;
-    }
-
-    public PowerUp getPowerUp()
-    {
-        return this.powerUp;
     }
 
     public void setPowerUp(PowerUp powerUp)
