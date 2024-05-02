@@ -179,26 +179,6 @@ public class Building
         return result;
     }
 
-    public List<WindowFrame> getWindowFrames()
-    {
-        return this.windowFrames;
-    }
-
-    public WindowFrame getRandomWindowFrame()
-    {
-        return this.windowFrames.get(new java.util.Random().nextInt(this.windowFrames.size()));
-    }
-
-    public WindowFrame getRandomAvailableWindowFrame()
-    {
-        WindowFrame windowFrame = this.getRandomWindowFrame();
-        if (windowFrame.hasPowerUp() || windowFrame.hasNPC()) {
-            return this.getRandomAvailableWindowFrame();
-        }
-
-        return windowFrame;
-    }
-
     public boolean areAllWindowsRepaired()
     {
         for (WindowFrame windowFrame : this.windowFrames) {
@@ -268,9 +248,34 @@ public class Building
         return 700 - floor * 220;
     }
 
+    public WindowFrame getRandomWindowFrame()
+    {
+        return this.windowFrames.get(new java.util.Random().nextInt(this.windowFrames.size()));
+    }
+
+    public WindowFrame getRandomAvailableWindowFrame()
+    {
+        WindowFrame windowFrame = this.getRandomWindowFrame();
+        if (windowFrame.hasPowerUp() || windowFrame.hasNPC()) {
+            return this.getRandomAvailableWindowFrame();
+        }
+
+        return windowFrame;
+    }
+
+    public List<WindowFrame> getWindowFrames()
+    {
+        return this.windowFrames;
+    }
+
     public int getStage()
     {
         return this.stage;
+    }
+
+    public void setWindowFrames(List<WindowFrame> windowFrames)
+    {
+        this.windowFrames = windowFrames;
     }
 
     public void setStage(int stage)
