@@ -7,27 +7,6 @@ import com.github.hanyaeger.api.entities.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: remove this text
-/**
- * The Building class represents a multi-floor building with specific navigation rules based on the floor and stage.
- * Each floor has a pre-defined number of windows, with special rules applied to the ground floor based on the building's stage.
- * Constants:
- * - FLOORS: Total number of floors in the building, set to 4.
- * - WINDOWS_PER_FLOOR: Number of windows per floor, set to 5.
- * - BUILDING_ENTRANCE_INDEX: Index of the middle window on the bottom floor in the array of windows on a floor, set to 2.
- * Ground Floor Behavior:
- * - If the stage is set to 1, the number of navigable windows on the ground floor is reduced by one (from 5 to 4). This affects indices and navigation.
- * For the ground floor, the navigable index range is 0-3 instead of 0-4.
- * Navigation Adjustments:
- * - UP: When moving upwards in window indices on the ground floor, if the index is less than 2, it is decremented before moving up to account for the reduced window count.
- * This prevents going out of range and aligns with the indices of the floor above.
- * Example: Moving up from index 0 would usually go to index 5 in a typical setting, but with the stage 1 adjustment, it moves to index 4.
- * - DOWN: When moving downwards in window indices on the ground floor, if the index is less than 2, it is incremented after moving down to ensure correct positioning at the lower indices.
- * This adjustment keeps the index within the valid range, compensating for the reduced number of items on the ground floor.
- * Example: Moving down from index 4 would typically land at index 0. The adjustment ensures it aligns correctly with the reduced index range on the ground floor.
- * Note:
- * - The adjustments for UP and DOWN operations are only applied when the building is in stage 1 and only affect the ground floor navigation.
- */
 public class Building
 {
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
@@ -93,12 +72,20 @@ public class Building
         WindowFrame nearestWindow = findNearestWindow(position);
         int index = windowFrames.indexOf(nearestWindow);
 
-        // todo improve ==============================
+        // TODO: understand this....
+
         int checkedIndex = WINDOWS_PER_FLOOR - 1; // because we start from 0
-        if(this.stage == Game.INITIAL_STAGE) {
-            checkedIndex = WINDOWS_PER_FLOOR - 2; // because there is a door in the middle of the ground floor
+        if (this.stage == Game.INITIAL_STAGE) {
+            checkedIndex = WINDOWS_PER_FLOOR - 2; // because there is a door in the middle of the bottom floor
         }
-        // todo improve ==============================
+
+        // calculate the index of the first window on the current floor
+        int floorIndex = index / WINDOWS_PER_FLOOR;
+        int bottomWindows = this.stage == Game.INITIAL_STAGE ? WINDOWS_PER_FLOOR - 1 : WINDOWS_PER_FLOOR;
+        int firstWindowIndex = floorIndex * WINDOWS_PER_FLOOR + bottomWindows;
+
+        // calculate the index of the last window on the current floor
+        int lastWindowIndex = firstWindowIndex + WINDOWS_PER_FLOOR - 1;
 
         if (direction == Direction.UP && index + Building.WINDOWS_PER_FLOOR < windowFrames.size()) {
             if (this.onGroundFloor(index) && index < 2) {
@@ -107,12 +94,9 @@ public class Building
             index += Building.WINDOWS_PER_FLOOR;
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
-        }
+        } else if (direction == Direction.DOWN && index > checkedIndex) {
 
-        // todo improve ============================== (checkedIndex)
-        else if (direction == Direction.DOWN && index > checkedIndex) {
-
-            if(this.stage == Game.INITIAL_STAGE && index == (BUILDING_ENTRANCE_INDEX + WINDOWS_PER_FLOOR - 1)) {
+            if (this.stage == Game.INITIAL_STAGE && index == (BUILDING_ENTRANCE_INDEX + WINDOWS_PER_FLOOR - 1)) {
                 return null;
             }
 
@@ -122,31 +106,27 @@ public class Building
             }
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
-        }
-        // TODO: fix magic numbers 0-14 (leftmost windows on each floor)
-        else if (direction == Direction.LEFT && index != 0 && index != 4 && index != 9 && index != 14) {
+
+        } else if (direction == Direction.LEFT && index != firstWindowIndex && index % WINDOWS_PER_FLOOR != bottomWindows) {
+
             index--;
             if (!this.onBuildingEdge(index)) {
                 nearestWindow = windowFrames.get(index);
             }
             return nearestWindow;
-        }
-        // TODO: fix magic numbers 3-18 (rightmost windows on each floor)
-        else if (direction == Direction.RIGHT && index != 3 && index != 8 && index != 13 && index != 18) {
+
+        } else if (direction == Direction.RIGHT && index != lastWindowIndex && index % WINDOWS_PER_FLOOR != bottomWindows - 1) {
+
             index++;
             if (!this.onBuildingEdge(index)) {
                 nearestWindow = windowFrames.get(index);
             }
             return nearestWindow;
+
         } else {
             return null;
         }
-        // end todo improve ==============================
     }
-
-//     TODO: workout these methods and introduce them above
-//    public findNearestWindowHorizontally(){}
-//    public findNearestWindowVertically(){}
 
     public boolean onGroundFloor(int index)
     {
