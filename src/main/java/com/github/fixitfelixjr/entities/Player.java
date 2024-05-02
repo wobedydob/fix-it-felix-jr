@@ -21,6 +21,12 @@ import javafx.scene.input.KeyCode;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents the player character in the game, capable of moving in various directions, repairing windows,
+ * and interacting with power-ups and other game elements. This class extends {@link DynamicSpriteEntity}
+ * and implements various interfaces to handle game dynamics such as collision detection, keyboard input, and
+ * applying gravity effects.
+ */
 public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider, TimerContainer
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
@@ -38,6 +44,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     private Direction facing;
     private PowerUp powerUp = null;
 
+    /**
+     * Initializes a player with default settings, positioning, and health.
+     */
     public Player()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
@@ -46,6 +55,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         setGravityConstant(GRAVITY_CONSTANT);
     }
 
+    /**
+     * Handles the player's repair action on the nearest window, applying special effects if a power-up is active.
+     */
     public void repair()
     {
         WindowFrame windowToRepair = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation());
@@ -63,6 +75,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Animates the player during the repair action.
+     */
     private void repairAnimation()
     {
         int initialFrameIndex = getCurrentFrameIndex();
@@ -90,6 +105,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         addTimer(event);
     }
 
+    /**
+     * Moves the player in a specified direction.
+     *
+     * @param direction The direction in which the player should move.
+     */
     public void move(Direction direction)
     {
         WindowFrame window = Game.getInstance().getLevelScene().getBuilding().findNearestWindow(getAnchorLocation(), direction);
@@ -106,6 +126,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Moves the player to the left, updating the animation frame based on current power-ups.
+     */
     public void moveLeft()
     {
         int frameIndex = 0;
@@ -122,6 +145,10 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+
+    /**
+     * Moves the player to the right, similarly to {@link #moveLeft()}, but in the opposite direction.
+     */
     public void moveRight()
     {
         int frameIndex = 1;
@@ -138,6 +165,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Activates the current power-up, if any, applying its effects.
+     */
     public void activatePowerUp()
     {
         if (this.powerUp != null) {
@@ -168,6 +198,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Specifically handles the activation of a life power-up, incrementing the player's health.
+     */
     public void activateLifePowerUp()
     {
         if (this.health <= MAX_HEALTH) {
@@ -176,6 +209,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Deactivates any active power-up, removing its effects.
+     */
     public void deactivatePowerUp()
     {
         if (this.powerUp != null) {
@@ -183,6 +219,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Handles the player's death by checking health, updating the game state, and potentially setting the game over scene.
+     */
     public void die()
     {
         // check if player is dead
@@ -197,6 +236,12 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
     }
 
+
+    /**
+     * Processes changes in pressed keys, triggering appropriate actions such as movement or repairs.
+     *
+     * @param pressedKeys A set of currently pressed keys.
+     */
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys)
     {
@@ -231,6 +276,11 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.lastPressedKey = pressedKey;
     }
 
+    /**
+     * Handles collision events with various game entities like power-ups and projectiles.
+     *
+     * @param collidingObjects A list of objects that the player has collided with.
+     */
     @Override
     public void onCollision(List<Collider> collidingObjects)
     {
@@ -249,16 +299,27 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
     }
 
+    /**
+     * Handles collision with a power-up object. Activates the power-up, logs it,
+     * clears all power-ups from the building, updates the score, and removes the power-up object.
+     *
+     * @param powerUp The power-up the player has collided with.
+     */
     public void onPowerUpCollision(PowerUp powerUp)
     {
         this.powerUp = powerUp;
         this.activatePowerUp();
-        System.out.println(powerUp);
         Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
         Game.getInstance().getScoreBoard().addScore(PowerUp.SCORE_POINTS);
         this.powerUp.remove();
     }
 
+    /**
+     * Handles collision with a projectile. If the player has a HardhatPowerUp,
+     * the projectile is removed without further effects. Otherwise, the player dies.
+     *
+     * @param projectile The projectile the player has collided with.
+     */
     public void onProjectileCollision(Projectile projectile)
     {
         if (this.powerUp instanceof HardhatPowerUp) {
@@ -270,42 +331,82 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.die();
     }
 
+    /**
+     * Handles collision with an enemy. Results in the player's death.
+     */
     public void onEnemyCollision()
     {
         this.die();
     }
 
+    /**
+     * Initializes any necessary timers for the player.
+     * The method is currently not implemented and contains a placeholder comment.
+     */
     @Override
     public void setupTimers()
     {
-        // ... fuck whoever thought this was a good idea ...
+
     }
 
+    /**
+     * Returns the player's current health.
+     *
+     * @return The current health of the player.
+     */
     public int getHealth()
     {
         return this.health;
     }
 
+    /**
+     * Returns the last key pressed by the player. This can be used to determine the last action taken.
+     *
+     * @return The last {@link KeyCode} pressed.
+     */
     public KeyCode getLastPressedKey()
     {
         return this.lastPressedKey;
     }
 
+    /**
+     * Returns the current active power-up affecting the player, if any.
+     *
+     * @return The current active {@link PowerUp}, or null if no power-up is active.
+     */
     public PowerUp getPowerUp()
     {
         return this.powerUp;
     }
 
+    /**
+     * Sets the player's health to a specified value. This method can be used to update the player's health
+     * during gameplay, such as when healing or receiving damage.
+     *
+     * @param health The new health value for the player.
+     */
     public void setHealth(int health)
     {
         this.health = health;
     }
 
+    /**
+     * Sets the last key pressed by the player. This can be used in conjunction with game mechanics
+     * that require tracking the sequence of keys pressed.
+     *
+     * @param lastPressedKey The last {@link KeyCode} that was pressed.
+     */
     public void setLastPressedKey(KeyCode lastPressedKey)
     {
         this.lastPressedKey = lastPressedKey;
     }
 
+    /**
+     * Sets the current power-up affecting the player. This method allows for the dynamic application
+     * and removal of power-ups during gameplay.
+     *
+     * @param powerUp The {@link PowerUp} to set as currently active.
+     */
     public void setPowerUp(PowerUp powerUp)
     {
         this.powerUp = powerUp;

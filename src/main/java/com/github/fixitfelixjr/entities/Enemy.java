@@ -12,6 +12,11 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 
 import java.util.Random;
 
+/**
+ * Represents an enemy character in the game that can move across predefined positions and launch projectiles at intervals.
+ * This class extends {@link DynamicSpriteEntity} and implements {@link TimerContainer} for scheduling movements and attacks,
+ * and {@link Collider} to interact with other entities.
+ */
 public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider
 {
     public static final String SPRITE_IMAGE = "sprites/ralph.png";
@@ -28,11 +33,17 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     private boolean isMoving = false;
     private boolean isWrecking = false;
 
+    /**
+     * Constructs an enemy at a predefined initial position.
+     */
     public Enemy()
     {
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
     }
 
+    /**
+     * Simulates the enemy attacking by throwing projectiles. The number and trajectory of projectiles are randomized.
+     */
     public void destroy()
     {
         this.isWrecking = true;
@@ -56,6 +67,10 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         this.isWrecking = false;
     }
 
+
+    /**
+     * Manages the animation during the attack sequence by cycling through sprite frames.
+     */
     private void destroyAnimation()
     {
         int initialFrameIndex = getCurrentFrameIndex();
@@ -76,6 +91,11 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         addTimer(resetFrame);
     }
 
+    /**
+     * Moves the enemy to a specified position.
+     *
+     * @param position The position to which the enemy should move.
+     */
     public void move(Position position)
     {
         this.isMoving = true;
@@ -84,6 +104,9 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         this.isMoving = false;
     }
 
+    /**
+     * Randomizes the enemy's movement based on predefined positions.
+     */
     public void randomizeMove()
     {
         if (this.isMoving || this.isWrecking) {
@@ -111,6 +134,16 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
 
     }
 
+    /**
+     * Sets up timers for the object to trigger specific events at regular intervals.
+     * Timers are added for moving and destroying the object.
+     * <p>
+     * The move timer triggers the {@link #randomizeMove()} method periodically,
+     * based on the MOVE_RATE constant defined for the object.
+     * <p>
+     * The destroy timer triggers the {@link #destroy()} method periodically,
+     * based on the DESTROY_RATE constant defined for the object.
+     */
     @Override
     public void setupTimers()
     {

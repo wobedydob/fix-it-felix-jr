@@ -3,6 +3,15 @@ package com.github.fixitfelixjr.enums;
 import com.github.fixitfelixjr.Game;
 import com.github.hanyaeger.api.Coordinate2D;
 
+/**
+ * The {@code Position} enum defines a set of predefined positions within the game's screen.
+ * These positions are commonly used to place game elements like players, enemies, buttons, and scoreboards
+ * at specific locations on the screen. Each position is related to the dimensions of the game screen,
+ * which are retrieved dynamically from the {@code Game} class.
+ *
+ * <p>This enum simplifies the placement of entities by providing consistent reference points across different
+ * screen sizes and resolutions, facilitating responsive design and alignment in the game's user interface.
+ */
 public enum Position
 {
     TOP_LEFT(0, 0),
@@ -33,35 +42,67 @@ public enum Position
     private final double x;
     private final double y;
 
+    /**
+     * Constructs a new position with specified x and y coordinates.
+     *
+     * @param x the x-coordinate of the position.
+     * @param y the y-coordinate of the position.
+     */
     Position(double x, double y)
     {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Returns the position as a {@link Coordinate2D} object.
+     *
+     * @return the position represented as a {@link Coordinate2D}.
+     */
     public Coordinate2D getCoordinate()
     {
         return new Coordinate2D(x, y);
     }
 
+    /**
+     * Retrieves the standard game width from the {@code Game} class.
+     * This is used to dynamically calculate position based on the game screen width.
+     *
+     * @return the game width.
+     */
     public static double getGameWidth()
     {
         return Game.GAME_WIDTH;
     }
 
+    /**
+     * Retrieves the standard game height from the {@code Game} class.
+     * This is used to dynamically calculate position based on the game screen height.
+     *
+     * @return the game height.
+     */
     public static double getGameHeight()
     {
         return Game.GAME_HEIGHT;
     }
 
+    /**
+     * Gets the x-coordinate of this position.
+     *
+     * @return the x-coordinate.
+     */
     public double getX()
     {
         return x;
     }
 
+    /**
+     * Gets the y-coordinate of this position.
+     *
+     * @return the y-coordinate.
+     */
     public double getY()
     {
         return y;
     }
 }
-
