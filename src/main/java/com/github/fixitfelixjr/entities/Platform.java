@@ -56,4 +56,9 @@ public class Platform extends RectangleEntity implements Collided
     {
         return this.position;
     }
+
+    public void setPosition(Coordinate2D position)
+    {
+        this.position = position;
+    }
 }
