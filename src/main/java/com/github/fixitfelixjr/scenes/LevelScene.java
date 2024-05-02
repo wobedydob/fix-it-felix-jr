@@ -66,7 +66,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void checkAllWindowsRepaired()
     {
         if (this.building.areAllWindowsRepaired()) {
-            System.out.println("all windows are repaired");
             Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
             Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
         }
