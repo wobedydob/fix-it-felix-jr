@@ -28,8 +28,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     private Building building;
     private Player player;
     private Enemy enemy;
-
-
+    private Life[] lives;
 
     public LevelScene(int stage)
     {
@@ -37,8 +36,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         this.building = new Building(stage);
         this.player = new Player();
         this.enemy = new Enemy();
-
-
+        this.lives = new Life[Player.MAX_HEALTH];
     }
 
     @Override
@@ -52,22 +50,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         scoreBoard.setAnchorLocation(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate());
         addEntity(scoreBoard);
 
-
-        Coordinate2D position1 = new Coordinate2D(1130, 10);
-        Coordinate2D position2 = new Coordinate2D(1165, 10);
-        Coordinate2D position3 = new Coordinate2D(1200, 10);
-        Size size = new Size(30, 30);
-
-
-        Lifes lifes1 = new Lifes("sprites/felix_life_sprite.png", position1, size);
-        Lifes lifes2 = new Lifes("sprites/felix_life_sprite.png", position2, size);
-        Lifes lifes3 = new Lifes("sprites/felix_life_sprite.png", position3, size);
-
-        addEntity(lifes1);
-        addEntity(lifes2);
-        addEntity(lifes3);
-
-
+        this.setupLives();
     }
 
     @Override
@@ -75,8 +58,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     {
         addEntity(this.player);
         addEntity(this.enemy);
-
-
     }
 
     @Override
@@ -101,6 +82,24 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
         TimeEvent npcEvent = new TimeEvent(NPC_SPAWN_RATE * 1000, () -> this.spawnNPC(), true);
         addTimer(npcEvent);
+    }
+
+    public void setupLives()
+    {
+        int lifeX = (int) Position.PLAYER_LIFE_POSITION.getCoordinate().getX();
+        int lifeY = (int) Position.PLAYER_LIFE_POSITION.getCoordinate().getY();
+        for (int i = 0; i < Player.MAX_HEALTH; i++) {
+            lives[i] = new Life(new Coordinate2D(lifeX, lifeY));
+            addEntity(lives[i]);
+            lifeX += Life.LIFE_SPRITE_SPACING;
+        }
+    }
+
+    public void updateLives(int health)
+    {
+        for (int i = 0; i < lives.length; i++) {
+            lives[i].setVisible(i < health);
+        }
     }
 
     public void spawnPowerUp()
@@ -233,6 +232,11 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         return enemy;
     }
 
+    public Life[] getLives()
+    {
+        return lives;
+    }
+
     public void setLevelStage(int levelStage)
     {
         this.levelStage = levelStage;
@@ -251,6 +255,11 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void setEnemy(Enemy enemy)
     {
         this.enemy = enemy;
+    }
+
+    public void setLives(Life[] lives)
+    {
+        this.lives = lives;
     }
 
 }

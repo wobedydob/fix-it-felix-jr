@@ -201,6 +201,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         }
 
         this.health--;
+        Game.getInstance().getLevelScene().updateLives(this.health);
         setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
     }
 
