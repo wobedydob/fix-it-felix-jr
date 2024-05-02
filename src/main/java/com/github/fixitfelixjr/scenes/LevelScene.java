@@ -18,9 +18,9 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public static final int SCENE_ID = 1;
     public static final int SPRITE_SIZE_APPLIER = 4;
     public static final String BACKGROUND = Building.SPRITE_IMAGE;
-    public static final int POWERUP_SPAWN_RATE = 5; // in milliseconds
-    public static final int POWERUP_CHANCE_RATE = 4; // 1 in x chance
-    public static final int NPC_SPAWN_RATE = 2; // in milliseconds
+    public static final int POWER_UP_SPAWN_RATE = 5; // in milliseconds
+    public static final int POWER_UP_CHANCE_RATE = 4; // 1 in x chance
+    public static final int NPC_SPAWN_RATE = 7; // in milliseconds
     public static final int NPC_CHANCE_RATE = 4; // 1 in x chance
 
     private int levelStage;
@@ -76,7 +76,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     @Override
     public void setupTimers()
     {
-        TimeEvent powerUpEvent = new TimeEvent(POWERUP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
+        TimeEvent powerUpEvent = new TimeEvent(POWER_UP_SPAWN_RATE * 1000, () -> this.spawnPowerUp(), true);
         addTimer(powerUpEvent);
 
         TimeEvent npcEvent = new TimeEvent(NPC_SPAWN_RATE * 1000, () -> this.spawnNPC(), true);
@@ -109,8 +109,8 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         if (this.building.canSpawnPowerUp() && this.player.getPowerUp() == null) {
             System.out.println("can spawn a powerup");
 
-            System.out.println("1/" + POWERUP_CHANCE_RATE + " chance to spawn a powerup");
-            int random = new Random().nextInt(POWERUP_CHANCE_RATE);
+            System.out.println("1/" + POWER_UP_CHANCE_RATE + " chance to spawn a powerup");
+            int random = new Random().nextInt(POWER_UP_CHANCE_RATE);
             if (random == 0) {
                 System.out.println("lucky");
 
