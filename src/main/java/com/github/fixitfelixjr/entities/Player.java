@@ -272,9 +272,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.activatePowerUp();
         this.powerUp.remove();
         Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
-        Game.getInstance().getScoreBoard().addScore(300);
-
-
+        Game.getInstance().getScoreBoard().addScore(PowerUp.SCORE_POINTS);
     }
 
     public void onProjectileCollision(Projectile projectile)
