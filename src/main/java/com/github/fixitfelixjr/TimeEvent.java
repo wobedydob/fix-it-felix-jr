@@ -9,8 +9,8 @@ import com.github.hanyaeger.api.Timer;
 public class TimeEvent extends Timer
 {
 
-    private Runnable eventAction; // The action to be performed on each interval
-    private boolean repeat; // Determines if the timer should repeat
+    private final Runnable eventAction; // The action to be performed on each interval
+    private final boolean repeat; // Determines if the timer should repeat
 
     /**
      * Constructs a TimeEvent that will execute once after the specified interval.

@@ -42,16 +42,16 @@ public class Platform extends RectangleEntity implements Collided
         for (Collider collider : collidingObjects) {
             if (collider instanceof Player player) {
                 if (player.getAnchorLocation().getY() < this.position.getY() && player.getGravityConstant() != 0) {
-                    // If the player is above the platform and affected by gravity, stop the fall
+                    // if the player is above the platform and affected by gravity, stop the fall
                     player.setMotion(0, 0);
                     player.setGravityConstant(0);
                     player.setAnchorLocation(new Coordinate2D(this.position.getX(), this.position.getY() - player.getHeight()));
                 } else if (player.getAnchorLocation().getX() > (this.position.getX() + this.getWidth() - 15)) {
-                    // Handle the player moving beyond the right edge of the platform
+                    // handle the player moving beyond the right edge of the platform
                     player.setAnchorLocation(new Coordinate2D(player.getAnchorLocation().getX() + 15, player.getAnchorLocation().getY()));
                     player.setGravityConstant(Player.GRAVITY_CONSTANT);
                 } else if (player.getAnchorLocation().getX() < (this.position.getX() - this.getWidth())) {
-                    // Handle the player moving beyond the left edge of the platform
+                    // handle the player moving beyond the left edge of the platform
                     player.setAnchorLocation(new Coordinate2D(player.getAnchorLocation().getX() - 15, player.getAnchorLocation().getY()));
                     player.setGravityConstant(Player.GRAVITY_CONSTANT);
                 }
