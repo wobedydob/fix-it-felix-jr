@@ -23,7 +23,7 @@ public enum Direction {
     /**
      * The diagonal direction to the right up, of which the numeric value is 135 degrees.
      */
-    UP_RIGHT(155d),
+    UP_RIGHT(135d),
     /**
      * The upward direction, of which the numeric value is 180 degrees.
      */
@@ -31,7 +31,7 @@ public enum Direction {
     /**
      * The diagonal direction to the left up, of which the numeric value is 225 degrees.
      */
-    UP_LEFT(200d),
+    UP_LEFT(225d),
     /**
      * The direction to the left, of which the numeric value is 270 degrees.
      */
