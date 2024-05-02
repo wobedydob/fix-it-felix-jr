@@ -2,6 +2,8 @@ package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
+import com.github.fixitfelixjr.entities.powerups.HardhatPowerUp;
+import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
@@ -36,7 +38,7 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     public void destroy()
     {
         this.isWrecking = true;
-
+        this.destroyAnimation();
         // determine how many bricks are thrown
         int random = new Random().nextInt(BRICK_COUNT) + 1; // between 1 and 3
 
@@ -44,16 +46,37 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
 
             // randomize offset from enemy position x
             int offsetX = new Random().nextInt(100) - 50; // between -50 and 50
-            int offsetY = new Random().nextInt(100) - 50; // between -50 and 50
 
             double[] allowedGravityConstant = {0.13, 0.24, 0.35, 0.46};
             double gravityConstant = allowedGravityConstant[new Random().nextInt(allowedGravityConstant.length)];
 
-            Coordinate2D position = new Coordinate2D(getAnchorLocation().getX() + offsetX, getAnchorLocation().getY() + HEIGHT + offsetY);
+            Coordinate2D position = new Coordinate2D(getAnchorLocation().getX() + offsetX, getAnchorLocation().getY() + HEIGHT * 3);
             Projectile projectile = new Projectile(position, gravityConstant);
             Game.getInstance().getLevelScene().addEntity(projectile);
         }
         this.isWrecking = false;
+    }
+
+    private void destroyAnimation()
+    {
+
+        int initialFrameIndex = getCurrentFrameIndex();
+
+        TimeEvent goToFrame1 = new TimeEvent(50, () -> {
+            setCurrentFrameIndex(1);
+        });
+        addTimer(goToFrame1);
+
+        TimeEvent goToFrame2 = new TimeEvent(200, () -> {
+            setCurrentFrameIndex(2);
+        });
+        addTimer(goToFrame2);
+
+        TimeEvent resetFrame = new TimeEvent(350, () -> {
+            setCurrentFrameIndex(initialFrameIndex);
+        });
+        addTimer(resetFrame);
+
     }
 
     public void move(Position position)
