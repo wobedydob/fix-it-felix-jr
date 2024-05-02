@@ -2,6 +2,7 @@ package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
 import com.github.fixitfelixjr.TimeEvent;
+import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
@@ -10,6 +11,7 @@ import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.entities.*;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,7 +19,7 @@ import java.util.Random;
  * This class extends {@link DynamicSpriteEntity} and implements {@link TimerContainer} for scheduling movements and attacks,
  * and {@link Collider} to interact with other entities.
  */
-public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider
+public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collider, Collided
 {
     public static final String SPRITE_IMAGE = "sprites/ralph.png";
     public static final double WIDTH = 183;
@@ -42,7 +44,7 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     }
 
     /**
-     * Simulates the enemy attacking by throwing projectiles. The number and trajectory of projectiles are randomized.
+     * Simulates the enemy attacking by throwing projectiles. The number and trajectory of projectiles is randomized.
      */
     public void destroy()
     {
@@ -99,7 +101,6 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     public void move(Position position)
     {
         this.isMoving = true;
-        System.out.println("moving to: " + position);
         setAnchorLocation(position.getCoordinate());
         this.isMoving = false;
     }
@@ -152,5 +153,22 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
 
         TimeEvent destroyEvent = new TimeEvent(DESTROY_RATE * 1000, this::destroy, true);
         addTimer(destroyEvent);
+    }
+
+    @Override
+    public void onCollision(List<Collider> collidingObjects)
+    {
+        if (collidingObjects.size() > 1) {
+            return;
+        }
+
+        Collider collidingObject = collidingObjects.stream().findFirst().orElse(null);
+        if (collidingObject instanceof NPC npc) {
+            npc.remove();
+            Game.getInstance().getLevelScene().getBuilding().clearNPCs();
+        } else if (collidingObject instanceof PowerUp powerUp) {
+            powerUp.remove();
+            Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
+        }
     }
 }

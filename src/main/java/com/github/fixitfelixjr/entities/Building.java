@@ -209,7 +209,6 @@ public class Building
         // so only one npc can be spawned
         for (WindowFrame windowFrame : this.windowFrames) {
             if (windowFrame.hasNPC()) {
-                System.out.println(windowFrame.getAnchorLocation());
                 return false;
             }
         }
