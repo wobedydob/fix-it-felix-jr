@@ -34,14 +34,14 @@ public class ScoreBoard extends TextEntity
         setText(SCORE_TEXT + this.score);
     }
 
-    public int getScore()
-    {
-        return this.score;
-    }
-
     public void addScore(int score)
     {
         this.score += score;
+    }
+
+    public int getScore()
+    {
+        return this.score;
     }
 
     public void setScore(int score)
