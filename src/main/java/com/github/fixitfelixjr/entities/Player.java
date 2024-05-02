@@ -192,8 +192,16 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
     public void die()
     {
-        remove();
-        Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
+
+        // check if player is dead
+        if (this.health <= 0) {
+            remove();
+            Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
+            return;
+        }
+
+        this.health--;
+        setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
     }
 
     @Override
@@ -247,11 +255,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             this.onEnemyCollision();
         }
 
-        // check if player is dead
-        if (this.health <= 0) {
-            this.die();
-        }
-
     }
 
     public void onPowerUpCollision(PowerUp powerUp)
@@ -270,13 +273,13 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             return;
         }
 
-        this.health--;
         projectile.remove();
+        this.die();
     }
 
     public void onEnemyCollision()
     {
-        this.health--;
+        this.die();
     }
 
     @Override
