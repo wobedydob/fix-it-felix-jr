@@ -53,11 +53,9 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             Window window = windowToRepair.getWindow();
 
             if (this.powerUp != null && this.powerUp instanceof PiePowerUp) {
-                System.out.println("player has powerup");
                 this.repairAnimation();
                 window.repair(Window.MAX_REPAIR);
             } else {
-                System.out.println("default repair");
                 this.repairAnimation();
                 window.repair();
             }
@@ -79,10 +77,8 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
 
         // check if player has power-up
         if (this.powerUp instanceof PiePowerUp) {
-            System.out.println("repairing with powerup");
             newFrameIndex += SPRITE_ROWS_COLS[1];
         } else if (this.powerUp instanceof HardhatPowerUp) {
-            System.out.println("repairing with hardhat");
             newFrameIndex += SPRITE_ROWS_COLS[1] * 2;
         }
 
@@ -92,7 +88,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
             setCurrentFrameIndex(initialFrameIndex);
         });
         addTimer(event);
-
     }
 
     public void move(Direction direction)
@@ -125,7 +120,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         } else {
             setCurrentFrameIndex(frameIndex);
         }
-
     }
 
     public void moveRight()
