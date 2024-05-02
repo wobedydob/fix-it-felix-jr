@@ -2,10 +2,7 @@ package com.github.fixitfelixjr;
 
 import com.github.fixitfelixjr.entities.ScoreBoard;
 import com.github.fixitfelixjr.enums.Position;
-import com.github.fixitfelixjr.scenes.GameOverScene;
-import com.github.fixitfelixjr.scenes.LevelScene;
-import com.github.fixitfelixjr.scenes.Scene;
-import com.github.fixitfelixjr.scenes.TitleScene;
+import com.github.fixitfelixjr.scenes.*;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.YaegerGame;
 import com.github.hanyaeger.api.scenes.YaegerScene;
@@ -16,6 +13,7 @@ public class Game extends YaegerGame
     public static final String GAME_TITLE = "Fix-It Felix Jr.";
     public static final int GAME_WIDTH = 1280;
     public static final int GAME_HEIGHT = 960;
+    public static final int INITIAL_LEVEL = 1;
     public static final int INITIAL_STAGE = 0;
 
     private static Game instance;
@@ -46,7 +44,7 @@ public class Game extends YaegerGame
     public void setupGame()
     {
         this.titleScene = new TitleScene();
-        this.levelScene = new LevelScene(INITIAL_STAGE);
+        this.levelScene = new LevelScene(INITIAL_LEVEL, INITIAL_STAGE);
         this.gameOverScene = new GameOverScene(GameOverScene.GAME_OVER_BACKGROUND);
         this.scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_TITLE.getCoordinate(), ScoreBoard.INITIAL_SCORE);
 

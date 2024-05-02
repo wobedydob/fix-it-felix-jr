@@ -10,7 +10,7 @@ import java.util.List;
 public class Building
 {
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
-    public static final int FLOORS = 4;
+    public static final int FLOORS = 1;
     public static final int WINDOWS_PER_FLOOR = 5;
     public static final int BUILDING_ENTRANCE_INDEX = 2;
 

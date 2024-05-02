@@ -25,19 +25,25 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public static final int NPC_SPAWN_RATE = 7; // in milliseconds
     public static final int NPC_CHANCE_RATE = 4; // 1 in x chance
 
+    private int level;
     private int levelStage;
     private Building building;
     private Player player;
     private Enemy enemy;
     private Life[] lives;
 
-    public LevelScene(int stage)
+    private Stage stage;
+
+    public LevelScene(int level, int stage)
     {
         this.levelStage = stage;
         this.building = new Building(stage);
         this.player = new Player();
         this.enemy = new Enemy();
         this.lives = new Life[Player.MAX_HEALTH];
+
+        this.stage = new Stage(level, stage);
+        System.out.println(this.stage.stage);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void setupEntities()
     {
         addEntity(this.player);
-        addEntity(this.enemy);
+//        addEntity(this.enemy);
     }
 
     @Override
@@ -66,8 +72,13 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void checkAllWindowsRepaired()
     {
         if (this.building.areAllWindowsRepaired()) {
-            Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
-            Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
+            System.out.println("completed stage");
+//            Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
+//            Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
+            clear();
+            this.levelStage++;
+            this.setupScene();
+            this.setupEntities();
         }
     }
 
@@ -203,6 +214,11 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         return BACKGROUND;
     }
 
+    public int getLevel()
+    {
+        return this.level;
+    }
+
     public int getLevelStage()
     {
         return this.levelStage;
@@ -226,6 +242,11 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public Life[] getLives()
     {
         return this.lives;
+    }
+
+    public void setLevel(int level)
+    {
+        this.level = level;
     }
 
     public void setLevelStage(int levelStage)
