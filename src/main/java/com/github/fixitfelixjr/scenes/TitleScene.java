@@ -12,11 +12,22 @@ import com.github.hanyaeger.api.scenes.StaticScene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/**
+ * The {@code TitleScene} class represents the title screen scene for the game.
+ * This class extends {@code StaticScene} and implements the {@code Scene} interface to provide
+ * necessary functionality for initializing and displaying the title screen with interactive elements.
+ * This scene includes a background image and interactive buttons.
+ */
 public class TitleScene extends StaticScene implements Scene
 {
     public static final int SCENE_ID = 0;
     public static final String BACKGROUND = "backgrounds/screens/title_screen.png";
 
+    /**
+     * Sets up the scene by defining its background image and key press handlers.
+     * The background image is set to a predefined image and a key handler is configured
+     * to change scenes when a specific key is pressed.
+     */
     @Override
     public void setupScene()
     {
@@ -29,6 +40,10 @@ public class TitleScene extends StaticScene implements Scene
         });
     }
 
+    /**
+     * Sets up the entities within the scene, such as buttons and text.
+     * This method initializes and adds a {@code Button} that represents the start button.
+     */
     @Override
     public void setupEntities()
     {
@@ -43,19 +58,23 @@ public class TitleScene extends StaticScene implements Scene
         addEntity(pressStart);
     }
 
+    /**
+     * Retrieves the unique identifier for this scene.
+     * @return the unique identifier for the title scene.
+     */
     @Override
     public int getSceneId()
     {
         return SCENE_ID;
     }
 
+    /**
+     * Provides the path to the background image used for the title scene.
+     * @return a string representing the path to the background image.
+     */
     @Override
     public String getBackground()
     {
         return BACKGROUND;
     }
 }
-
-
-
-
