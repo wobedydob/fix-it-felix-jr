@@ -9,7 +9,7 @@ Players take on the role of Fix-It Felix, using his magical hammer to repair win
 ## 🪂 Features
 - **Player Character (Fix-It Felix):** Controlled by the player, with the ability to move horizontally and vertically across the screen to repair windows.
 - **Enemy (Wreck-It Ralph):** The antagonist who randomly moves at the top of the screen and throws bricks to damage the windows.
-- **Power-Ups:** Cakes that provide temporary invincibility and enhanced repair speed.
+- **Power-Ups:** Cakes that provide temporary invincibility, an extra life or enhanced repair speed.
 - **NPCs (Nicelanders):** Characters that occasionally provide power-ups to the player.
 - **Scoring System:** Points are awarded for repairing windows, collecting pies, and completing stages.
 
@@ -25,7 +25,7 @@ The game is developed using the YAEGER game engine, adhering to object-oriented 
 1. Clone the repository to your local machine.
 2. Open the project in your preferred Java IDE.
 3. Ensure Maven dependencies are correctly imported.
-4. Build and run the project from the main class.
+4. Build and run the project from the main class `Game`.
 
 ## 🫱🏻‍🫲🏼 Acknowledgments
 - Disney Pixar, for the original "Fix-It Felix Jr." concept from "Wreck-It Ralph".
