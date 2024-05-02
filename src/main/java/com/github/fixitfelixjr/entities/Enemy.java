@@ -16,10 +16,10 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
 {
 
     public static final String SPRITE_IMAGE = "sprites/ralph.png";
-    public static final double WIDTH = 45;
+    public static final double WIDTH = 183;
     public static final double HEIGHT = 56;
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER);
-    public static final int[] SPRITE_ROWS_COLS = {1, 1};
+    public static final int[] SPRITE_ROWS_COLS = {1, 3};
     public static final Position INITIAL_POSITION = Position.ENEMY_INITIAL_POSITION;
     public static final int MOVE_RATE = 5; // in seconds
     public static final int DESTROY_RATE = 3; // in seconds
