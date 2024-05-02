@@ -1,7 +1,6 @@
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
-import com.github.fixitfelixjr.scenes.LevelScene;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.Direction;
 
@@ -47,7 +46,6 @@ public class Building
 
     public void createWindowFrames()
     {
-
         for (int floor = 0; floor < FLOORS; floor++) {
 
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
@@ -58,7 +56,6 @@ public class Building
             }
 
         }
-
     }
 
     public void createWindowFrame(Coordinate2D position)

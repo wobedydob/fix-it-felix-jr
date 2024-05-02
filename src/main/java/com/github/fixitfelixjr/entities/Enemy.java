@@ -147,10 +147,10 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     @Override
     public void setupTimers()
     {
-        TimeEvent moveEvent = new TimeEvent(MOVE_RATE * 1000, () -> this.randomizeMove(), true);
+        TimeEvent moveEvent = new TimeEvent(MOVE_RATE * 1000, this::randomizeMove, true);
         addTimer(moveEvent);
 
-        TimeEvent destroyEvent = new TimeEvent(DESTROY_RATE * 1000, () -> this.destroy(), true);
+        TimeEvent destroyEvent = new TimeEvent(DESTROY_RATE * 1000, this::destroy, true);
         addTimer(destroyEvent);
     }
 }
