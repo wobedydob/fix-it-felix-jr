@@ -84,7 +84,6 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         this.isMoving = false;
     }
 
-
     public void randomizeMove()
     {
         if (this.isMoving || this.isWrecking) {
