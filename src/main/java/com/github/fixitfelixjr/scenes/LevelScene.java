@@ -35,6 +35,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public LevelScene(int level, int stage)
     {
+        this.level = level;
         this.levelStage = stage;
         this.backgroundImage = BACKGROUND;
         this.building = new Building(stage);
@@ -91,6 +92,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     {
         this.setupBackground();
         this.setupBuilding();
+        this.setupPlayer();
         this.setupLives();
         this.setupScoreBoard();
 
@@ -98,13 +100,10 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
             Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
             Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
         }
-
-        this.player.setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
     }
 
     @Override
     public void setupTimers()
-
     {
         TimeEvent powerUpEvent = new TimeEvent(POWER_UP_SPAWN_RATE * 1000, this::spawnPowerUp, true);
         addTimer(powerUpEvent);
@@ -116,7 +115,16 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void setupBuilding()
     {
         this.building.setStage(this.levelStage);
+        this.building.removeWindowsFromScene();
         this.building.createWindowFrames();
+    }
+
+    public void setupPlayer()
+    {
+        if(this.player != null) {
+            this.player.setPowerUp(null);
+            this.player.setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
+        }
     }
 
     public void setupScoreBoard()
@@ -132,7 +140,13 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     {
         double lifeX = Position.PLAYER_LIFE_POSITION.getCoordinate().getX();
         double lifeY = Position.PLAYER_LIFE_POSITION.getCoordinate().getY();
-        for (int i = 0; i < Player.MAX_HEALTH; i++) {
+
+        int health = Player.MAX_HEALTH;
+        if(this.player != null) {
+            health = this.player.getHealth();
+        }
+
+        for (int i = 0; i < health; i++) {
             lives[i] = new Life(new Coordinate2D(lifeX, lifeY));
             addEntity(lives[i]);
             lifeX += Life.LIFE_SPRITE_SPACING;
@@ -148,7 +162,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void spawnPowerUp()
     {
-
         if (this.building.canSpawnPowerUp() && this.player.getPowerUp() == null) {
 
             int random = new Random().nextInt(POWER_UP_CHANCE_RATE);

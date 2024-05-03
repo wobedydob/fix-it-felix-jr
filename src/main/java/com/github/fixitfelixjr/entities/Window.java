@@ -65,7 +65,6 @@ public class Window extends DynamicSpriteEntity
             boolean fullRepair = repairState == MAX_REPAIR - 1;
             this.repairState = repairState;
             this.update(fullRepair);
-            Game.getInstance().getLevelScene().onWindowRepaired();
         }
     }
 

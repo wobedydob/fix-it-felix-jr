@@ -172,10 +172,12 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     {
         if (this.powerUp != null) {
 
-            if(this.powerUp instanceof LifePowerUp) {
+            if (this.powerUp instanceof LifePowerUp) {
                 this.activateLifePowerUp();
                 return;
             }
+
+            this.powerUp.remove();
 
             // calculate sprite frame index (based on power-ups)
             int addition = 0;
@@ -203,10 +205,12 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
      */
     public void activateLifePowerUp()
     {
-        if (this.health <= MAX_HEALTH) {
+        if (this.health < MAX_HEALTH) {
             this.health++;
             Game.getInstance().getLevelScene().updateLives(this.health);
         }
+        this.powerUp.remove();
+        this.deactivatePowerUp();
     }
 
     /**
@@ -311,7 +315,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         this.activatePowerUp();
         Game.getInstance().getLevelScene().getBuilding().clearPowerUps();
         Game.getInstance().getScoreBoard().addScore(PowerUp.SCORE_POINTS);
-        this.powerUp.remove();
     }
 
     /**

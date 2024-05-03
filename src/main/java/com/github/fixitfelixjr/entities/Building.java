@@ -12,7 +12,7 @@ public class Building
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
     public static final String SPRITE_IMAGE_MIDDLE = "backgrounds/building_higher.png";
     public static final String SPRITE_IMAGE_TOP = "backgrounds/building_end.png";
-    public static final int FLOORS = 1;
+    public static final int FLOORS = 4;
     public static final int WINDOWS_PER_FLOOR = 5;
     public static final int BUILDING_ENTRANCE_INDEX = 2;
 
@@ -27,7 +27,12 @@ public class Building
     public void createWindowFrames()
     {
         this.windowFrames = new ArrayList<>();
-        int floors = this.stage == Game.FINAL_STAGE ? FLOORS - 2 : FLOORS;
+        int floors = FLOORS;
+
+        if(this.stage == Game.FINAL_STAGE && FLOORS > 2) {
+            floors -= 2;
+        }
+
         for (int floor = 0; floor < floors; floor++) {
 
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
@@ -44,6 +49,17 @@ public class Building
         WindowFrame windowFrame = new WindowFrame(position);
         Game.getInstance().getLevelScene().addEntity(windowFrame);
         this.windowFrames.add(windowFrame);
+    }
+
+    public void removeWindowsFromScene()
+    {
+        if(this.windowFrames == null) return;
+        for (WindowFrame windowFrame : this.windowFrames) {
+            windowFrame.remove();
+            windowFrame.getWindow().remove();
+            windowFrame.getPlatform().remove();
+        }
+        this.clearBuilding();
     }
 
     public WindowFrame findNearestWindow(Coordinate2D position)
@@ -171,6 +187,12 @@ public class Building
             }
         }
         return true;
+    }
+
+    public void clearBuilding()
+    {
+        this.clearPowerUps();
+        this.clearNPCs();
     }
 
     public void clearPowerUps()
