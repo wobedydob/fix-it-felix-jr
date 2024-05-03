@@ -31,36 +31,29 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     private Player player;
     private Enemy enemy;
     private Life[] lives;
-
-    private Stage stage;
+    private String backgroundImage;
 
     public LevelScene(int level, int stage)
     {
         this.levelStage = stage;
+        this.backgroundImage = BACKGROUND;
         this.building = new Building(stage);
         this.player = new Player();
         this.enemy = new Enemy();
         this.lives = new Life[Player.MAX_HEALTH];
-
-        this.stage = new Stage(level, stage);
-        System.out.println(this.stage.stage);
     }
 
     @Override
     public void setupScene()
     {
-        setBackgroundImage(BACKGROUND);
-
-        this.setupBuilding();
-        this.setupScoreBoard(Game.getInstance().getScoreBoard());
-        this.setupLives();
+        this.setupStage();
     }
 
     @Override
     public void setupEntities()
     {
         addEntity(this.player);
-//        addEntity(this.enemy);
+        addEntity(this.enemy);
     }
 
     @Override
@@ -72,18 +65,46 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void checkAllWindowsRepaired()
     {
         if (this.building.areAllWindowsRepaired()) {
-            System.out.println("completed stage");
-//            Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
-//            Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
-            clear();
+            this.player.remove();
+            this.enemy.remove();
             this.levelStage++;
             this.setupScene();
             this.setupEntities();
         }
     }
 
+    public void setupBackground()
+    {
+        String image = Building.SPRITE_IMAGE;
+        if (this.levelStage == 1) {
+            image = Building.SPRITE_IMAGE;
+        } else if (this.levelStage == 2) {
+            image = Building.SPRITE_IMAGE_MIDDLE;
+        } else if (this.levelStage == 3) {
+            image = Building.SPRITE_IMAGE_TOP;
+        }
+        this.backgroundImage = image;
+        setBackgroundImage(this.backgroundImage);
+    }
+
+    public void setupStage()
+    {
+        this.setupBackground();
+        this.setupBuilding();
+        this.setupLives();
+        this.setupScoreBoard();
+
+        if (this.levelStage > Game.FINAL_STAGE) {
+            Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
+            Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
+        }
+
+        this.player.setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
+    }
+
     @Override
     public void setupTimers()
+
     {
         TimeEvent powerUpEvent = new TimeEvent(POWER_UP_SPAWN_RATE * 1000, this::spawnPowerUp, true);
         addTimer(powerUpEvent);
@@ -98,9 +119,12 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         this.building.createWindowFrames();
     }
 
-    public void setupScoreBoard(ScoreBoard scoreBoard)
+    public void setupScoreBoard()
     {
-        scoreBoard.setAnchorLocation(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate());
+        int score = Game.getInstance().getScoreBoard().getScore();
+        ScoreBoard scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_LEVEL.getCoordinate(), score);
+        Game.getInstance().getScoreBoard().remove();
+        Game.getInstance().setScoreBoard(scoreBoard);
         addEntity(scoreBoard);
     }
 

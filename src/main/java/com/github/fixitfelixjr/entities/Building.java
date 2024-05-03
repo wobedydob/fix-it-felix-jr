@@ -10,6 +10,8 @@ import java.util.List;
 public class Building
 {
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
+    public static final String SPRITE_IMAGE_MIDDLE = "backgrounds/building_higher.png";
+    public static final String SPRITE_IMAGE_TOP = "backgrounds/building_end.png";
     public static final int FLOORS = 1;
     public static final int WINDOWS_PER_FLOOR = 5;
     public static final int BUILDING_ENTRANCE_INDEX = 2;
@@ -25,10 +27,10 @@ public class Building
     public void createWindowFrames()
     {
         this.windowFrames = new ArrayList<>();
-        for (int floor = 0; floor < FLOORS; floor++) {
+        int floors = this.stage == Game.FINAL_STAGE ? FLOORS - 2 : FLOORS;
+        for (int floor = 0; floor < floors; floor++) {
 
             for (int windowNum = 0; windowNum < WINDOWS_PER_FLOOR; windowNum++) {
-
                 if (this.stage == Game.INITIAL_STAGE && floor == 0 && windowNum == BUILDING_ENTRANCE_INDEX) continue;
                 Coordinate2D position = new Coordinate2D(calculateXPosition(windowNum), calculateYPosition(floor));
                 createWindowFrame(position);
@@ -100,7 +102,7 @@ public class Building
             nearestWindow = windowFrames.get(index);
             return nearestWindow;
 
-        } else if (direction == Direction.LEFT && index != firstWindowIndex && index % WINDOWS_PER_FLOOR != bottomWindows) {
+        } else if (direction == Direction.LEFT && index != firstWindowIndex && index % WINDOWS_PER_FLOOR != bottomWindows && index > 0) {
 
             index--;
             if (!this.onBuildingEdge(index)) {

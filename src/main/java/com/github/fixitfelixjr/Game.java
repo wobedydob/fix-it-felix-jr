@@ -14,7 +14,8 @@ public class Game extends YaegerGame
     public static final int GAME_WIDTH = 1280;
     public static final int GAME_HEIGHT = 960;
     public static final int INITIAL_LEVEL = 1;
-    public static final int INITIAL_STAGE = 0;
+    public static final int INITIAL_STAGE = 1;
+    public static final int FINAL_STAGE = 3;
 
     private static Game instance;
 
