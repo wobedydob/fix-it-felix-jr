@@ -181,7 +181,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void updateLives(int health)
     {
-        System.out.println("updateLives(" + health + ")");
         for (int i = 0; i < this.lives.length; i++) {
             this.lives[i].setVisible(i < health);
         }
