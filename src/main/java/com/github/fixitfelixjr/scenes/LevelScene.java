@@ -148,13 +148,14 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void setupStageIndicator()
     {
-        int stage = Game.getInstance().getStageIndicator().getStage();
-        StageIndicator stageIndicator = new StageIndicator(Position.STAGEINDICATOR_POSITION.getCoordinate());
-        stageIndicator.setStage(stage);
+        int level = this.level;
+        int stage = this.levelStage;
+        LevelStageIndicator levelStageIndicator = new LevelStageIndicator(Position.STAGE_POSITION_LEVEL.getCoordinate());
+        levelStageIndicator.setLevel(level);
+        levelStageIndicator.setStage(stage);
         Game.getInstance().getStageIndicator().remove();
-        Game.getInstance().setStageIndicator(stageIndicator);
-        addEntity(stageIndicator);
-
+        Game.getInstance().setStageIndicator(levelStageIndicator);
+        addEntity(levelStageIndicator);
     }
 
     public void setupLives()

@@ -1,7 +1,7 @@
 package com.github.fixitfelixjr;
 
 import com.github.fixitfelixjr.entities.ScoreBoard;
-import com.github.fixitfelixjr.entities.StageIndicator;
+import com.github.fixitfelixjr.entities.LevelStageIndicator;
 import com.github.fixitfelixjr.enums.Position;
 import com.github.fixitfelixjr.scenes.*;
 import com.github.hanyaeger.api.Size;
@@ -24,7 +24,7 @@ public class Game extends YaegerGame
     private LevelScene levelScene;
     private GameOverScene gameOverScene;
     private ScoreBoard scoreBoard;
-    private StageIndicator stageIndicator;
+    private LevelStageIndicator levelStageIndicator;
 
     public static Game getInstance()
     {
@@ -50,7 +50,7 @@ public class Game extends YaegerGame
         this.levelScene = new LevelScene(INITIAL_LEVEL, INITIAL_STAGE);
         this.gameOverScene = new GameOverScene(GameOverScene.GAME_OVER_BACKGROUND);
         this.scoreBoard = new ScoreBoard(Position.SCOREBOARD_POSITION_TITLE.getCoordinate(), ScoreBoard.INITIAL_SCORE);
-        this.stageIndicator = new StageIndicator(Position.STAGEINDICATOR_POSITION.getCoordinate());
+        this.levelStageIndicator = new LevelStageIndicator(Position.STAGE_POSITION_TITLE.getCoordinate());
 
         setGameTitle(GAME_TITLE);
         setSize(new Size(GAME_WIDTH, GAME_HEIGHT));
@@ -89,9 +89,9 @@ public class Game extends YaegerGame
         return this.scoreBoard;
     }
 
-    public StageIndicator getStageIndicator()
+    public LevelStageIndicator getStageIndicator()
     {
-        return this.stageIndicator;
+        return this.levelStageIndicator;
     }
 
     public void setTitleScene(TitleScene titleScene)
@@ -114,8 +114,8 @@ public class Game extends YaegerGame
         this.scoreBoard = scoreBoard;
     }
 
-    public void setStageIndicator(StageIndicator stageIndicator)
+    public void setStageIndicator(LevelStageIndicator levelStageIndicator)
     {
-        this.stageIndicator = stageIndicator;
+        this.levelStageIndicator = levelStageIndicator;
     }
 }
