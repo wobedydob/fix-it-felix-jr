@@ -73,20 +73,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         }
     }
 
-    public void setupBackground()
-    {
-        String image = Building.SPRITE_IMAGE;
-        if (this.levelStage == 1) {
-            image = Building.SPRITE_IMAGE;
-        } else if (this.levelStage == 2) {
-            image = Building.SPRITE_IMAGE_MIDDLE;
-        } else if (this.levelStage == 3) {
-            image = Building.SPRITE_IMAGE_TOP;
-        }
-        this.backgroundImage = image;
-        setBackgroundImage(this.backgroundImage);
-    }
-
     public void resetLevel()
     {
         this.levelStage = Game.INITIAL_STAGE;
@@ -110,6 +96,20 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
             Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
             Game.getInstance().setActiveScene(GameOverScene.SCENE_ID);
         }
+    }
+
+    public void setupBackground()
+    {
+        String image = Building.SPRITE_IMAGE;
+        if (this.levelStage == 1) {
+            image = Building.SPRITE_IMAGE;
+        } else if (this.levelStage == 2) {
+            image = Building.SPRITE_IMAGE_MIDDLE;
+        } else if (this.levelStage == 3) {
+            image = Building.SPRITE_IMAGE_TOP;
+        }
+        this.backgroundImage = image;
+        setBackgroundImage(this.backgroundImage);
     }
 
     @Override
