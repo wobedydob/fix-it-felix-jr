@@ -94,6 +94,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         this.setupPlayer();
         this.setupLives();
         this.setupScoreBoard();
+        this.setupStageIndicator();
 
         if (this.levelStage > Game.FINAL_STAGE) {
             Game.getInstance().getGameOverScene().setBackground(GameOverScene.VICTORY_BACKGROUND);
@@ -133,6 +134,17 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         Game.getInstance().getScoreBoard().remove();
         Game.getInstance().setScoreBoard(scoreBoard);
         addEntity(scoreBoard);
+    }
+
+    public void setupStageIndicator()
+    {
+        int stage = Game.getInstance().getStageIndicator().getStage();
+        StageIndicator stageIndicator = new StageIndicator(Position.STAGEINDICATOR_POSITION.getCoordinate());
+        stageIndicator.setStage(stage);
+        Game.getInstance().getStageIndicator().remove();
+        Game.getInstance().setStageIndicator(stageIndicator);
+        addEntity(stageIndicator);
+
     }
 
     public void setupLives()
