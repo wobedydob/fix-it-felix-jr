@@ -41,7 +41,6 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         this.building = new Building(stage);
         this.player = new Player();
         this.enemy = new Enemy();
-        this.lives = new Life[Player.MAX_HEALTH];
     }
 
     @Override
@@ -121,7 +120,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void setupPlayer()
     {
-        if(this.player != null) {
+        if (this.player != null) {
             this.player.setPowerUp(null);
             this.player.setAnchorLocation(Position.PLAYER_INITIAL_POSITION.getCoordinate());
         }
@@ -138,14 +137,18 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void setupLives()
     {
+        this.removeLives(); // first remove any existing lives
         double lifeX = Position.PLAYER_LIFE_POSITION.getCoordinate().getX();
         double lifeY = Position.PLAYER_LIFE_POSITION.getCoordinate().getY();
 
+        // determine player health
         int health = Player.MAX_HEALTH;
-        if(this.player != null) {
+        if (this.player != null) {
             health = this.player.getHealth();
         }
 
+        // create player lives
+        this.lives = new Life[health];
         for (int i = 0; i < health; i++) {
             lives[i] = new Life(new Coordinate2D(lifeX, lifeY));
             addEntity(lives[i]);
@@ -155,8 +158,18 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
 
     public void updateLives(int health)
     {
-        for (int i = 0; i < lives.length; i++) {
-            lives[i].setVisible(i < health);
+        System.out.println("updateLives(" + health + ")");
+        for (int i = 0; i < this.lives.length; i++) {
+            this.lives[i].setVisible(i < health);
+        }
+    }
+
+    public void removeLives()
+    {
+        if (this.lives != null) {
+            for (Life life : this.lives) {
+                life.remove();
+            }
         }
     }
 
