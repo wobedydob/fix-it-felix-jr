@@ -54,14 +54,10 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         // determine how many bricks are thrown
         int random = new Random().nextInt(BRICK_COUNT) + 1; // between 1 and 3
         for (int i = 0; i <= random; i++) {
-
-            // randomize offset from enemy position x
-            int offsetX = new Random().nextInt(100) - 50; // between -50 and 50
-
             double[] allowedGravityConstant = {0.13, 0.24, 0.35, 0.46};
             double gravityConstant = allowedGravityConstant[new Random().nextInt(allowedGravityConstant.length)];
 
-            Coordinate2D position = new Coordinate2D(getAnchorLocation().getX() + offsetX, getAnchorLocation().getY() + HEIGHT * 3);
+            Coordinate2D position = new Coordinate2D(getAnchorLocation().getX() + (WIDTH / 2), getAnchorLocation().getY() + HEIGHT * 3);
             Projectile projectile = new Projectile(position, gravityConstant);
             Game.getInstance().getLevelScene().addEntity(projectile);
         }
