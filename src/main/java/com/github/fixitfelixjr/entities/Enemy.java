@@ -51,8 +51,12 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
         this.isWrecking = true;
         this.destroyAnimation();
 
+        // add difficulty for stages
+        int stage = Game.getInstance().getLevelScene().getLevelStage();
+
         // determine how many bricks are thrown
-        int random = new Random().nextInt(BRICK_COUNT) + 1; // between 1 and 3
+        int random = new Random().nextInt(BRICK_COUNT) + stage; // between 1 and 3
+
         for (int i = 0; i <= random; i++) {
             double[] allowedGravityConstant = {0.13, 0.24, 0.35, 0.46};
             double gravityConstant = allowedGravityConstant[new Random().nextInt(allowedGravityConstant.length)];
@@ -144,10 +148,21 @@ public class Enemy extends DynamicSpriteEntity implements TimerContainer, Collid
     @Override
     public void setupTimers()
     {
-        TimeEvent moveEvent = new TimeEvent(MOVE_RATE * 1000, this::randomizeMove, true);
+        // every level decrease move rate by 250 milliseconds unless the move rate is less than 500 milliseconds
+        int level = Game.getInstance().getLevelScene().getLevel();
+        int moveRate = (MOVE_RATE * 1000) - (level * 250);
+        if (moveRate < 500) {
+            moveRate = 500;
+        }
+        TimeEvent moveEvent = new TimeEvent(moveRate, this::randomizeMove, true);
         addTimer(moveEvent);
 
-        TimeEvent destroyEvent = new TimeEvent(DESTROY_RATE * 1000, this::destroy, true);
+        // every level decrease destroy rate by 250 milliseconds unless the destroy rate is less than 500 milliseconds
+        int destroyRate = (DESTROY_RATE * 1000) - (level * 250);
+        if (destroyRate < 500) {
+            destroyRate = 500;
+        }
+        TimeEvent destroyEvent = new TimeEvent(destroyRate, this::destroy, true);
         addTimer(destroyEvent);
     }
 
