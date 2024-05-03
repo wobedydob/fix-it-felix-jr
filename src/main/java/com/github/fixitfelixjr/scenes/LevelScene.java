@@ -87,8 +87,18 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         setBackgroundImage(this.backgroundImage);
     }
 
+    public void resetLevel()
+    {
+        this.levelStage = Game.INITIAL_STAGE;
+    }
+
     public void setupStage()
     {
+        if (this.levelStage > Game.FINAL_STAGE) {
+            this.level++;
+            this.resetLevel();
+        }
+
         this.setupBackground();
         this.setupBuilding();
         this.setupPlayer();
