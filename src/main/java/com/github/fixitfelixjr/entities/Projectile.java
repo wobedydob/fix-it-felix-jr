@@ -12,7 +12,7 @@ import com.github.hanyaeger.api.scenes.SceneBorder;
  * and implements {@link SceneBorderTouchingWatcher} to detect collisions with the scene border,
  * {@link Newtonian} to apply physics such as gravity, and {@link Collider} to handle collisions with other entities.
  *
- * <p>This entity is used to model physical projectiles that can interact with other objects and are affected
+ * This entity is used to model physical projectiles that can interact with other objects and are affected
  * by gravitational forces. It is set to automatically remove itself from the scene upon touching any scene border,
  * simulating a projectile falling out of the playable area or making contact with an obstacle.
  */

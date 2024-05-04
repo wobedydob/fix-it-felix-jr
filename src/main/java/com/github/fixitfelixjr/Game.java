@@ -1,3 +1,7 @@
+/**
+ * The Game class represents the main game controller for Fix-It Felix Jr.
+ * It extends the YaegerGame class and manages the game's setup, scenes, and components.
+ */
 package com.github.fixitfelixjr;
 
 import com.github.fixitfelixjr.entities.ScoreBoard;
@@ -9,6 +13,10 @@ import com.github.hanyaeger.api.YaegerGame;
 import com.github.hanyaeger.api.scenes.YaegerScene;
 import javafx.stage.Stage;
 
+/**
+ * Retrieves the singleton instance of the Game class.
+ * @return The instance of the Game class.
+ */
 public class Game extends YaegerGame
 {
     public static final String GAME_TITLE = "Fix-It Felix Jr.";
@@ -31,6 +39,10 @@ public class Game extends YaegerGame
         return instance;
     }
 
+    /**
+     * The entry point of the application.
+     * @param args The command line arguments.
+     */
     public static void main(String[] args)
     {
         launch(args);
@@ -64,6 +76,10 @@ public class Game extends YaegerGame
         registerScene(this.gameOverScene);
     }
 
+    /**
+     * Registers a scene in the game.
+     * @param scene The scene to register.
+     */
     public void registerScene(Scene scene)
     {
         addScene(scene.getSceneId(), (YaegerScene) scene);

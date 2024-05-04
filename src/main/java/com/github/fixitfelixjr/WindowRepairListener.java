@@ -5,7 +5,7 @@ package com.github.fixitfelixjr;
  * about window repair events within an application. Implementers of this interface can receive
  * updates when certain actions, specifically window repairs, are completed.
  *
- * <p>This interface is typically used in scenarios where various components of the application
+ * This interface is typically used in scenarios where various components of the application
  * might need to respond to the event of a window being repaired, such as updating the UI, logging
  * information, or enabling and disabling certain functionality.
  */

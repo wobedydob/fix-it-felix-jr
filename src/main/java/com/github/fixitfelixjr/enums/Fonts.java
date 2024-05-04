@@ -9,7 +9,7 @@ import java.io.InputStream;
  * Each enum constant represents a specific font file, allowing easy access and consistent use of fonts throughout the application.
  * This setup ensures that font files are only loaded once and reused, improving performance and memory management.
  *
- * <p>This enum is particularly useful for applications requiring a consistent theme or style across various UI components,
+ * This enum is particularly useful for applications requiring a consistent theme or style across various UI components,
  * as it simplifies the process of font application and maintenance.
  */
 public enum Fonts

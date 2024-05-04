@@ -6,7 +6,6 @@ import com.github.hanyaeger.api.Size;
 
 /**
  * Represents a pie power-up entity in the game.
- * <p>
  * The pie power-up is a specific type of power-up that provides a temporary effect
  * when collected by the player.
  */

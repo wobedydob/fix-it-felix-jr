@@ -5,7 +5,7 @@ package com.github.fixitfelixjr.enums;
  * Each enum constant represents a specific text used on a button, ensuring consistency and reusability of common button texts.
  * This approach helps maintain uniformity and reduces errors in button labeling across different user interfaces.
  *
- * <p>Enum constants like {@code START} and {@code QUIT} encapsulate messages that are directly associated with user actions,
+ * Enum constants like {@code START} and {@code QUIT} encapsulate messages that are directly associated with user actions,
  * making the interface more intuitive and user-friendly.
  */
 public enum ButtonText

@@ -7,7 +7,6 @@ import com.github.hanyaeger.api.Size;
 
 /**
  * Represents a life power-up entity in the game.
- * <p>
  * The life power-up is a specific type of power-up that grants an extra life to the player
  * when collected.
  */

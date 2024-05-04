@@ -7,7 +7,6 @@ import com.github.hanyaeger.api.entities.impl.SpriteEntity;
 
 /**
  * Represents a power-up entity in the game.
- * <p>
  * Power-ups are special items that provide benefits to the player when collected.
  * Each power-up has a duration during which its effect remains active.
  */

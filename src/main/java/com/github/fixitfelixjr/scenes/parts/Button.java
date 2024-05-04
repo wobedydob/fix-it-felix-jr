@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
  * This class simplifies the creation of buttons with configurable position, text, color, font, and anchor point.
  * It is intended to be used within graphical user interfaces where interactive text elements are needed.
  *
- * <p>This class is particularly useful in game scenes or any other visual scenes where interaction is required.
+ * This class is particularly useful in game scenes or any other visual scenes where interaction is required.
  * The button can be placed at a specified position, and displayed with customizable text and appearance.
  */
 public class Button extends TextEntity

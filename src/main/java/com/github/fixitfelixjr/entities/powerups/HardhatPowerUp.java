@@ -6,7 +6,6 @@ import com.github.hanyaeger.api.Size;
 
 /**
  * Represents a hardhat power-up entity in the game.
- * <p>
  * The hardhat power-up is a specific type of power-up that provides temporary protection
  * to the player when collected.
  */

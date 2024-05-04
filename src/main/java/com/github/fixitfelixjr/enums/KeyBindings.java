@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
  * Each enum constant represents a different action that can be triggered by pressing the associated key.
  * This setup is crucial for handling user input in a consistent and easily manageable way across the entire application.
  *
- * <p>These key bindings are used primarily for navigation and game-specific actions such as select, move, repair, and destroy.
+ * These key bindings are used primarily for navigation and game-specific actions such as select, move, repair, and destroy.
  */
 public enum KeyBindings
 {

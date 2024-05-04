@@ -11,7 +11,7 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
  * to handle visual representation and interaction of a window within the game. The window has multiple
  * repair states, each represented by a different frame in the sprite sheet.
  *
- * <p>This class manages the repair state of the window, supports incremental repairs, and handles scoring
+ * This class manages the repair state of the window, supports incremental repairs, and handles scoring
  * when a window is repaired fully or partially. It interacts with the game's scoring system and other game
  * logic through {@link Game} and {@link LevelScene}.
  */

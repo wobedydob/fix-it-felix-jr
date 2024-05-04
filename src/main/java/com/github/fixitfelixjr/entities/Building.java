@@ -1,3 +1,7 @@
+/**
+ * The Building class represents the structure of the building in the Fix-It Felix Jr. game.
+ * It manages the creation and handling of window frames.
+ */
 package com.github.fixitfelixjr.entities;
 
 import com.github.fixitfelixjr.Game;
@@ -19,11 +23,18 @@ public class Building
     private List<WindowFrame> windowFrames;
     private int stage;
 
+    /**
+     * Constructs a new Building with the given stage.
+     * @param stage The stage of the building.
+     */
     public Building(int stage)
     {
         this.stage = stage;
     }
 
+    /**
+     * Creates window frames for the building.
+     */
     public void createWindowFrames()
     {
         this.windowFrames = new ArrayList<>();
@@ -44,6 +55,10 @@ public class Building
         }
     }
 
+    /**
+     * Creates a window frame at the given position.
+     * @param position The position to create the window frame at.
+     */
     public void createWindowFrame(Coordinate2D position)
     {
         WindowFrame windowFrame = new WindowFrame(position);

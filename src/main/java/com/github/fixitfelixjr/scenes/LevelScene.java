@@ -1,3 +1,7 @@
+/**
+ * The LevelScene class represents a level within the Fix-It Felix Jr. game.
+ * It manages the setup of the scene, entities, timers, and various game components.
+ */
 package com.github.fixitfelixjr.scenes;
 
 import com.github.fixitfelixjr.Game;
@@ -35,6 +39,11 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     private Life[] lives;
     private String backgroundImage;
 
+    /**
+     * Constructs a new LevelScene with the given level and stage.
+     * @param level The level of the scene.
+     * @param stage The stage of the scene.
+     */
     public LevelScene(int level, int stage)
     {
         this.level = level;
@@ -64,6 +73,9 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         this.checkAllWindowsRepaired();
     }
 
+    /**
+     * Checks if all windows are repaired, and progresses to the next stage if they are.
+     */
     public void checkAllWindowsRepaired()
     {
         if (this.building.areAllWindowsRepaired()) {

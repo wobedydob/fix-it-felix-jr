@@ -13,7 +13,7 @@ import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
  * The window frame serves as a core element in the game where different interactions can occur, such as NPCs appearing
  * or power-ups being granted.
  *
- * <p>Instances of this class are responsible for managing the visual representation and interactions related to
+ * Instances of this class are responsible for managing the visual representation and interactions related to
  * the window frame, including its associated window and platform, and any entities that may appear on it.
  */
 public class WindowFrame extends DynamicSpriteEntity
