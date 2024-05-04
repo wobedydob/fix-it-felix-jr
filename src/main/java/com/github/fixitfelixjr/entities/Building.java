@@ -12,7 +12,7 @@ public class Building
     public static final String SPRITE_IMAGE = "backgrounds/building.png";
     public static final String SPRITE_IMAGE_MIDDLE = "backgrounds/building_higher.png";
     public static final String SPRITE_IMAGE_TOP = "backgrounds/building_end.png";
-    public static final int FLOORS = 4;
+    public static final int FLOORS = 3;
     public static final int WINDOWS_PER_FLOOR = 5;
     public static final int BUILDING_ENTRANCE_INDEX = 2;
 
