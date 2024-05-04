@@ -25,6 +25,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public static final int POWER_UP_CHANCE_RATE = 4; // 1 in x chance
     public static final int NPC_SPAWN_RATE = 7; // in milliseconds
     public static final int NPC_CHANCE_RATE = 4; // 1 in x chance
+    public static final int STAGE_COMPLETE_SCORE = 500;
 
     private int level;
     private int levelStage;
@@ -68,6 +69,7 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
         if (this.building.areAllWindowsRepaired()) {
             this.player.remove();
             this.enemy.remove();
+            Game.getInstance().getScoreBoard().addScore(STAGE_COMPLETE_SCORE);
             this.levelStage++;
             this.setupScene();
             this.setupEntities();
