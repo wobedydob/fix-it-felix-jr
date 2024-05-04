@@ -57,7 +57,6 @@ public class Building
         for (WindowFrame windowFrame : this.windowFrames) {
             windowFrame.remove();
             windowFrame.getWindow().remove();
-            windowFrame.getPlatform().remove();
         }
         this.clearBuilding();
     }

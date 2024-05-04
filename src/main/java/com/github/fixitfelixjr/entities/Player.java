@@ -36,7 +36,7 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
     public static final Size SIZE = new Size(WIDTH * LevelScene.SPRITE_SIZE_APPLIER, HEIGHT * LevelScene.SPRITE_SIZE_APPLIER / SPRITE_ROWS_COLS[0]);
     public static final Position INITIAL_POSITION = Position.PLAYER_INITIAL_POSITION;
     public static final Direction INITIAL_FACING_DIR = Direction.LEFT;
-    public static final double GRAVITY_CONSTANT = 0.5;
+    public static final double GRAVITY_CONSTANT = 0;
     public static final int MAX_HEALTH = 3;
 
     private int health;

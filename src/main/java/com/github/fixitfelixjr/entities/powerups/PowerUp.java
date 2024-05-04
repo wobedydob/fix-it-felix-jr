@@ -11,7 +11,7 @@ import com.github.hanyaeger.api.entities.impl.SpriteEntity;
  * Power-ups are special items that provide benefits to the player when collected.
  * Each power-up has a duration during which its effect remains active.
  */
-public class PowerUp extends SpriteEntity implements Collider
+public abstract class PowerUp extends SpriteEntity implements Collider
 {
 
     public static final int SCORE_POINTS = 300;

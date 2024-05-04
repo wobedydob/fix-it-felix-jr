@@ -26,7 +26,6 @@ public class WindowFrame extends DynamicSpriteEntity
     public static final int NEARBY_WINDOW_THRESHOLD = 70;
 
     private Window window;
-    private Platform platform;
     private PowerUp powerUp = null;
     private NPC npc = null;
 
@@ -38,11 +37,6 @@ public class WindowFrame extends DynamicSpriteEntity
     public WindowFrame(Coordinate2D position)
     {
         super(SPRITE_IMAGE, position, SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
-
-        // Create and place the platform beneath the window
-        Coordinate2D platformPosition = new Coordinate2D(position.getX(), position.getY() + (HEIGHT * LevelScene.SPRITE_SIZE_APPLIER) - 21);
-        this.platform = new Platform(platformPosition);
-        Game.getInstance().getLevelScene().addEntity(this.platform);
 
         // Create and place the window
         Coordinate2D windowPosition = new Coordinate2D(position.getX(), position.getY());
@@ -81,16 +75,6 @@ public class WindowFrame extends DynamicSpriteEntity
     }
 
     /**
-     * Gets the platform associated with this frame.
-     *
-     * @return the platform.
-     */
-    public Platform getPlatform()
-    {
-        return this.platform;
-    }
-
-    /**
      * Gets the power-up associated with this frame, if any.
      *
      * @return the power-up, or null if none exists.
@@ -118,16 +102,6 @@ public class WindowFrame extends DynamicSpriteEntity
     public void setWindow(Window window)
     {
         this.window = window;
-    }
-
-    /**
-     * Sets the platform for this frame.
-     *
-     * @param platform the new platform to associate with this frame.
-     */
-    public void setPlatform(Platform platform)
-    {
-        this.platform = platform;
     }
 
     /**

@@ -9,6 +9,7 @@ import com.github.fixitfelixjr.entities.powerups.LifePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PiePowerUp;
 import com.github.fixitfelixjr.entities.powerups.PowerUp;
 import com.github.fixitfelixjr.enums.Position;
+import com.github.fixitfelixjr.enums.PowerUpType;
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.TimerContainer;
 import com.github.hanyaeger.api.scenes.DynamicScene;
@@ -198,59 +199,39 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
     public void spawnPowerUp()
     {
         if (this.building.canSpawnPowerUp() && this.player.getPowerUp() == null) {
-
             int random = new Random().nextInt(POWER_UP_CHANCE_RATE);
             if (random == 0) {
 
                 WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
                 if (!windowFrame.hasPowerUp()) {
+                    Coordinate2D windowPosition = windowFrame.getWindow().getPosition();
+                    Coordinate2D powerUpPosition;
 
                     random = new Random().nextInt(PowerUp.POWER_UP_COUNT);
-                    switch (random) {
-                        case 0:
-                            this.spawnPiePowerUp(windowFrame);
-                            break;
-                        case 1:
-                            this.spawnHardhatPowerUp(windowFrame);
-                            break;
-                        case 2:
-                            this.spawnLifePowerUp(windowFrame);
-                            break;
-                    }
+                    PowerUpType powerUpType = PowerUpType.fromIndex(random);
+                    assert powerUpType != null;
+                    PowerUp powerUp = null;
+                    powerUp = switch (powerUpType) {
+                        case PowerUpType.PIE -> {
+                            powerUpPosition = new Coordinate2D(windowPosition.getX() + 26, windowPosition.getY() + 90);
+                            yield new PiePowerUp(powerUpPosition);
+                        }
+                        case PowerUpType.HARDHAT -> {
+                            powerUpPosition = new Coordinate2D(windowPosition.getX() + 30, windowPosition.getY() + 108);
+                            yield new HardhatPowerUp(powerUpPosition);
+                        }
+                        case PowerUpType.LIFE -> {
+                            powerUpPosition = new Coordinate2D(windowPosition.getX() + 35, windowPosition.getY() + 108);
+                            yield new LifePowerUp(powerUpPosition);
+                        }
+                        default -> powerUp;
+                    };
 
+                    windowFrame.setPowerUp(powerUp);
+                    addEntity(powerUp);
                 }
-
             }
-
         }
-
-    }
-
-    public void spawnPiePowerUp(WindowFrame windowFrame)
-    {
-        Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
-        Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (26), windowPosition.getY() - (63));
-        PiePowerUp piePowerUp = new PiePowerUp(powerUpPosition);
-        windowFrame.setPowerUp(piePowerUp);
-        addEntity(piePowerUp);
-    }
-
-    public void spawnHardhatPowerUp(WindowFrame windowFrame)
-    {
-        Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
-        Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (30), windowPosition.getY() - (43));
-        HardhatPowerUp hardhatPowerUp = new HardhatPowerUp(powerUpPosition);
-        windowFrame.setPowerUp(hardhatPowerUp);
-        addEntity(hardhatPowerUp);
-    }
-
-    public void spawnLifePowerUp(WindowFrame windowFrame)
-    {
-        Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
-        Coordinate2D powerUpPosition = new Coordinate2D(windowPosition.getX() + (35), windowPosition.getY() - (40));
-        LifePowerUp lifePowerUp = new LifePowerUp(powerUpPosition);
-        windowFrame.setPowerUp(lifePowerUp);
-        addEntity(lifePowerUp);
     }
 
     public void spawnNPC()
@@ -263,8 +244,8 @@ public class LevelScene extends DynamicScene implements Scene, WindowRepairListe
                 WindowFrame windowFrame = this.building.getRandomAvailableWindowFrame();
 
                 if (!windowFrame.hasNPC()) {
-                    Coordinate2D windowPosition = windowFrame.getPlatform().getPosition();
-                    Coordinate2D npcPosition = new Coordinate2D(windowPosition.getX() + (24), windowPosition.getY() - (72));
+                    Coordinate2D windowPosition = windowFrame.getWindow().getPosition();
+                    Coordinate2D npcPosition = new Coordinate2D(windowPosition.getX() + 23, windowPosition.getY() + 65);
                     int randomSpriteIndex = new Random().nextInt(NPC.NPC_COUNT);
                     NPC npc = new NPC(npcPosition, randomSpriteIndex, windowFrame);
                     addEntity(npc);
