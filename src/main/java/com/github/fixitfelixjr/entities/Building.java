@@ -40,8 +40,8 @@ public class Building
         this.windowFrames = new ArrayList<>();
         int floors = FLOORS;
 
-        if(this.stage == Game.FINAL_STAGE && FLOORS > 2) {
-            floors -= 2;
+        if(this.stage == Game.FINAL_STAGE) {
+            floors = 2;
         }
 
         for (int floor = 0; floor < floors; floor++) {

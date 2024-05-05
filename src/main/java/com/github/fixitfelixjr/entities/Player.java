@@ -27,7 +27,7 @@ import java.util.Set;
  * and implements various interfaces to handle game dynamics such as collision detection, keyboard input, and
  * applying gravity effects.
  */
-public class Player extends DynamicSpriteEntity implements KeyListener, Newtonian, Collided, Collider, TimerContainer
+public class Player extends DynamicSpriteEntity implements KeyListener, Collided, Collider, TimerContainer
 {
     public static final String SPRITE_IMAGE = "sprites/felix.png";
     public static final double WIDTH = 128;
@@ -52,7 +52,6 @@ public class Player extends DynamicSpriteEntity implements KeyListener, Newtonia
         super(SPRITE_IMAGE, INITIAL_POSITION.getCoordinate(), SIZE, SPRITE_ROWS_COLS[0], SPRITE_ROWS_COLS[1]);
         this.health = MAX_HEALTH;
         this.facing = INITIAL_FACING_DIR;
-        setGravityConstant(GRAVITY_CONSTANT);
     }
 
     /**
